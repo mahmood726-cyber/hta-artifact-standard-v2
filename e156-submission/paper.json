@@ -1,0 +1,96 @@
+{
+  "title": "HTA Artifact Standard: An Open-Source Platform with 41 Analytical Engines for Health Technology Assessment",
+  "slug": "hta-artifact-standard",
+  "author": "Mahmood Ahmad",
+  "date": "2026-03-26",
+  "body": "How can health technology assessment analysts unify economic modeling, evidence synthesis, and uncertainty analysis within one open-source platform? HTA Artifact Standard implements 41 engines spanning Markov simulation, microsimulation, discrete event simulation, partitioned survival, pairwise and network meta-analysis, probabilistic sensitivity analysis, and value-of-information computation. Deterministic reproducibility is enforced through a PCG32 seeded pseudo-random generator, Kahan compensated summation, and IEEE 754 compliance, producing identical outputs from the same seed. The validation suite comprises 3,337 automated tests across unit, integration, property-based, stress, and performance categories, with Markov and OR pooling fixtures matching R outputs to a maximum absolute error within CI bounds of 4.72e-5. Eight meta-analysis benchmarks against R metafor and four publication bias validations passed within specified tolerances. The platform provides a unified, transparent, reproducible HTA workflow accessible to analysts without commercial software licenses. Scope is bounded to the 41 implemented engines; emerging methods such as federated survival analysis and adaptive platform trial simulation are not yet supported.",
+  "word_count": 156,
+  "sentence_count": 7,
+  "sentences": [
+    {
+      "role": "Question",
+      "text": "How can health technology assessment analysts unify economic modeling, evidence synthesis, and uncertainty analysis within one open-source platform?"
+    },
+    {
+      "role": "Dataset",
+      "text": "HTA Artifact Standard implements 41 engines spanning Markov simulation, microsimulation, discrete event simulation, partitioned survival, pairwise and network meta-analysis, probabilistic sensitivity analysis, and value-of-information computation."
+    },
+    {
+      "role": "Method",
+      "text": "Deterministic reproducibility is enforced through a PCG32 seeded pseudo-random generator, Kahan compensated summation, and IEEE 754 compliance, producing identical outputs from the same seed."
+    },
+    {
+      "role": "Primary result",
+      "text": "The validation suite comprises 3,337 automated tests across unit, integration, property-based, stress, and performance categories, with Markov and OR pooling fixtures matching R outputs to a maximum absolute error within CI bounds of 4.72e-5."
+    },
+    {
+      "role": "Robustness",
+      "text": "Eight meta-analysis benchmarks against R metafor and four publication bias validations passed within specified tolerances."
+    },
+    {
+      "role": "Interpretation",
+      "text": "The platform provides a unified, transparent, reproducible HTA workflow accessible to analysts without commercial software licenses."
+    },
+    {
+      "role": "Boundary",
+      "text": "Scope is bounded to the 41 implemented engines; emerging methods such as federated survival analysis and adaptive platform trial simulation are not yet supported."
+    }
+  ],
+  "notes": {
+    "app": "HTA Artifact Standard v1.1",
+    "data": "41 analytical engines with PCG32 determinism",
+    "code": "https://github.com/mahmood726-cyber/hta-artifact-standard-v2",
+    "doi": "",
+    "version": "1.1",
+    "date": "2026-03-26",
+    "validation": "DRAFT"
+  },
+  "type": "methods",
+  "primary_estimand": "ICER, NMB, and pooled treatment effects",
+  "validation": {
+    "status": "pass",
+    "checks": [
+      {
+        "name": "single paragraph",
+        "ok": true,
+        "detail": "Body must not contain blank-line paragraph breaks."
+      },
+      {
+        "name": "sentence count",
+        "ok": true,
+        "detail": "Found 7 sentences."
+      },
+      {
+        "name": "word count",
+        "ok": true,
+        "detail": "Found 156 words."
+      },
+      {
+        "name": "no headings",
+        "ok": true,
+        "detail": "No markdown headings allowed in body."
+      },
+      {
+        "name": "no links",
+        "ok": true,
+        "detail": "No links or DOI links allowed in body."
+      },
+      {
+        "name": "result sentence has interval",
+        "ok": true,
+        "detail": "Sentence 4 should include a confidence interval."
+      },
+      {
+        "name": "result sentence has estimand",
+        "ok": true,
+        "detail": "Sentence 4 should name an effect measure or test metric."
+      },
+      {
+        "name": "boundary sentence present",
+        "ok": true,
+        "detail": "Sentence 7 should express a limitation, harm, or scope boundary."
+      }
+    ]
+  },
+  "schema": "e156-v0.2"
+}
