@@ -1537,8 +1537,13 @@ class EVPICalculator {
         // EVPI per patient
         const evpiPerPatient = perfectNMB - Math.max(expectedNMB, 0);
 
-        // Population EVPI
-        const populationEVPI = evpiPerPatient * population * timeHorizon;
+        // Population EVPI (with discounting, consistent with EVSI engine)
+        const discountRate = settings.discount_rate_qalys ?? guidanceDefaults.discount_rate_qalys ?? 0.035;
+        let effectivePopulation = 0;
+        for (let t = 0; t < timeHorizon; t++) {
+            effectivePopulation += population / Math.pow(1 + discountRate, t);
+        }
+        const populationEVPI = evpiPerPatient * effectivePopulation;
 
         // Calculate probability of wrong decision
         let wrongDecisions = 0;
