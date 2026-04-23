@@ -12,6 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import tempfile
+from _hta_url import hta_index_url, hta_index_path
 
 # Reconfigure stdout for Unicode support
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
@@ -63,7 +64,7 @@ def run_tests():
     print("="*60)
 
     driver = create_driver()
-    driver.get('file:///C:/Users/user/Downloads/HTA/index.html')
+    driver.get(hta_index_url())
     time.sleep(3)
 
     passed = 0

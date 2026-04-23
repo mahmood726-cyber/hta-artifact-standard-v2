@@ -1,4 +1,5 @@
 """Check what the console warnings are"""
+from _hta_url import hta_index_url, hta_index_path
 import time
 import sys
 import tempfile
@@ -17,7 +18,7 @@ options.add_argument("--no-sandbox")
 driver = webdriver.Chrome(options=options)
 
 try:
-    driver.get("file:///C:/Users/user/Downloads/HTA/index.html")
+    driver.get(hta_index_url())
     time.sleep(2)
 
     # Click demo

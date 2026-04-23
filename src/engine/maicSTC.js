@@ -97,7 +97,7 @@ function normalQuantile(p) {
     } else {
         q = Math.sqrt(-2 * Math.log(1 - p));
         return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) /
-                ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1));
+                ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
     }
 }
 

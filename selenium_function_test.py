@@ -7,6 +7,7 @@ import time
 import sys
 import tempfile
 from pathlib import Path
+from _hta_url import hta_index_url, hta_index_path
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -115,7 +116,7 @@ class FunctionTester:
         """Test 1: Page loads correctly"""
         print("\n[1] Testing Page Load...")
 
-        file_path = Path("C:/Users/user/Downloads/HTA/index.html").resolve()
+        file_path = hta_index_path().resolve()
         self.driver.get(f"file:///{file_path}")
         time.sleep(2)
 

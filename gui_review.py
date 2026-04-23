@@ -7,6 +7,7 @@ import time
 import sys
 import tempfile
 from pathlib import Path
+from _hta_url import hta_index_url, hta_index_path
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -566,7 +567,7 @@ def main():
     print("HTA ARTIFACT STANDARD - GUI REVIEW")
     print("="*60)
 
-    file_path = Path("C:/Users/user/Downloads/HTA/index.html").resolve()
+    file_path = hta_index_path().resolve()
     print(f"\nReviewing: {file_path}")
 
     driver = setup_driver()

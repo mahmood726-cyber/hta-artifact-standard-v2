@@ -5,6 +5,7 @@ import time
 import sys
 import tempfile
 import json
+from _hta_url import hta_index_url, hta_index_path
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -53,7 +54,7 @@ class FullAppAudit:
 
             # Load app
             print("\nLoading app...")
-            self.driver.get('file:///C:/Users/user/Downloads/HTA/index.html')
+            self.driver.get(hta_index_url())
             time.sleep(3)
 
             # Run all tests

@@ -1,4 +1,5 @@
 """Test P-score covariance structure fix"""
+from _hta_url import hta_index_url, hta_index_path
 import time
 import sys
 import tempfile
@@ -19,7 +20,7 @@ print("Starting Edge...")
 driver = webdriver.Edge(options=options)
 
 try:
-    driver.get("file:///C:/Users/user/Downloads/HTA/index.html")
+    driver.get(hta_index_url())
     time.sleep(2)
 
     print("\n=== Testing P-Score Covariance Fix ===\n")

@@ -4,6 +4,7 @@ Test script to verify BeginnerMode features work correctly
 import time
 import sys
 import tempfile
+from _hta_url import hta_index_url, hta_index_path
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -24,7 +25,7 @@ def test_beginner_mode():
 
     try:
         print("Loading HTA app...")
-        driver.get('file:///C:/Users/user/Downloads/HTA/index.html')
+        driver.get(hta_index_url())
         time.sleep(3)
 
         results = {}
