@@ -98,7 +98,7 @@ class EVSIEngine {
 
         // Validate iterations have required NMB field
         if (psaResults.iterations.length > 0) {
-            var sample = psaResults.iterations[0];
+            const sample = psaResults.iterations[0];
             if (sample.nmb === undefined || sample.nmb === null) {
                 // Try to compute NMB from costs/qalys if wtp available
                 if (psaResults.wtp !== undefined && sample.qalys !== undefined && sample.costs !== undefined) {

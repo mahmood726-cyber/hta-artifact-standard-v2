@@ -166,7 +166,7 @@ class CoxRegressionEngine {
         const events = sorted.map(d => d.event);
 
         // Newton-Raphson
-        let beta = new Array(p).fill(0);
+        const beta = new Array(p).fill(0);
         let converged = false;
         let iterations = 0;
         let logLik = 0;
@@ -572,7 +572,7 @@ class CoxRegressionEngine {
 
         // Parameters: [beta_0 (intercept), beta_1, ..., beta_p, log(sigma)]
         const nPar = p + 2; // intercept + covariates + log(scale)
-        let params = new Array(nPar).fill(0);
+        const params = new Array(nPar).fill(0);
         // Initialize intercept with mean log-time of events
         const eventLogTimes = data.filter(d => d.event === 1).map(d => Math.log(Math.max(d.time, 1e-10)));
         params[0] = eventLogTimes.reduce((a, b) => a + b, 0) / eventLogTimes.length;

@@ -1572,7 +1572,7 @@ class BeginnerMode {
             year: 'numeric', month: 'long', day: 'numeric'
         });
 
-        let report = `
+        const report = `
 <!DOCTYPE html>
 <html>
 <head>

@@ -570,7 +570,7 @@ class WeibullDistribution {
                 [-hessian[1][0] / det, hessian[0][0] / det]
             ];
 
-            let step = [
+            const step = [
                 invH[0][0] * gradient[0] + invH[0][1] * gradient[1],
                 invH[1][0] * gradient[0] + invH[1][1] * gradient[1]
             ];
@@ -715,7 +715,7 @@ class LogNormalDistribution {
         }
 
         // Simplex optimization (Nelder-Mead)
-        let params = [this.mu, Math.log(this.sigma)];
+        const params = [this.mu, Math.log(this.sigma)];
         const result = this.nelderMead(
             (p) => -this.evalLogLikelihood(events, p[0], Math.exp(p[1])),
             params,
@@ -757,7 +757,7 @@ class LogNormalDistribution {
         const n = x0.length;
 
         // Initialize simplex
-        let simplex = [{ x: [...x0], fx: f(x0) }];
+        const simplex = [{ x: [...x0], fx: f(x0) }];
         for (let i = 0; i < n; i++) {
             const xi = [...x0];
             xi[i] += 0.5;
@@ -1030,8 +1030,8 @@ class GeneralizedGammaDistribution {
     }
 
     lgamma(x) {
-        const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
-                   -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+        const c = [76.18009172947146, -86.50532032941678, 24.01409824083091,
+                   -1.231739572450155, 0.001208650973866179, -0.000005395239384953];
         let y = x;
         let tmp = x + 5.5;
         tmp -= (x + 0.5) * Math.log(tmp);
@@ -1039,7 +1039,7 @@ class GeneralizedGammaDistribution {
         for (let j = 0; j < 6; j++) {
             ser += c[j] / ++y;
         }
-        return -tmp + Math.log(2.5066282746310005 * ser / x);
+        return -tmp + Math.log(2.5066282746310007 * ser / x);
     }
 
     survival(t) {

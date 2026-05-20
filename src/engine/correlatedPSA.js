@@ -36,13 +36,13 @@ function normalCDF(x) {
     // Abramowitz & Stegun 7.1.26 approximation for erf(x)
     // erf(x) ≈ 1 - (a1*t + a2*t^2 + ... + a5*t^5) * exp(-x^2)
     // Phi(z) = 0.5 * (1 + erf(z / sqrt(2)))
-    var a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
-    var a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
-    var sign = 1;
+    const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+    const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+    let sign = 1;
     if (x < 0) { sign = -1; x = -x; }
-    var xErf = x / Math.sqrt(2);
-    var t = 1.0 / (1.0 + p * xErf);
-    var erfApprox = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-xErf * xErf);
+    const xErf = x / Math.sqrt(2);
+    const t = 1.0 / (1.0 + p * xErf);
+    const erfApprox = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-xErf * xErf);
     return 0.5 * (1.0 + sign * erfApprox);
 }
 
@@ -58,7 +58,7 @@ function normalQuantile(p) {
     if (p === 0.5) return 0;
 
     // Coefficients for rational approximation
-    var a = [
+    const a = [
         -3.969683028665376e+01,
          2.209460984245205e+02,
         -2.759285104469687e+02,
@@ -66,14 +66,14 @@ function normalQuantile(p) {
         -3.066479806614716e+01,
          2.506628277459239e+00
     ];
-    var b = [
+    const b = [
         -5.447609879822406e+01,
          1.615858368580409e+02,
         -1.556989798598866e+02,
          6.680131188771972e+01,
         -1.328068155288572e+01
     ];
-    var c = [
+    const c = [
         -7.784894002430293e-03,
         -3.223964580411365e-01,
         -2.400758277161838e+00,
@@ -81,16 +81,16 @@ function normalQuantile(p) {
          4.374664141464968e+00,
          2.938163982698783e+00
     ];
-    var d = [
+    const d = [
          7.784695709041462e-03,
          3.224671290700398e-01,
          2.445134137142996e+00,
          3.754408661907416e+00
     ];
 
-    var pLow = 0.02425;
-    var pHigh = 1 - pLow;
-    var q, r;
+    const pLow = 0.02425;
+    const pHigh = 1 - pLow;
+    let q, r;
 
     if (p < pLow) {
         // Rational approximation for lower region
@@ -119,8 +119,8 @@ function gammaFunction(z) {
         return Math.PI / (Math.sin(Math.PI * z) * gammaFunction(1 - z));
     }
     z -= 1;
-    var g = 7;
-    var coeff = [
+    const g = 7;
+    const coeff = [
         0.99999999999980993,
         676.5203681218851,
         -1259.1392167224028,
@@ -131,11 +131,11 @@ function gammaFunction(z) {
         9.9843695780195716e-6,
         1.5056327351493116e-7
     ];
-    var x = coeff[0];
-    for (var i = 1; i < g + 2; i++) {
+    let x = coeff[0];
+    for (let i = 1; i < g + 2; i++) {
         x += coeff[i] / (z + i);
     }
-    var t = z + g + 0.5;
+    const t = z + g + 0.5;
     return Math.sqrt(2 * Math.PI) * Math.pow(t, z + 0.5) * Math.exp(-t) * x;
 }
 
@@ -147,8 +147,8 @@ function logGamma(z) {
         return Math.log(Math.PI / Math.sin(Math.PI * z)) - logGamma(1 - z);
     }
     z -= 1;
-    var g = 7;
-    var coeff = [
+    const g = 7;
+    const coeff = [
         0.99999999999980993,
         676.5203681218851,
         -1259.1392167224028,
@@ -159,11 +159,11 @@ function logGamma(z) {
         9.9843695780195716e-6,
         1.5056327351493116e-7
     ];
-    var x = coeff[0];
-    for (var i = 1; i < g + 2; i++) {
+    let x = coeff[0];
+    for (let i = 1; i < g + 2; i++) {
         x += coeff[i] / (z + i);
     }
-    var t = z + g + 0.5;
+    const t = z + g + 0.5;
     return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x);
 }
 
@@ -176,15 +176,15 @@ function gammaCDF(a, x) {
     if (x === 0) return 0;
 
     // Series expansion: P(a,x) = exp(-x + a*ln(x) - lnGamma(a)) * sum_{n=0}^{inf} x^n / (a*(a+1)*...*(a+n))
-    var sum = 0;
-    var term = 1.0 / a;
+    let sum = 0;
+    let term = 1.0 / a;
     sum = term;
-    for (var n = 1; n < 1000; n++) {
+    for (let n = 1; n < 1000; n++) {
         term *= x / (a + n);
         sum += term;
         if (Math.abs(term) < 1e-14 * Math.abs(sum)) break;
     }
-    var result = sum * Math.exp(-x + a * Math.log(x) - logGamma(a));
+    const result = sum * Math.exp(-x + a * Math.log(x) - logGamma(a));
     return Math.min(Math.max(result, 0), 1);
 }
 
@@ -196,14 +196,14 @@ function gammaQuantile(shape, scale, p) {
     if (p <= 0) return 0;
     if (p >= 1) return Infinity;
 
-    var a = shape;
+    const a = shape;
 
     // Initial guess using Wilson-Hilferty approximation
-    var z = normalQuantile(p);
-    var x;
+    const z = normalQuantile(p);
+    let x;
 
     if (a >= 1) {
-        var wh = 1 - 2 / (9 * a) + z * Math.sqrt(2 / (9 * a));
+        const wh = 1 - 2 / (9 * a) + z * Math.sqrt(2 / (9 * a));
         x = a * Math.pow(Math.max(wh, 0.001), 3);
     } else {
         x = Math.pow(p * gammaFunction(a + 1), 1 / a);
@@ -211,17 +211,17 @@ function gammaQuantile(shape, scale, p) {
     }
 
     // Establish bisection bounds
-    var lo = 0, hi = Math.max(x * 4, a * 4);
+    let lo = 0, hi = Math.max(x * 4, a * 4);
     // Widen hi until gammaCDF(a, hi) > p
-    for (var w = 0; w < 60; w++) {
+    for (let w = 0; w < 60; w++) {
         if (gammaCDF(a, hi) >= p) break;
         hi *= 2;
     }
 
     // Bisection with Newton acceleration
-    for (var iter = 0; iter < 80; iter++) {
-        var cdf = gammaCDF(a, x);
-        var err = cdf - p;
+    for (let iter = 0; iter < 80; iter++) {
+        const cdf = gammaCDF(a, x);
+        const err = cdf - p;
         if (Math.abs(err) < 1e-12) break;
 
         // Update bisection bounds
@@ -232,12 +232,12 @@ function gammaQuantile(shape, scale, p) {
         }
 
         // Try Newton step
-        var logPdf = (a - 1) * Math.log(Math.max(x, 1e-300)) - x - logGamma(a);
-        var pdf = Math.exp(logPdf);
-        var xNew;
+        const logPdf = (a - 1) * Math.log(Math.max(x, 1e-300)) - x - logGamma(a);
+        const pdf = Math.exp(logPdf);
+        let xNew;
 
         if (pdf > 1e-30) {
-            var delta = err / pdf;
+            const delta = err / pdf;
             xNew = x - delta;
         } else {
             xNew = -1; // Force bisection
@@ -263,19 +263,19 @@ function betaCDF(alpha, beta, x) {
     if (x <= 0) return 0;
     if (x >= 1) return 1;
 
-    var logBeta = logGamma(alpha) + logGamma(beta) - logGamma(alpha + beta);
+    const logBeta = logGamma(alpha) + logGamma(beta) - logGamma(alpha + beta);
 
     if (x > (alpha + 1) / (alpha + beta + 2)) {
         return 1 - betaCDF(beta, alpha, 1 - x);
     }
 
-    var front = Math.exp(alpha * Math.log(x) + beta * Math.log(1 - x) - logBeta) / alpha;
+    const front = Math.exp(alpha * Math.log(x) + beta * Math.log(1 - x) - logBeta) / alpha;
 
     // Lentz continued fraction
-    var f = 1, c = 1, d = 0;
-    for (var i = 0; i <= 200; i++) {
-        var m = Math.floor(i / 2);
-        var numerator;
+    let f = 1, c = 1, d = 0;
+    for (let i = 0; i <= 200; i++) {
+        const m = Math.floor(i / 2);
+        let numerator;
         if (i === 0) {
             numerator = 1;
         } else if (i % 2 === 0) {
@@ -303,28 +303,28 @@ function betaQuantile(alpha, beta, p) {
     if (p >= 1) return 1;
 
     // Initial guess
-    var x = 0.5;
+    let x = 0.5;
 
     // Better initial guess using normal approximation for large alpha+beta
-    var mu = alpha / (alpha + beta);
-    var variance = (alpha * beta) / ((alpha + beta) * (alpha + beta) * (alpha + beta + 1));
-    var sd = Math.sqrt(variance);
-    var z = normalQuantile(p);
+    const mu = alpha / (alpha + beta);
+    const variance = (alpha * beta) / ((alpha + beta) * (alpha + beta) * (alpha + beta + 1));
+    const sd = Math.sqrt(variance);
+    const z = normalQuantile(p);
     x = Math.min(Math.max(mu + z * sd, 0.001), 0.999);
 
-    var logBetaAB = logGamma(alpha) + logGamma(beta) - logGamma(alpha + beta);
+    const logBetaAB = logGamma(alpha) + logGamma(beta) - logGamma(alpha + beta);
 
-    for (var iter = 0; iter < 80; iter++) {
-        var cdf = betaCDF(alpha, beta, x);
-        var logPdf = (alpha - 1) * Math.log(x) + (beta - 1) * Math.log(1 - x) - logBetaAB;
-        var pdf = Math.exp(logPdf);
+    for (let iter = 0; iter < 80; iter++) {
+        const cdf = betaCDF(alpha, beta, x);
+        const logPdf = (alpha - 1) * Math.log(x) + (beta - 1) * Math.log(1 - x) - logBetaAB;
+        const pdf = Math.exp(logPdf);
         if (pdf < 1e-30) {
             // nudge toward the correct direction
             if (cdf < p) x = x + (1 - x) * 0.1;
             else x = x * 0.9;
             continue;
         }
-        var delta = (cdf - p) / pdf;
+        const delta = (cdf - p) / pdf;
         x = x - delta;
         x = Math.min(Math.max(x, 1e-10), 1 - 1e-10);
         if (Math.abs(delta) < 1e-12) break;
@@ -368,21 +368,21 @@ class CorrelatedPSAEngine {
      * @returns {number[][]} Lower triangular matrix L
      */
     cholesky(matrix) {
-        var n = matrix.length;
-        var L = [];
-        for (var i = 0; i < n; i++) {
+        const n = matrix.length;
+        const L = [];
+        for (let i = 0; i < n; i++) {
             L[i] = new Array(n).fill(0);
         }
 
-        for (var i = 0; i < n; i++) {
-            for (var j = 0; j <= i; j++) {
-                var sum = 0;
-                for (var k = 0; k < j; k++) {
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j <= i; j++) {
+                let sum = 0;
+                for (let k = 0; k < j; k++) {
                     sum += L[i][k] * L[j][k];
                 }
 
                 if (i === j) {
-                    var diag = matrix[i][i] - sum;
+                    const diag = matrix[i][i] - sum;
                     if (diag <= 0) {
                         throw new Error('Matrix is not positive definite (diagonal element ' + i + ' = ' + diag + ')');
                     }
@@ -402,14 +402,14 @@ class CorrelatedPSAEngine {
      * @returns {number[][]} Nearest positive-definite matrix
      */
     nearestPD(matrix) {
-        var n = matrix.length;
+        const n = matrix.length;
 
         // Check if already PD
         try {
             this.cholesky(matrix);
             // Deep copy to avoid aliasing
-            var copy = [];
-            for (var i = 0; i < n; i++) {
+            const copy = [];
+            for (let i = 0; i < n; i++) {
                 copy[i] = matrix[i].slice();
             }
             return copy;
@@ -418,10 +418,10 @@ class CorrelatedPSAEngine {
         }
 
         // Symmetrize
-        var B = [];
-        for (var i = 0; i < n; i++) {
+        let B = [];
+        for (let i = 0; i < n; i++) {
             B[i] = new Array(n);
-            for (var j = 0; j < n; j++) {
+            for (let j = 0; j < n; j++) {
                 B[i][j] = (matrix[i][j] + matrix[j][i]) / 2;
             }
         }
@@ -429,16 +429,16 @@ class CorrelatedPSAEngine {
         // Simple iterative approach: eigenvalue clipping
         // For small matrices, use power iteration / Jacobi eigenvalue algorithm
         // Simplified: repeatedly clip negative eigenvalues
-        for (var iter = 0; iter < 100; iter++) {
+        for (let iter = 0; iter < 100; iter++) {
             // Compute eigenvalues via Jacobi for symmetric matrix
-            var eig = this._jacobiEigen(B);
-            var eigenvalues = eig.eigenvalues;
-            var eigenvectors = eig.eigenvectors;
+            const eig = this._jacobiEigen(B);
+            const eigenvalues = eig.eigenvalues;
+            const eigenvectors = eig.eigenvectors;
 
             // Clip eigenvalues to be positive
-            var minEig = 1e-10;
-            var anyNegative = false;
-            for (var i = 0; i < n; i++) {
+            const minEig = 1e-10;
+            let anyNegative = false;
+            for (let i = 0; i < n; i++) {
                 if (eigenvalues[i] < minEig) {
                     eigenvalues[i] = minEig;
                     anyNegative = true;
@@ -446,12 +446,12 @@ class CorrelatedPSAEngine {
             }
 
             // Reconstruct: B = V * diag(clippedEigs) * V^T
-            var newB = [];
-            for (var i = 0; i < n; i++) {
+            const newB = [];
+            for (let i = 0; i < n; i++) {
                 newB[i] = new Array(n).fill(0);
-                for (var j = 0; j < n; j++) {
-                    var val = 0;
-                    for (var k = 0; k < n; k++) {
+                for (let j = 0; j < n; j++) {
+                    let val = 0;
+                    for (let k = 0; k < n; k++) {
                         val += eigenvectors[i][k] * eigenvalues[k] * eigenvectors[j][k];
                     }
                     newB[i][j] = val;
@@ -459,10 +459,10 @@ class CorrelatedPSAEngine {
             }
 
             // Force unit diagonal (correlation matrix)
-            for (var i = 0; i < n; i++) {
-                var dii = Math.sqrt(newB[i][i]);
-                for (var j = 0; j < n; j++) {
-                    var djj = Math.sqrt(newB[j][j]);
+            for (let i = 0; i < n; i++) {
+                const dii = Math.sqrt(newB[i][i]);
+                for (let j = 0; j < n; j++) {
+                    const djj = Math.sqrt(newB[j][j]);
                     newB[i][j] = newB[i][j] / (dii * djj);
                 }
             }
@@ -489,23 +489,23 @@ class CorrelatedPSAEngine {
      * @returns {{eigenvalues: number[], eigenvectors: number[][]}}
      */
     _jacobiEigen(A) {
-        var n = A.length;
-        var S = [];
-        for (var i = 0; i < n; i++) {
+        const n = A.length;
+        let S = [];
+        for (let i = 0; i < n; i++) {
             S[i] = A[i].slice();
         }
         // V = identity
-        var V = [];
-        for (var i = 0; i < n; i++) {
+        const V = [];
+        for (let i = 0; i < n; i++) {
             V[i] = new Array(n).fill(0);
             V[i][i] = 1;
         }
 
-        for (var sweep = 0; sweep < 100; sweep++) {
+        for (let sweep = 0; sweep < 100; sweep++) {
             // Find largest off-diagonal element
-            var maxVal = 0, p = 0, q = 1;
-            for (var i = 0; i < n; i++) {
-                for (var j = i + 1; j < n; j++) {
+            let maxVal = 0, p = 0, q = 1;
+            for (let i = 0; i < n; i++) {
+                for (let j = i + 1; j < n; j++) {
                     if (Math.abs(S[i][j]) > maxVal) {
                         maxVal = Math.abs(S[i][j]);
                         p = i;
@@ -516,22 +516,22 @@ class CorrelatedPSAEngine {
             if (maxVal < 1e-15) break;
 
             // Compute rotation
-            var theta;
+            let theta;
             if (Math.abs(S[p][p] - S[q][q]) < 1e-30) {
                 theta = Math.PI / 4;
             } else {
                 theta = 0.5 * Math.atan2(2 * S[p][q], S[p][p] - S[q][q]);
             }
-            var cosT = Math.cos(theta);
-            var sinT = Math.sin(theta);
+            const cosT = Math.cos(theta);
+            const sinT = Math.sin(theta);
 
             // Apply Givens rotation
-            var newS = [];
-            for (var i = 0; i < n; i++) {
+            const newS = [];
+            for (let i = 0; i < n; i++) {
                 newS[i] = S[i].slice();
             }
 
-            for (var i = 0; i < n; i++) {
+            for (let i = 0; i < n; i++) {
                 if (i !== p && i !== q) {
                     newS[i][p] = cosT * S[i][p] + sinT * S[i][q];
                     newS[p][i] = newS[i][p];
@@ -547,16 +547,16 @@ class CorrelatedPSAEngine {
             S = newS;
 
             // Update eigenvectors
-            for (var i = 0; i < n; i++) {
-                var vip = V[i][p];
-                var viq = V[i][q];
+            for (let i = 0; i < n; i++) {
+                const vip = V[i][p];
+                const viq = V[i][q];
                 V[i][p] = cosT * vip + sinT * viq;
                 V[i][q] = -sinT * vip + cosT * viq;
             }
         }
 
-        var eigenvalues = [];
-        for (var i = 0; i < n; i++) {
+        const eigenvalues = [];
+        for (let i = 0; i < n; i++) {
             eigenvalues[i] = S[i][i];
         }
 
@@ -573,23 +573,23 @@ class CorrelatedPSAEngine {
      * @returns {Object[]} Array of n objects with parameter values
      */
     correlatedNormal(means, sds, corrMatrix, n, names) {
-        var k = means.length;
-        var L = this.cholesky(corrMatrix);
-        var samples = [];
-        var rng = this._getRng();
+        const k = means.length;
+        const L = this.cholesky(corrMatrix);
+        const samples = [];
+        const rng = this._getRng();
 
-        for (var iter = 0; iter < n; iter++) {
+        for (let iter = 0; iter < n; iter++) {
             // Generate k independent standard normals
-            var z = [];
-            for (var j = 0; j < k; j++) {
+            const z = [];
+            for (let j = 0; j < k; j++) {
                 z[j] = rng.normal(0, 1);
             }
 
             // Multiply by L to get correlated normals
-            var correlated = new Array(k).fill(0);
-            for (var i = 0; i < k; i++) {
-                var sum = 0;
-                for (var j = 0; j <= i; j++) {
+            const correlated = new Array(k).fill(0);
+            for (let i = 0; i < k; i++) {
+                let sum = 0;
+                for (let j = 0; j <= i; j++) {
                     sum += L[i][j] * z[j];
                 }
                 correlated[i] = sum;
@@ -597,9 +597,9 @@ class CorrelatedPSAEngine {
 
             // Scale by means and sds
             // P2-6: Use provided names if available, fallback to param0/param1
-            var sample = {};
-            for (var i = 0; i < k; i++) {
-                var key = (names && names[i]) ? names[i] : ('param' + i);
+            const sample = {};
+            for (let i = 0; i < k; i++) {
+                const key = (names && names[i]) ? names[i] : ('param' + i);
                 sample[key] = means[i] + sds[i] * correlated[i];
             }
             samples.push(sample);
@@ -616,43 +616,43 @@ class CorrelatedPSAEngine {
      * @returns {Object[]} Array of n objects with named parameter values
      */
     gaussianCopula(marginals, corrMatrix, n) {
-        var k = marginals.length;
-        var means = new Array(k).fill(0);
-        var sds = new Array(k).fill(1);
-        var L = this.cholesky(corrMatrix);
-        var samples = [];
-        var rng = this._getRng();
+        const k = marginals.length;
+        const means = new Array(k).fill(0);
+        const sds = new Array(k).fill(1);
+        const L = this.cholesky(corrMatrix);
+        const samples = [];
+        const rng = this._getRng();
 
-        for (var iter = 0; iter < n; iter++) {
+        for (let iter = 0; iter < n; iter++) {
             // Generate k independent standard normals
-            var z = [];
-            for (var j = 0; j < k; j++) {
+            const z = [];
+            for (let j = 0; j < k; j++) {
                 z[j] = rng.normal(0, 1);
             }
 
             // Correlated standard normals
-            var correlated = new Array(k).fill(0);
-            for (var i = 0; i < k; i++) {
-                var sum = 0;
-                for (var j = 0; j <= i; j++) {
+            const correlated = new Array(k).fill(0);
+            for (let i = 0; i < k; i++) {
+                let sum = 0;
+                for (let j = 0; j <= i; j++) {
                     sum += L[i][j] * z[j];
                 }
                 correlated[i] = sum;
             }
 
             // Transform through standard normal CDF to get uniform [0,1]
-            var uniforms = [];
-            for (var i = 0; i < k; i++) {
+            const uniforms = [];
+            for (let i = 0; i < k; i++) {
                 uniforms[i] = normalCDF(correlated[i]);
                 // Clamp to avoid exact 0 or 1
                 uniforms[i] = Math.min(Math.max(uniforms[i], 1e-10), 1 - 1e-10);
             }
 
             // Apply inverse CDF of each marginal distribution
-            var sample = {};
-            for (var i = 0; i < k; i++) {
-                var marg = marginals[i];
-                var u = uniforms[i];
+            const sample = {};
+            for (let i = 0; i < k; i++) {
+                const marg = marginals[i];
+                const u = uniforms[i];
                 sample[marg.name] = this._inverseCDF(marg.dist, u);
             }
 
@@ -671,7 +671,7 @@ class CorrelatedPSAEngine {
                 return dist.mean + dist.sd * normalQuantile(u);
 
             case 'lognormal': {
-                var z = normalQuantile(u);
+                const z = normalQuantile(u);
                 return Math.exp(dist.meanlog + dist.sdlog * z);
             }
 
@@ -708,17 +708,17 @@ class CorrelatedPSAEngine {
         this._rng = new PCG32Ref(this.seed);
 
         // Generate correlated samples via Gaussian copula
-        var samples = this.gaussianCopula(paramDefs, corrMatrix, n);
+        const samples = this.gaussianCopula(paramDefs, corrMatrix, n);
 
-        var iterations = [];
-        var allCosts = [];
-        var allQalys = [];
+        const iterations = [];
+        const allCosts = [];
+        const allQalys = [];
 
-        for (var i = 0; i < n; i++) {
-            var result = model(samples[i]);
-            var costs = result.costs;
-            var qalys = result.qalys;
-            var icer = qalys !== 0 ? costs / qalys : Infinity;
+        for (let i = 0; i < n; i++) {
+            const result = model(samples[i]);
+            const costs = result.costs;
+            const qalys = result.qalys;
+            const icer = qalys !== 0 ? costs / qalys : Infinity;
 
             iterations.push({
                 params: samples[i],
@@ -731,39 +731,39 @@ class CorrelatedPSAEngine {
         }
 
         // Summary statistics
-        var meanCost = allCosts.reduce(function(a, b) { return a + b; }, 0) / n;
-        var meanQaly = allQalys.reduce(function(a, b) { return a + b; }, 0) / n;
-        var meanICER = meanQaly !== 0 ? meanCost / meanQaly : Infinity;
+        const meanCost = allCosts.reduce(function(a, b) { return a + b; }, 0) / n;
+        const meanQaly = allQalys.reduce(function(a, b) { return a + b; }, 0) / n;
+        const meanICER = meanQaly !== 0 ? meanCost / meanQaly : Infinity;
 
         // CEAC: for each WTP threshold, count iterations where ICER < WTP
-        var wtpValues = [];
-        for (var wtp = 0; wtp <= 100000; wtp += 5000) {
+        const wtpValues = [];
+        for (let wtp = 0; wtp <= 100000; wtp += 5000) {
             wtpValues.push(wtp);
         }
-        var ceac = [];
-        for (var w = 0; w < wtpValues.length; w++) {
-            var wtp = wtpValues[w];
-            var count = 0;
-            for (var i = 0; i < n; i++) {
+        const ceac = [];
+        for (let w = 0; w < wtpValues.length; w++) {
+            let wtp = wtpValues[w];
+            let count = 0;
+            for (let i = 0; i < n; i++) {
                 // Net monetary benefit: NMB = QALYs * WTP - Costs
                 // Cost-effective if NMB > 0, i.e. Costs < QALYs * WTP
-                var nmb = iterations[i].qalys * wtp - iterations[i].costs;
+                const nmb = iterations[i].qalys * wtp - iterations[i].costs;
                 if (nmb >= 0) count++;
             }
             ceac.push({ wtp: wtp, prob: count / n });
         }
 
         // Empirical correlation check
-        var paramNames = paramDefs.map(function(pd) { return pd.name; });
-        var sampleArrays = [];
-        for (var j = 0; j < paramDefs.length; j++) {
-            var arr = [];
-            for (var i = 0; i < n; i++) {
+        const paramNames = paramDefs.map(function(pd) { return pd.name; });
+        const sampleArrays = [];
+        for (let j = 0; j < paramDefs.length; j++) {
+            const arr = [];
+            for (let i = 0; i < n; i++) {
                 arr.push(samples[i][paramNames[j]]);
             }
             sampleArrays.push(arr);
         }
-        var empirical = this.empiricalCorrelation(sampleArrays);
+        const empirical = this.empiricalCorrelation(sampleArrays);
 
         return {
             iterations: iterations,
@@ -786,30 +786,30 @@ class CorrelatedPSAEngine {
      * @returns {number[][]} k x k correlation matrix
      */
     empiricalCorrelation(sampleArrays) {
-        var k = sampleArrays.length;
+        const k = sampleArrays.length;
         if (k === 0) return [];
-        var n = sampleArrays[0].length;
+        const n = sampleArrays[0].length;
 
         // Compute means
-        var means = [];
-        for (var i = 0; i < k; i++) {
-            var sum = 0;
-            for (var j = 0; j < n; j++) {
+        const means = [];
+        for (let i = 0; i < k; i++) {
+            let sum = 0;
+            for (let j = 0; j < n; j++) {
                 sum += sampleArrays[i][j];
             }
             means[i] = sum / n;
         }
 
         // Compute covariance matrix
-        var cov = [];
-        for (var i = 0; i < k; i++) {
+        const cov = [];
+        for (let i = 0; i < k; i++) {
             cov[i] = new Array(k).fill(0);
         }
 
-        for (var i = 0; i < k; i++) {
-            for (var j = i; j < k; j++) {
-                var sum = 0;
-                for (var s = 0; s < n; s++) {
+        for (let i = 0; i < k; i++) {
+            for (let j = i; j < k; j++) {
+                let sum = 0;
+                for (let s = 0; s < n; s++) {
                     sum += (sampleArrays[i][s] - means[i]) * (sampleArrays[j][s] - means[j]);
                 }
                 cov[i][j] = sum / (n - 1);
@@ -818,11 +818,11 @@ class CorrelatedPSAEngine {
         }
 
         // Convert to correlation
-        var corr = [];
-        for (var i = 0; i < k; i++) {
+        const corr = [];
+        for (let i = 0; i < k; i++) {
             corr[i] = new Array(k);
-            for (var j = 0; j < k; j++) {
-                var denom = Math.sqrt(cov[i][i] * cov[j][j]);
+            for (let j = 0; j < k; j++) {
+                const denom = Math.sqrt(cov[i][i] * cov[j][j]);
                 if (denom < 1e-30) {
                     corr[i][j] = (i === j) ? 1 : NaN;
                 } else {
@@ -854,27 +854,27 @@ class CorrelatedPSAEngine {
             throw new Error('wtpRange must be a non-empty array');
         }
 
-        var nIter = strategyResults[0].iterations.length;
-        for (var s = 1; s < strategyResults.length; s++) {
+        const nIter = strategyResults[0].iterations.length;
+        for (let s = 1; s < strategyResults.length; s++) {
             if (strategyResults[s].iterations.length !== nIter) {
                 throw new Error('All strategies must have the same number of iterations');
             }
         }
 
-        var ceac = [];
-        for (var w = 0; w < wtpRange.length; w++) {
-            var wtp = wtpRange[w];
-            var counts = {};
-            for (var s = 0; s < strategyResults.length; s++) {
+        const ceac = [];
+        for (let w = 0; w < wtpRange.length; w++) {
+            const wtp = wtpRange[w];
+            const counts = {};
+            for (let s = 0; s < strategyResults.length; s++) {
                 counts[strategyResults[s].name] = 0;
             }
 
-            for (var i = 0; i < nIter; i++) {
-                var bestNMB = -Infinity;
-                var bestName = null;
-                for (var s = 0; s < strategyResults.length; s++) {
-                    var iter = strategyResults[s].iterations[i];
-                    var nmb = iter.qalys * wtp - iter.costs;
+            for (let i = 0; i < nIter; i++) {
+                let bestNMB = -Infinity;
+                let bestName = null;
+                for (let s = 0; s < strategyResults.length; s++) {
+                    const iter = strategyResults[s].iterations[i];
+                    const nmb = iter.qalys * wtp - iter.costs;
                     if (nmb > bestNMB) {
                         bestNMB = nmb;
                         bestName = strategyResults[s].name;
@@ -885,8 +885,8 @@ class CorrelatedPSAEngine {
                 }
             }
 
-            var probabilities = {};
-            for (var s = 0; s < strategyResults.length; s++) {
+            const probabilities = {};
+            for (let s = 0; s < strategyResults.length; s++) {
                 probabilities[strategyResults[s].name] = counts[strategyResults[s].name] / nIter;
             }
             ceac.push({ wtp: wtp, probabilities: probabilities });

@@ -595,9 +595,9 @@ class PSAEngine {
         const maxIterations = 200;
         const epsilon = 1e-14;
 
-        let qab = a + b;
-        let qap = a + 1;
-        let qam = a - 1;
+        const qab = a + b;
+        const qap = a + 1;
+        const qam = a - 1;
         let c = 1;
         let d = 1 - qab * x / qap;
         if (Math.abs(d) < 1e-30) d = 1e-30;
@@ -605,7 +605,7 @@ class PSAEngine {
         let h = d;
 
         for (let m = 1; m <= maxIterations; m++) {
-            let m2 = 2 * m;
+            const m2 = 2 * m;
             let aa = m * (b - m) * x / ((qam + m2) * (a + m2));
             d = 1 + aa * d;
             if (Math.abs(d) < 1e-30) d = 1e-30;
@@ -619,7 +619,7 @@ class PSAEngine {
             c = 1 + aa / c;
             if (Math.abs(c) < 1e-30) c = 1e-30;
             d = 1 / d;
-            let del = d * c;
+            const del = d * c;
             h *= del;
             if (Math.abs(del - 1) < epsilon) break;
         }
@@ -703,14 +703,14 @@ class PSAEngine {
         let h = d;
 
         for (let i = 1; i <= 200; i++) {
-            let an = -i * (i - a);
+            const an = -i * (i - a);
             b += 2;
             d = an * d + b;
             if (Math.abs(d) < 1e-30) d = 1e-30;
             c = b + an / c;
             if (Math.abs(c) < 1e-30) c = 1e-30;
             d = 1 / d;
-            let del = d * c;
+            const del = d * c;
             h *= del;
             if (Math.abs(del - 1) < 1e-14) break;
         }

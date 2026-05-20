@@ -282,7 +282,7 @@ class MAICSTCEngine {
         }
 
         // Initialise Lagrange multipliers
-        let beta = new Array(p).fill(0);
+        const beta = new Array(p).fill(0);
         let converged = false;
         let iter = 0;
 
@@ -460,7 +460,7 @@ class MAICSTCEngine {
         }
 
         // IRLS logistic regression
-        let beta = new Array(p + 1).fill(0); // p covariates + intercept
+        const beta = new Array(p + 1).fill(0); // p covariates + intercept
         let converged = false;
         let iter = 0;
 

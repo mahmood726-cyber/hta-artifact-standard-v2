@@ -224,7 +224,7 @@ class AIInterpretationEngine {
 
         const { I2, tau2, Q, pQ } = het;
 
-        let interpretation = {
+        const interpretation = {
             category: 'Heterogeneity',
             assessment: '',
             implications: '',
@@ -281,7 +281,7 @@ class AIInterpretationEngine {
     interpretPublicationBias(bias) {
         if (!bias) return '';
 
-        let interpretation = {
+        const interpretation = {
             category: 'Publication Bias',
             assessment: '',
             implications: '',
@@ -636,7 +636,7 @@ class AIInterpretationEngine {
         const crossesNull = (effect.ciLower < 0 && effect.ciUpper > 0) ||
                            (effect.ciLower < 1 && effect.ciUpper > 1);
 
-        let interpretation = {
+        const interpretation = {
             category: 'Precision',
             assessment: '',
             implications: ''

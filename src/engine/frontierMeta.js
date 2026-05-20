@@ -399,7 +399,7 @@ class IPDMetaAnalysis {
 
         // Initialize
         let beta = new Array(Object.keys(X[0]).length).fill(0);
-        let sigma2_u0 = 1;
+        const sigma2_u0 = 1;
 
         for (let iter = 0; iter < 50; iter++) {
             // Working response and weights
@@ -2256,7 +2256,7 @@ class DataFabricationDetection {
         const targetSS = sd * sd * (n - 1) + n * mean * mean;
 
         // Generate random starting distribution
-        let distribution = new Array(n).fill(Math.round(mean));
+        const distribution = new Array(n).fill(Math.round(mean));
 
         // Adjust to match sum
         let currentSum = distribution.reduce((a, b) => a + b, 0);
@@ -2345,14 +2345,14 @@ class DataFabricationDetection {
     }
 
     _gammaLn(x) {
-        const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
-            -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+        const c = [76.18009172947146, -86.50532032941678, 24.01409824083091,
+            -1.231739572450155, 0.001208650973866179, -0.000005395239384953];
         let y = x;
         let tmp = x + 5.5;
         tmp -= (x + 0.5) * Math.log(tmp);
         let ser = 1.000000000190015;
         for (let j = 0; j < 6; j++) ser += c[j] / ++y;
-        return -tmp + Math.log(2.5066282746310005 * ser / x);
+        return -tmp + Math.log(2.5066282746310007 * ser / x);
     }
 
     _interpretGRIM(fails, total) {
@@ -2913,7 +2913,7 @@ class MendelianRandomizationMA {
         const hasHorizontalPleiotropy = globalPValue < significanceThreshold;
 
         // Step 2: Outlier detection
-        let outliers = [];
+        const outliers = [];
         let correctedData = [...data];
 
         if (hasHorizontalPleiotropy) {
@@ -4635,7 +4635,7 @@ class EditorialStandards {
         // Simplified k-means
         const n = data.length;
         let centroids = data.slice(0, k);
-        let assignments = new Array(n).fill(0);
+        const assignments = new Array(n).fill(0);
 
         for (let iter = 0; iter < 50; iter++) {
             // Assign points to nearest centroid
@@ -4804,14 +4804,14 @@ class EditorialStandards {
     }
 
     _gammaLn(x) {
-        const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
-            -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+        const c = [76.18009172947146, -86.50532032941678, 24.01409824083091,
+            -1.231739572450155, 0.001208650973866179, -0.000005395239384953];
         let y = x;
         let tmp = x + 5.5;
         tmp -= (x + 0.5) * Math.log(tmp);
         let ser = 1.000000000190015;
         for (let j = 0; j < 6; j++) ser += c[j] / ++y;
-        return -tmp + Math.log(2.5066282746310005 * ser / x);
+        return -tmp + Math.log(2.5066282746310007 * ser / x);
     }
 
     _beta(a, b) {
@@ -5423,8 +5423,8 @@ class CureFractionModels {
 
         // Initial estimates
         const meanLogT = eventTimes.map(Math.log).reduce((a, b) => a + b, 0) / eventTimes.length;
-        let shape = 1;
-        let scale = Math.exp(meanLogT);
+        const shape = 1;
+        const scale = Math.exp(meanLogT);
 
         // Newton-Raphson iterations
         for (let iter = 0; iter < 50; iter++) {
@@ -5831,7 +5831,7 @@ class SurvivalModelAveraging {
     _optimizeStackingWeights(predictions, validationData) {
         // Simple optimization - minimize squared error
         const k = predictions.length;
-        let weights = new Array(k).fill(1 / k);
+        const weights = new Array(k).fill(1 / k);
 
         // Would use proper optimization here
         return weights;
@@ -17375,11 +17375,11 @@ class CausalInferenceMethods {
         // Newton-Raphson for logistic regression
         const maxIter = 25;
         let beta0 = 0;
-        let betas = covariates.map(() => 0);
+        const betas = covariates.map(() => 0);
         for (let iter = 0; iter < maxIter; iter++) {
             let g0 = 0, gB = covariates.map(() => 0);
             let h00 = 0, h0B = covariates.map(() => 0);
-            let hBB = covariates.map(() => covariates.map(() => 0));
+            const hBB = covariates.map(() => covariates.map(() => 0));
             for (let i = 0; i < n; i++) {
                 const y = data[i][treatmentVar] === 1 ? 1 : 0;
                 const xs = stats.map(s => (Number(data[i][s.name]) || 0 - s.mean) / s.sd);
@@ -17853,11 +17853,11 @@ class PreferenceElicitation {
             };
         }
         // Initialize coefficients
-        let beta = attributes.map(() => 0);
+        const beta = attributes.map(() => 0);
         const maxIter = 30;
         for (let iter = 0; iter < maxIter; iter++) {
-            let gradient = attributes.map(() => 0);
-            let hessianDiag = attributes.map(() => 0);
+            const gradient = attributes.map(() => 0);
+            const hessianDiag = attributes.map(() => 0);
             // Group by choice set
             const sets = {};
             data.forEach(d => {

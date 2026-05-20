@@ -269,7 +269,7 @@ class EVPPICalculator {
 
         // Initialize with mean
         const meanY = Y.reduce((a, b) => a + b, 0) / n;
-        let fitted = new Array(n).fill(meanY);
+        const fitted = new Array(n).fill(meanY);
 
         // Store partial residuals and component functions
         const components = [];

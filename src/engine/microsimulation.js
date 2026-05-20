@@ -224,9 +224,9 @@ class MicrosimulationEngine {
         const maxIter = 100;
         const eps = 1e-14;
 
-        let qab = a + b;
-        let qap = a + 1;
-        let qam = a - 1;
+        const qab = a + b;
+        const qap = a + 1;
+        const qam = a - 1;
         let c = 1;
         let d = 1 - qab * x / qap;
 

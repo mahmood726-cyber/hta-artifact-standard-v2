@@ -208,7 +208,7 @@ class ScenarioAnalysisEngine {
         }
 
         const results = [];
-        let totalCombinations = combinations.length;
+        const totalCombinations = combinations.length;
 
         for (const combo of combinations) {
             const overrides = {};

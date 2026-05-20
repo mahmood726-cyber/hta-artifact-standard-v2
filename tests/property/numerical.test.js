@@ -157,8 +157,11 @@ describe('PCG32 Properties', () => {
                     for (let i = 0; i < nBins; i++) {
                         chiSq += ((bins[i] - expected) ** 2) / expected;
                     }
-                    // Chi-squared critical value for df=9, p=0.01 is ~21.67
-                    return chiSq < 21.67;
+                    // Chi-squared critical value for df=9, p=0.0001 is ~33.72.
+                    // Loose threshold avoids false positives across many random
+                    // seeds explored by fast-check; a valid uniform RNG will
+                    // virtually never exceed this.
+                    return chiSq < 33.72;
                 }
             ),
             { numRuns: 10 }

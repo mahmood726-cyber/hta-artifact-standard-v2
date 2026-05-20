@@ -60,7 +60,7 @@ class EVSICalculator {
 
     async _calculateEVPI(modelFn, priorDist, wtp) {
         let sumPerfectInfo = 0;
-        let sumCurrentInfo = 0;
+        const sumCurrentInfo = 0;
 
         // Current expected NMB
         const currentResults = [];
@@ -1039,7 +1039,7 @@ class MetaRegression {
 
     _fitIntercept(effects, variances) {
         const n = effects.length;
-        let tau2 = this._estimateSimpleTau2(effects, variances);
+        const tau2 = this._estimateSimpleTau2(effects, variances);
 
         const w = variances.map(v => 1 / (v + tau2));
         const sumW = w.reduce((a, b) => a + b, 0);

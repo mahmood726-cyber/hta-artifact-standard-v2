@@ -893,13 +893,13 @@ if (typeof PCG32 === 'undefined') {
     class PCG32 {
         constructor(seed = Date.now()) {
             this.state = BigInt(seed);
-            this.inc = BigInt(1442695040888963407);
+            this.inc = 1442695040888963407n;
             this.step();
         }
 
         step() {
             const oldState = this.state;
-            this.state = oldState * BigInt(6364136223846793005) + this.inc;
+            this.state = oldState * 6364136223846793005n + this.inc;
             this.state = this.state & BigInt('0xFFFFFFFFFFFFFFFF');
             const xorshifted = ((oldState >> BigInt(18)) ^ oldState) >> BigInt(27);
             const rot = oldState >> BigInt(59);

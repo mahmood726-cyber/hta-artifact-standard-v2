@@ -315,7 +315,7 @@ class AdvancedMetaAnalysis {
         const residuals = y.map((yi, i) => yi - yhat[i]);
 
         // Cluster-robust variance estimation
-        let meat = this.zeroMatrix(p, p);
+        const meat = this.zeroMatrix(p, p);
         const clusterIds = [...new Set(data.map(d => d[opts.clusterVar]))];
         const J = clusterIds.length; // Number of clusters
 
@@ -600,9 +600,9 @@ class AdvancedMetaAnalysis {
         const studyIds = Object.keys(studies);
 
         // Build contrast matrices for each study
-        let X = [];
-        let y = [];
-        let V = []; // Block diagonal covariance matrix
+        const X = [];
+        const y = [];
+        const V = []; // Block diagonal covariance matrix
 
         for (const studyId of studyIds) {
             const studyData = studies[studyId];
@@ -855,7 +855,7 @@ class AdvancedMetaAnalysis {
         }
 
         // Interaction effects (if applicable)
-        let interactionEffects = [];
+        const interactionEffects = [];
         if (opts.model === 'interaction2') {
             let idx = nComp;
             for (let i = 0; i < nComp; i++) {
@@ -1495,7 +1495,7 @@ class AdvancedMetaAnalysis {
     }
 
     gammaIncompleteUpper(a, x) {
-        let f = 1e-30;
+        const f = 1e-30;
         let c = 1e-30;
         let d = 1 / (x + 1 - a);
         let h = d;
@@ -1519,11 +1519,11 @@ class AdvancedMetaAnalysis {
     logGamma(x) {
         const c = [
             76.18009172947146,
-            -86.50532032941677,
+            -86.50532032941678,
             24.01409824083091,
             -1.231739572450155,
-            0.1208650973866179e-2,
-            -0.5395239384953e-5
+            0.001208650973866179,
+            -0.000005395239384953
         ];
 
         let y = x;
@@ -1535,7 +1535,7 @@ class AdvancedMetaAnalysis {
             ser += c[j] / ++y;
         }
 
-        return -tmp + Math.log(2.5066282746310005 * ser / x);
+        return -tmp + Math.log(2.5066282746310007 * ser / x);
     }
 
     betaIncomplete(a, b, x) {
@@ -1558,9 +1558,9 @@ class AdvancedMetaAnalysis {
         const maxIter = 100;
         const eps = 1e-10;
 
-        let qab = a + b;
-        let qap = a + 1;
-        let qam = a - 1;
+        const qab = a + b;
+        const qap = a + 1;
+        const qam = a - 1;
         let c = 1;
         let d = 1 - qab * x / qap;
         if (Math.abs(d) < eps) d = eps;
@@ -1568,7 +1568,7 @@ class AdvancedMetaAnalysis {
         let h = d;
 
         for (let m = 1; m <= maxIter; m++) {
-            let m2 = 2 * m;
+            const m2 = 2 * m;
             let aa = m * (b - m) * x / ((qam + m2) * (a + m2));
             d = 1 + aa * d;
             if (Math.abs(d) < eps) d = eps;
@@ -1582,7 +1582,7 @@ class AdvancedMetaAnalysis {
             c = 1 + aa / c;
             if (Math.abs(c) < eps) c = eps;
             d = 1 / d;
-            let del = d * c;
+            const del = d * c;
             h *= del;
             if (Math.abs(del - 1) < eps) break;
         }
@@ -1591,8 +1591,8 @@ class AdvancedMetaAnalysis {
     }
 
     randomNormal() {
-        let u = this._seededRandom();
-        let v = this._seededRandom();
+        const u = this._seededRandom();
+        const v = this._seededRandom();
         return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
     }
 
@@ -1628,7 +1628,7 @@ class AdvancedMetaAnalysis {
 
     calculateQBetween(data, studies, mu, opts) {
         let Q = 0;
-        let df = Object.keys(studies).length - 1;
+        const df = Object.keys(studies).length - 1;
         for (const studyId in studies) {
             const studyData = studies[studyId];
             const studyMean = studyData.reduce((s, d) => s + d[opts.yiVar], 0) / studyData.length;

@@ -503,7 +503,7 @@ class CureModelEngine {
             // For censored: log(exp(-theta * F(t))) = -theta * F(t)
             let logLik = 0;
             let gradTheta = 0;
-            let gradParams = new Array(dist.nParams).fill(0);
+            const gradParams = new Array(dist.nParams).fill(0);
 
             for (let i = 0; i < n; i++) {
                 const d = data[i];
@@ -668,8 +668,8 @@ class CureModelEngine {
         if (horizon <= 0) throw new Error('Horizon must be positive');
 
         // P1-4: Guard against unbounded array from very small step
-        var maxPoints = 100000;
-        var numPoints = Math.ceil(horizon / step) + 1;
+        const maxPoints = 100000;
+        let numPoints = Math.ceil(horizon / step) + 1;
         if (numPoints > maxPoints) {
             step = horizon / (maxPoints - 1);
             numPoints = maxPoints;
@@ -803,7 +803,7 @@ class CureModelEngine {
      */
     _fitDistributionNonMixture(data, theta, distributionName, initParams) {
         const dist = DISTRIBUTIONS[distributionName];
-        let params = [...initParams];
+        const params = [...initParams];
 
         const maxInnerIter = 20;
         const stepSize = 0.05;

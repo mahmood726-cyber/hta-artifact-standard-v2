@@ -2073,7 +2073,7 @@ class AdvancedFeaturesUI {
                 byStudy[key].push(row);
             });
 
-            let cnmaData = [];
+            const cnmaData = [];
             Object.values(byStudy).forEach(arms => {
                 if (arms.length < 2) return;
                 const base = arms[0];

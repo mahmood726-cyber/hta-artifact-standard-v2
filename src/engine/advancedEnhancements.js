@@ -154,7 +154,7 @@ class HKSJAdjustment {
 
     betaCF(x, a, b) {
         const maxIter = 100, eps = 1e-14;
-        let qab = a + b, qap = a + 1, qam = a - 1;
+        const qab = a + b, qap = a + 1, qam = a - 1;
         let c = 1, d = 1 - qab * x / qap;
         if (Math.abs(d) < 1e-30) d = 1e-30;
         d = 1 / d;
@@ -176,13 +176,13 @@ class HKSJAdjustment {
     }
 
     logGamma(x) {
-        const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
-                   -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+        const c = [76.18009172947146, -86.50532032941678, 24.01409824083091,
+                   -1.231739572450155, 0.001208650973866179, -0.000005395239384953];
         let y = x, tmp = x + 5.5;
         tmp -= (x + 0.5) * Math.log(tmp);
         let ser = 1.000000000190015;
         for (let j = 0; j < 6; j++) ser += c[j] / ++y;
-        return -tmp + Math.log(2.5066282746310005 * ser / x);
+        return -tmp + Math.log(2.5066282746310007 * ser / x);
     }
 }
 
@@ -453,7 +453,7 @@ class CopasSelectionModel {
 
     betaCF(x, a, b) {
         const maxIter = 100;
-        let qab = a + b, qap = a + 1, qam = a - 1;
+        const qab = a + b, qap = a + 1, qam = a - 1;
         let c = 1, d = 1 - qab * x / qap;
         if (Math.abs(d) < 1e-30) d = 1e-30;
         d = 1 / d;
@@ -512,13 +512,13 @@ class CopasSelectionModel {
     }
 
     logGamma(x) {
-        const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
-                   -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+        const c = [76.18009172947146, -86.50532032941678, 24.01409824083091,
+                   -1.231739572450155, 0.001208650973866179, -0.000005395239384953];
         let y = x, tmp = x + 5.5;
         tmp -= (x + 0.5) * Math.log(tmp);
         let ser = 1.000000000190015;
         for (let j = 0; j < 6; j++) ser += c[j] / ++y;
-        return -tmp + Math.log(2.5066282746310005 * ser / x);
+        return -tmp + Math.log(2.5066282746310007 * ser / x);
     }
 
     /**
@@ -770,13 +770,13 @@ class ProfileLikelihoodCI {
     }
 
     logGamma(x) {
-        const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
-                   -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+        const c = [76.18009172947146, -86.50532032941678, 24.01409824083091,
+                   -1.231739572450155, 0.001208650973866179, -0.000005395239384953];
         let y = x, tmp = x + 5.5;
         tmp -= (x + 0.5) * Math.log(tmp);
         let ser = 1.000000000190015;
         for (let j = 0; j < 6; j++) ser += c[j] / ++y;
-        return -tmp + Math.log(2.5066282746310005 * ser / x);
+        return -tmp + Math.log(2.5066282746310007 * ser / x);
     }
 }
 
@@ -901,7 +901,7 @@ class RoystonParmarSurvival {
     newtonRaphson(X, events, logTimes, knots) {
         const n = X.length;
         const p = X[0].length;
-        let beta = new Array(p).fill(0);
+        const beta = new Array(p).fill(0);
         beta[0] = -2;  // Initial intercept
 
         const maxIter = 50;
@@ -1825,7 +1825,7 @@ class MultivariateMetaAnalysis {
 
     estimateREML(Y, S, p, k) {
         // Initialize between-study covariance matrix
-        let Sigma = [];
+        const Sigma = [];
         for (let i = 0; i < p; i++) {
             Sigma.push(new Array(p).fill(0));
             Sigma[i][i] = 0.1;
@@ -1844,11 +1844,11 @@ class MultivariateMetaAnalysis {
             const oldSigma = Sigma.map(row => [...row]);
 
             // E-step: Calculate weights and weighted mean
-            let sumW = [];
+            const sumW = [];
             for (let i = 0; i < p; i++) {
                 sumW.push(new Array(p).fill(0));
             }
-            let sumWY = new Array(p).fill(0);
+            const sumWY = new Array(p).fill(0);
 
             for (let i = 0; i < k; i++) {
                 // Vi = Si + Sigma (total variance for study i)
@@ -1884,7 +1884,7 @@ class MultivariateMetaAnalysis {
             }
 
             // M-step: Update Sigma
-            let Q = [];
+            const Q = [];
             for (let j = 0; j < p; j++) {
                 Q.push(new Array(p).fill(0));
             }
@@ -2158,9 +2158,9 @@ class NetworkMetaRegression {
         const nW = W[0]?.length || 0;
 
         // Initialize parameters
-        let d = new Array(nT).fill(0);  // Treatment effects
-        let beta = new Array(nC).fill(0);  // Covariate effects
-        let gamma = new Array(nW).fill(0);  // Interactions
+        const d = new Array(nT).fill(0);  // Treatment effects
+        const beta = new Array(nC).fill(0);  // Covariate effects
+        const gamma = new Array(nW).fill(0);  // Interactions
         let tau = 0.1;  // Heterogeneity SD
         let sigmaGamma = 0.5;  // Exchangeable interaction prior SD (only used if exchangeable)
 
@@ -2675,7 +2675,7 @@ class MixtureCureModel {
 
         for (let iter = 0; iter < 20; iter++) {
             let gradScale = 0, gradShape = 0;
-            let hessScaleScale = 0, hessShapeShape = 0, hessScaleShape = 0;
+            const hessScaleScale = 0, hessShapeShape = 0, hessScaleShape = 0;
 
             for (let i = 0; i < times.length; i++) {
                 const w = 1 - pCured[i];  // Weight (probability of being uncured)
@@ -2797,7 +2797,7 @@ class MixtureCureModel {
     quickFit(times, events, piInit, paramsInit) {
         // Simplified single EM iteration for bootstrap
         let pi = piInit;
-        let params = { ...paramsInit };
+        const params = { ...paramsInit };
 
         const pCured = [];
         for (let i = 0; i < times.length; i++) {

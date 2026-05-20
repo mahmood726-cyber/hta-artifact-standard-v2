@@ -174,7 +174,7 @@ function matrixExponential(A, dt) {
     // Build U (odd part) and V (even part)
     // V = p0*I + p2*M^2 + p4*M^4 + p6*M^6
     // U = M * (p1*I + p3*M^2 + p5*M^4)
-    let V = matAdd(
+    const V = matAdd(
         matAdd(
             matAdd(matScale(pCoeffs[0], I), matScale(pCoeffs[2], M2)),
             matScale(pCoeffs[4], M4)
@@ -182,11 +182,11 @@ function matrixExponential(A, dt) {
         matScale(pCoeffs[6], M6)
     );
 
-    let Uinner = matAdd(
+    const Uinner = matAdd(
         matAdd(matScale(pCoeffs[1], I), matScale(pCoeffs[3], M2)),
         matScale(pCoeffs[5], M4)
     );
-    let U = matMul(M, Uinner);
+    const U = matMul(M, Uinner);
 
     // exp(M) ≈ (V - U)^{-1} * (V + U)
     const VpU = matAdd(V, U);

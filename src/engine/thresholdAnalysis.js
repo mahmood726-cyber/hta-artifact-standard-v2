@@ -97,7 +97,7 @@ class ThresholdAnalysisEngine {
         // Determine optimal strategies above and below threshold
         let optimalBelow = null;
         let optimalAbove = null;
-        let thresholdExists = thresholdResult !== null;
+        const thresholdExists = thresholdResult !== null;
 
         if (thresholdExists) {
             // Evaluate just below and above threshold
