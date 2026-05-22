@@ -398,7 +398,7 @@ class NetworkMetaAnalysis {
      * Build design matrix for network meta-analysis
      */
     buildDesignMatrix() {
-        const nContrasts = this.contrasts.length;
+        const _nContrasts = this.contrasts.length;
         const nBasicParams = this.treatments.length - 1;  // Reference excluded
 
         const X = [];
@@ -484,7 +484,7 @@ class NetworkMetaAnalysis {
         const prec = this.contrasts.map(c => 1 / c.variance);
 
         // MCMC storage
-        const nSamples = Math.floor((this.options.nIterations - this.options.nBurnin) / this.options.nThin);
+        const _nSamples = Math.floor((this.options.nIterations - this.options.nBurnin) / this.options.nThin);
         const samples = {
             d: Array(nParams).fill(null).map(() => []),  // Treatment effects
             tau: [],                                       // Between-study SD
@@ -492,9 +492,9 @@ class NetworkMetaAnalysis {
         };
 
         // Initialize parameters
-        let d = new Array(nParams).fill(0);
+        const d = new Array(nParams).fill(0);
         let tau = 0.1;
-        let delta = [...y];  // Initialize at observed values
+        const delta = [...y];  // Initialize at observed values
 
         // Within-study precision
         const withinPrec = prec;
@@ -618,7 +618,7 @@ class NetworkMetaAnalysis {
      */
     calculateMCMCDiagnostics(samples) {
         const nParams = samples.d.length;
-        const nSamples = samples.d[0].length;
+        const _nSamples = samples.d[0].length;
 
         // Split each chain in half for split-R-hat (Vehtari et al. 2021)
         // This provides a more sensitive convergence diagnostic
@@ -1009,7 +1009,7 @@ class NetworkMetaAnalysis {
      */
     calculateC(V, X) {
         const nContrasts = V.length;
-        const nParams = X[0].length;
+        const _nParams = X[0].length;
 
         let sumW = 0;
         let sumW2 = 0;
@@ -1568,7 +1568,7 @@ class NetworkMetaAnalysis {
     findBridges() {
         const bridges = [];
         const adjMatrix = this.network.adjacencyMatrix;
-        const n = adjMatrix.length;
+        const _n = adjMatrix.length;
 
         // Try removing each edge and check connectivity
         for (const edge of this.network.edges) {
@@ -1840,8 +1840,8 @@ class NetworkMetaAnalysis {
     }
 
     logGamma(x) {
-        const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
-                   -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+        const c = [76.18009172947146, -86.50532032941678, 24.01409824083091,
+                   -1.231739572450155, 0.001208650973866179, -0.000005395239384953];
         let y = x;
         let tmp = x + 5.5;
         tmp -= (x + 0.5) * Math.log(tmp);
@@ -1849,7 +1849,7 @@ class NetworkMetaAnalysis {
         for (let j = 0; j < 6; j++) {
             ser += c[j] / ++y;
         }
-        return -tmp + Math.log(2.5066282746310005 * ser / x);
+        return -tmp + Math.log(2.5066282746310007 * ser / x);
     }
 
     /**

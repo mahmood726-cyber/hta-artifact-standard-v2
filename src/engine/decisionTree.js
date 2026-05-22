@@ -593,7 +593,7 @@ class DecisionTreeEngine {
         }
 
         // Calculate risk measures
-        for (const [key, profile] of strategyProfiles) {
+        for (const [_key, profile] of strategyProfiles) {
             // Sort outcomes by cost for cumulative distribution
             profile.outcomes.sort((a, b) => a.cost - b.cost);
 
@@ -874,7 +874,7 @@ class DecisionTreeEngine {
         }
 
         // Check chance node probabilities sum to 1
-        for (const [id, node] of this.nodes) {
+        for (const [_id, node] of this.nodes) {
             if (node.type === DecisionTreeEngine.NodeType.CHANCE) {
                 const sum = node.probabilities.reduce((a, b) => a + b, 0);
                 if (Math.abs(sum - 1) > 0.001) {

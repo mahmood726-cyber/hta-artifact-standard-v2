@@ -282,7 +282,7 @@ const OptimizedAlgorithms = {
 
         const theta = sumWREY / sumWRE;
         const varTheta = 1 / sumWRE;
-        let se = Math.sqrt(varTheta);
+        const se = Math.sqrt(varTheta);
 
         // HKSJ adjustment (Hartung-Knapp-Sidik-Jonkman)
         let qHKSJ = 1;
@@ -433,7 +433,7 @@ const OptimizedAlgorithms = {
 
         const theta = sumWY / sumW;
         const varTheta = 1 / sumW;
-        let se = Math.sqrt(varTheta);
+        const se = Math.sqrt(varTheta);
 
         // HKSJ adjustment
         let qHKSJ = 1;

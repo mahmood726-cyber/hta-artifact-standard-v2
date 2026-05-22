@@ -102,11 +102,11 @@ class PCG32 {
      * @returns {number} Random value from normal distribution
      */
     normal(mean = 0, sd = 1) {
-        let u1, u2;
+        let u1;
         do {
             u1 = this.nextDouble();
         } while (u1 === 0);
-        u2 = this.nextDouble();
+        const u2 = this.nextDouble();
 
         const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
         return mean + z0 * sd;

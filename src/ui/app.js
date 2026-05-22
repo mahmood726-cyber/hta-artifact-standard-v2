@@ -602,7 +602,7 @@ class HTAApp {
         const tbody = document.getElementById('transitions-table-body');
 
         let html = '';
-        for (const [id, trans] of Object.entries(transitions)) {
+        for (const [_id, trans] of Object.entries(transitions)) {
             const isExpr = typeof trans.probability === 'string';
             const safeFrom = this.escapeHTML(trans.from);
             const safeTo = this.escapeHTML(trans.to);
@@ -791,7 +791,7 @@ class HTAApp {
             const strategies = this.project.strategies || {};
             let intOverrides = {}, compOverrides = {};
 
-            for (const [id, strat] of Object.entries(strategies)) {
+            for (const [_id, strat] of Object.entries(strategies)) {
                 if (strat.is_comparator) {
                     compOverrides = strat.parameter_overrides || {};
                 } else {
@@ -997,7 +997,7 @@ class HTAApp {
             const strategies = this.project.strategies || {};
             let intOverrides = {}, compOverrides = {};
 
-            for (const [id, strat] of Object.entries(strategies)) {
+            for (const [_id, strat] of Object.entries(strategies)) {
                 if (strat.is_comparator) {
                     compOverrides = strat.parameter_overrides || {};
                 } else {

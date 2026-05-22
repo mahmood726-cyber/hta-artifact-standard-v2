@@ -15,7 +15,7 @@
  * - Fine JP, Gray RJ (1999). JASA 94:496-509.
  */
 
-var KahanSumRef = (function resolveKahanSum() {
+const KahanSumRef = (function resolveKahanSum() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }
@@ -30,7 +30,7 @@ var KahanSumRef = (function resolveKahanSum() {
     return null;
 })();
 
-var PCG32Ref = (function resolvePCG32() {
+const _PCG32Ref = (function resolvePCG32() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) {
         return globalThis.PCG32;
     }
@@ -302,7 +302,7 @@ class CompetingRisksEngine {
 
                     const Sm = step.survPrev; // S(s-)
                     // CIF_k accumulated after time s up to current time tIdx
-                    const cifAtS = sIdx > 0 ? trajectory[sIdx - 1].cifSnap[c] : 0;
+                    const _cifAtS = sIdx > 0 ? trajectory[sIdx - 1].cifSnap[c] : 0;
                     const cifRemainder = currentCif[c] - trajectory[sIdx].cifSnap[c];
 
                     const denom = nRisk * nRisk * (nRisk - 1);

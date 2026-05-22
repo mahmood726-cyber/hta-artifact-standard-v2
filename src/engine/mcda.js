@@ -12,7 +12,7 @@
  * - partialValue: partial value functions (linear, concave, convex, step)
  */
 
-var PCG32Ref = (function() {
+const PCG32Ref = (function() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) return globalThis.PCG32;
     if (typeof require === 'function') {
         try { return require('../utils/pcg32').PCG32; } catch(e) {}
@@ -228,7 +228,7 @@ class MCDAEngine {
 
         const rng = new PCG32Ref(this.seed);
         const nAlts = alternatives.length;
-        const nCrit = criteria.length;
+        const _nCrit = criteria.length;
 
         // Initialize rank counts: rankCounts[altIdx][rankIdx]
         const rankCounts = alternatives.map(() => new Array(nAlts).fill(0));

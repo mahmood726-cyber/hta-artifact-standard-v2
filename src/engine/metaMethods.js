@@ -281,7 +281,7 @@ class MetaAnalysisMethods {
 
             // Calculate P matrix trace term: tr(P) = Σ(wi²)/Σwi
             const sumW2 = w.reduce((a, b) => a + b ** 2, 0);
-            const trP = sumW2 / sumW;
+            const _trP = sumW2 / sumW;
 
             for (let i = 0; i < n; i++) {
                 const vi = studies[i].se ** 2 + tauSq;
@@ -298,7 +298,7 @@ class MetaAnalysisMethods {
             // Fisher information for REML
             // I = 0.5 * tr(P * V * P * V) where V = diag(vi)
             for (let i = 0; i < n; i++) {
-                const vi = studies[i].se ** 2 + tauSq;
+                const _vi = studies[i].se ** 2 + tauSq;
                 info += 0.5 * (w[i] ** 2 - 2 * w[i] * sumW2 / (sumW ** 2) + sumW2 ** 2 / (sumW ** 4));
             }
             // Simplified Fisher info
@@ -308,7 +308,7 @@ class MetaAnalysisMethods {
             if (Math.abs(score) < tol) break;
 
             // Newton step with step-halving for stability
-            let delta = score / info;
+            const delta = score / info;
             let stepSize = 1.0;
             const oldTauSq = tauSq;
 
@@ -663,7 +663,7 @@ class MetaAnalysisMethods {
             return { error: 'Need at least 3 studies', method: 'Trim-and-Fill' };
         }
 
-        const n = studies.length;
+        const _n = studies.length;
 
         // Initial pooled effect
         let pooled = this.calculatePooledEffect(studies);
@@ -935,7 +935,7 @@ class MetaAnalysisMethods {
         for (let iter = 0; iter < maxIter; iter++) {
             // E-step: Calculate expected contribution of each region
             // Under null (no selection), expected proportions = interval widths
-            const expectedSig = n * cutpoints[0];
+            const _expectedSig = n * cutpoints[0];
             const expectedMarginal = n * (cutpoints[1] - cutpoints[0]);
             const expectedNonsig = n * (1 - cutpoints[1]);
 
@@ -943,7 +943,7 @@ class MetaAnalysisMethods {
             const adjSig = sig * weights.sig;
             const adjMarginal = marginal * weights.marginal;
             const adjNonsig = nonsig * weights.nonsig;
-            const totalAdj = adjSig + adjMarginal + adjNonsig;
+            const _totalAdj = adjSig + adjMarginal + adjNonsig;
 
             // M-step: Update weights based on ratio of observed to expected
             // Using regularized maximum likelihood to avoid extreme weights
@@ -1384,8 +1384,8 @@ class MetaAnalysisMethods {
      * Calculate C for meta-regression
      */
     calculateC_reg(w, X) {
-        const n = w.length;
-        const nCols = X[0].length;
+        const _n = w.length;
+        const _nCols = X[0].length;
 
         // Simplified: sum(wi) - sum(wi^2)/sum(wi) adjusted for df
         const sumW = w.reduce((a, b) => a + b, 0);
@@ -1630,13 +1630,13 @@ class MetaAnalysisMethods {
     }
 
     logGamma(x) {
-        const c = [76.18009172947146, -86.50532032941677, 24.01409824083091,
-                   -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+        const c = [76.18009172947146, -86.50532032941678, 24.01409824083091,
+                   -1.231739572450155, 0.001208650973866179, -0.000005395239384953];
         let y = x, tmp = x + 5.5;
         tmp -= (x + 0.5) * Math.log(tmp);
         let ser = 1.000000000190015;
         for (let j = 0; j < 6; j++) ser += c[j] / ++y;
-        return -tmp + Math.log(2.5066282746310005 * ser / x);
+        return -tmp + Math.log(2.5066282746310007 * ser / x);
     }
 
     tCDF(t, df) {
@@ -1679,7 +1679,7 @@ class MetaAnalysisMethods {
 
     betaCF(x, a, b) {
         const maxIter = 100, eps = 1e-14;
-        let qab = a + b, qap = a + 1, qam = a - 1;
+        const qab = a + b, qap = a + 1, qam = a - 1;
         let c = 1, d = 1 - qab * x / qap;
         if (Math.abs(d) < 1e-30) d = 1e-30;
         d = 1 / d;

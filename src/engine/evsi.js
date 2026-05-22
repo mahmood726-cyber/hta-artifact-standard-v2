@@ -21,7 +21,7 @@
  * - Deterministic via PCG32 seeded RNG
  */
 
-var PCG32Ref = (function resolvePCG32() {
+const PCG32Ref = (function resolvePCG32() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) {
         return globalThis.PCG32;
     }
@@ -35,7 +35,7 @@ var PCG32Ref = (function resolvePCG32() {
     return null;
 })();
 
-var KahanSumRef = (function resolveKahan() {
+const KahanSumRef = (function resolveKahan() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }
@@ -98,7 +98,7 @@ class EVSIEngine {
 
         // Validate iterations have required NMB field
         if (psaResults.iterations.length > 0) {
-            var sample = psaResults.iterations[0];
+            const sample = psaResults.iterations[0];
             if (sample.nmb === undefined || sample.nmb === null) {
                 // Try to compute NMB from costs/qalys if wtp available
                 if (psaResults.wtp !== undefined && sample.qalys !== undefined && sample.costs !== undefined) {

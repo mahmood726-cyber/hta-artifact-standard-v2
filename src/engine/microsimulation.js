@@ -14,7 +14,7 @@
  * - PSA integration
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+const OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }
@@ -28,7 +28,7 @@ var OmanGuidanceRef = (function resolveOmanGuidance() {
     return null;
 })();
 
-var guidanceDefaults = OmanGuidanceRef?.defaults || {
+const guidanceDefaults = OmanGuidanceRef?.defaults || {
     discount_rate_costs: 0.03,
     discount_rate_qalys: 0.03,
     currency: 'OMR'
@@ -224,9 +224,9 @@ class MicrosimulationEngine {
         const maxIter = 100;
         const eps = 1e-14;
 
-        let qab = a + b;
-        let qap = a + 1;
-        let qam = a - 1;
+        const qab = a + b;
+        const qap = a + 1;
+        const qam = a - 1;
         let c = 1;
         let d = 1 - qab * x / qap;
 
@@ -432,7 +432,7 @@ class MicrosimulationEngine {
         const probs = {};
 
         // Find all transitions from current state
-        for (const [transId, trans] of Object.entries(transitions)) {
+        for (const [_transId, trans] of Object.entries(transitions)) {
             if (trans.from === currentState) {
                 let prob = this.evaluateExpression(trans.probability, parameterValues, patient, cycle);
 

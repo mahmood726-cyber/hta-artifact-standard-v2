@@ -12,7 +12,7 @@
  * - Summary statistics with confidence intervals
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+const OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }
@@ -26,7 +26,7 @@ var OmanGuidanceRef = (function resolveOmanGuidance() {
     return null;
 })();
 
-var guidanceDefaults = OmanGuidanceRef?.defaults || {
+const guidanceDefaults = OmanGuidanceRef?.defaults || {
     discount_rate_costs: 0.03,
     discount_rate_qalys: 0.03,
     currency: 'OMR',
@@ -41,7 +41,7 @@ const DEFAULT_PSA_SEED = 12345;
 const DEFAULT_CONVERGENCE_CHECK_INTERVAL = 500;
 const DEFAULT_CONVERGENCE_THRESHOLD = 0.01;
 const PROGRESS_REPORT_INTERVAL = 500;  // Report progress every N iterations
-const ICER_ZERO_THRESHOLD = 1e-10;     // Threshold for treating incQALYs as zero
+const _ICER_ZERO_THRESHOLD = 1e-10;     // Threshold for treating incQALYs as zero
 
 function resolveWtpThresholds(settings) {
     if (OmanGuidanceRef?.resolveWtpThresholds) {
@@ -323,7 +323,7 @@ class PSAEngine {
      */
     sampleCorrelated(parameters, correlationSpec) {
         const sampled = {};
-        const paramIds = Object.keys(parameters);
+        const _paramIds = Object.keys(parameters);
 
         // Get correlation matrix for parameters that have correlations defined
         const correlatedParams = correlationSpec.parameters || [];
@@ -595,9 +595,9 @@ class PSAEngine {
         const maxIterations = 200;
         const epsilon = 1e-14;
 
-        let qab = a + b;
-        let qap = a + 1;
-        let qam = a - 1;
+        const qab = a + b;
+        const qap = a + 1;
+        const qam = a - 1;
         let c = 1;
         let d = 1 - qab * x / qap;
         if (Math.abs(d) < 1e-30) d = 1e-30;
@@ -605,7 +605,7 @@ class PSAEngine {
         let h = d;
 
         for (let m = 1; m <= maxIterations; m++) {
-            let m2 = 2 * m;
+            const m2 = 2 * m;
             let aa = m * (b - m) * x / ((qam + m2) * (a + m2));
             d = 1 + aa * d;
             if (Math.abs(d) < 1e-30) d = 1e-30;
@@ -619,7 +619,7 @@ class PSAEngine {
             c = 1 + aa / c;
             if (Math.abs(c) < 1e-30) c = 1e-30;
             d = 1 / d;
-            let del = d * c;
+            const del = d * c;
             h *= del;
             if (Math.abs(del - 1) < epsilon) break;
         }
@@ -703,14 +703,14 @@ class PSAEngine {
         let h = d;
 
         for (let i = 1; i <= 200; i++) {
-            let an = -i * (i - a);
+            const an = -i * (i - a);
             b += 2;
             d = an * d + b;
             if (Math.abs(d) < 1e-30) d = 1e-30;
             c = b + an / c;
             if (Math.abs(c) < 1e-30) c = 1e-30;
             d = 1 / d;
-            let del = d * c;
+            const del = d * c;
             h *= del;
             if (Math.abs(del - 1) < 1e-14) break;
         }
@@ -1352,7 +1352,7 @@ class DSAEngine {
         const baselineIcer = this.getOutcome(baselineRun, 'icer', wtp);
         if (!Number.isFinite(baselineIcer)) return null;
 
-        const baselineCE = baselineIcer <= wtp;
+        const _baselineCE = baselineIcer <= wtp;
 
         // Check if threshold crossing exists in range
         const originalValue = project.parameters[paramId].value;

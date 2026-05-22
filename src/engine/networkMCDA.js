@@ -12,7 +12,7 @@
  * - Dominance detection across criteria
  */
 
-var PCG32Ref = (function() {
+const PCG32Ref = (function() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) return globalThis.PCG32;
     if (typeof require === 'function') { try { return require('../utils/pcg32').PCG32; } catch(e) {} }
     return null;
@@ -190,7 +190,7 @@ class NetworkMCDAEngine {
         // Step 4: Simple weight sensitivity — per criterion
         const sensitivity = criteriaConfig.map(c => {
             // How much does this criterion's weight affect the top-ranked treatment?
-            const topTx = scored[0].name;
+            const _topTx = scored[0].name;
             return {
                 criterion: c.name,
                 weight: normW[c.name],
@@ -295,7 +295,7 @@ class NetworkMCDAEngine {
     valueOfInformation(nmaResults, criteriaConfig, weights, nSim = 5000) {
         if (!PCG32Ref) throw new Error('PCG32 required for VOI');
         validateInputs(nmaResults, criteriaConfig, weights);
-        const normW = normalizeWeights(weights);
+        const _normW = normalizeWeights(weights);
         const treatments = nmaResults.treatments;
         const uncertainty = nmaResults.uncertainty || {};
 

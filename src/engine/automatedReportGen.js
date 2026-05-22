@@ -624,7 +624,7 @@ class AutomatedReportGenerator {
             <body>
         `;
 
-        for (const [sectionName, section] of Object.entries(report.sections)) {
+        for (const [_sectionName, section] of Object.entries(report.sections)) {
             html += section.content;
         }
 
@@ -659,7 +659,7 @@ class AutomatedReportGenerator {
     generateMarkdown(report) {
         let markdown = `# ${report.title}\n\n`;
 
-        for (const [sectionName, section] of Object.entries(report.sections)) {
+        for (const [_sectionName, section] of Object.entries(report.sections)) {
             markdown += `## ${section.title}\n\n`;
             markdown += this.htmlToMarkdown(section.content);
             markdown += '\n\n';

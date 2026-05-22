@@ -12,7 +12,7 @@
  * - Dong G, Qiu J, Wang D, Vandemeulebroecke M (2018). Pharm Stat 17:67-83.
  */
 
-var KahanSumRef = (function resolveKahanSum() {
+const KahanSumRef = (function resolveKahanSum() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }
@@ -27,7 +27,7 @@ var KahanSumRef = (function resolveKahanSum() {
     return null;
 })();
 
-var PCG32Ref = (function resolvePCG32() {
+const PCG32Ref = (function resolvePCG32() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) {
         return globalThis.PCG32;
     }

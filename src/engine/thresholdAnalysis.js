@@ -9,7 +9,7 @@
  * - Exact break-even finding via bisection
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+const _OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }
@@ -97,7 +97,7 @@ class ThresholdAnalysisEngine {
         // Determine optimal strategies above and below threshold
         let optimalBelow = null;
         let optimalAbove = null;
-        let thresholdExists = thresholdResult !== null;
+        const thresholdExists = thresholdResult !== null;
 
         if (thresholdExists) {
             // Evaluate just below and above threshold

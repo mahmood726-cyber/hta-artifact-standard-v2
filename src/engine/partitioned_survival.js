@@ -373,7 +373,7 @@ class PartitionedSurvivalEngine {
         }
 
         const tmp = x + 5.5;
-        return -tmp + (x + 0.5) * Math.log(tmp) + Math.log(2.5066282746310005 * sum / x);
+        return -tmp + (x + 0.5) * Math.log(tmp) + Math.log(2.5066282746310007 * sum / x);
     }
 
     /**

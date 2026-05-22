@@ -12,13 +12,13 @@
  * Depends on: BudgetImpactEngine, PCG32
  */
 
-var BIARef = (function() {
+const BIARef = (function() {
     if (typeof globalThis !== 'undefined' && globalThis.BudgetImpactEngine) return globalThis.BudgetImpactEngine;
     if (typeof require === 'function') { try { return require('./budgetImpact').BudgetImpactEngine; } catch(e) {} }
     return null;
 })();
 
-var PCG32Ref = (function() {
+const PCG32Ref = (function() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) return globalThis.PCG32;
     if (typeof require === 'function') { try { return require('../utils/pcg32').PCG32; } catch(e) {} }
     return null;
@@ -74,7 +74,7 @@ function setByPath(obj, path, value) {
 /**
  * Get a value from a nested object using dot-notation path.
  */
-function getByPath(obj, path) {
+function _getByPath(obj, path) {
     const parts = path.split('.');
     let current = obj;
     for (const key of parts) {

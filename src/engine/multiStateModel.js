@@ -12,7 +12,7 @@
  * - Kahan summation for numerical stability
  */
 
-var KahanRef = (function resolveKahan() {
+const KahanRef = (function resolveKahan() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }
@@ -113,7 +113,7 @@ function matNormInf(M) {
 /**
  * Deep copy a matrix
  */
-function matCopy(M) {
+function _matCopy(M) {
     const n = M.length;
     const R = [];
     for (let i = 0; i < n; i++) {
@@ -147,13 +147,13 @@ function matrixExponential(A, dt) {
     }
 
     // Pade(6,6) coefficients
-    const c = [1, 1/2, 1/9, 1/72, 1/1008, 1/30240, 1/1209600];
+    const _c = [1, 1/2, 1/9, 1/72, 1/1008, 1/30240, 1/1209600];
 
     // Compute powers of M: M^2, M^3, ..., M^6
     const M2 = matMul(M, M);
-    const M3 = matMul(M2, M);
+    const _M3 = matMul(M2, M);
     const M4 = matMul(M2, M2);
-    const M5 = matMul(M4, M);
+    const _M5 = matMul(M4, M);
     const M6 = matMul(M4, M2);
 
     const I = identityMatrix(n);
@@ -174,7 +174,7 @@ function matrixExponential(A, dt) {
     // Build U (odd part) and V (even part)
     // V = p0*I + p2*M^2 + p4*M^4 + p6*M^6
     // U = M * (p1*I + p3*M^2 + p5*M^4)
-    let V = matAdd(
+    const V = matAdd(
         matAdd(
             matAdd(matScale(pCoeffs[0], I), matScale(pCoeffs[2], M2)),
             matScale(pCoeffs[4], M4)
@@ -182,11 +182,11 @@ function matrixExponential(A, dt) {
         matScale(pCoeffs[6], M6)
     );
 
-    let Uinner = matAdd(
+    const Uinner = matAdd(
         matAdd(matScale(pCoeffs[1], I), matScale(pCoeffs[3], M2)),
         matScale(pCoeffs[5], M4)
     );
-    let U = matMul(M, Uinner);
+    const U = matMul(M, Uinner);
 
     // exp(M) ≈ (V - U)^{-1} * (V + U)
     const VpU = matAdd(V, U);
@@ -480,7 +480,7 @@ class MultiStateModelEngine {
         const stateTrace = [Array.from(occupancy)];
 
         // Accumulate costs and QALYs using Kahan summation
-        const KS = KahanRef || { sum: (arr) => arr.reduce((a, b) => a + b, 0) };
+        const _KS = KahanRef || { sum: (arr) => arr.reduce((a, b) => a + b, 0) };
 
         const perCycle = [];
         let totalCostAccum = 0;

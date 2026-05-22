@@ -19,7 +19,7 @@
  * - Deterministic via PCG32
  */
 
-var PCG32Ref = (function resolvePCG32() {
+const PCG32Ref = (function resolvePCG32() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) {
         return globalThis.PCG32;
     }
@@ -149,8 +149,8 @@ function weightedStdDev(values, weights) {
 /**
  * Pooled standard deviation for SMD
  */
-function pooledSD(arr1, arr2) {
-    const n1 = arr1.length, n2 = typeof arr2 === 'number' ? arr2 : arr2.length;
+function _pooledSD(arr1, arr2) {
+    const _n1 = arr1.length, _n2 = typeof arr2 === 'number' ? arr2 : arr2.length;
     const sd1 = stdDev(arr1);
     // For aggregate, we approximate with the IPD SD
     return sd1;
@@ -192,9 +192,9 @@ class MAICSTCEngine {
                 nextDouble: () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; },
                 nextFloat: () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; },
                 normal: (mu, sd) => {
-                    let u1, u2;
+                    let u1;
                     do { u1 = this.rng.nextDouble(); } while (u1 === 0);
-                    u2 = this.rng.nextDouble();
+                    const u2 = this.rng.nextDouble();
                     return mu + sd * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
                 }
             };
@@ -282,8 +282,8 @@ class MAICSTCEngine {
         }
 
         // Initialise Lagrange multipliers
-        let beta = new Array(p).fill(0);
-        let converged = false;
+        const beta = new Array(p).fill(0);
+        let _converged = false;
         let iter = 0;
 
         for (iter = 0; iter < this.options.maxIter; iter++) {
@@ -320,7 +320,7 @@ class MAICSTCEngine {
                 if (Math.abs(grad[j]) > maxGrad) maxGrad = Math.abs(grad[j]);
             }
             if (maxGrad < this.options.tol) {
-                converged = true;
+                _converged = true;
                 // Return unnormalised weights that sum to n
                 const weights = new Array(n);
                 let sumFinal = 0;
@@ -460,7 +460,7 @@ class MAICSTCEngine {
         }
 
         // IRLS logistic regression
-        let beta = new Array(p + 1).fill(0); // p covariates + intercept
+        const beta = new Array(p + 1).fill(0); // p covariates + intercept
         let converged = false;
         let iter = 0;
 
@@ -731,7 +731,7 @@ class MAICSTCEngine {
      * @returns {Object} STC result
      */
     stc(ipdData, aggregateData, options = {}) {
-        const outcomeType = options.outcomeType || 'continuous';
+        const _outcomeType = options.outcomeType || 'continuous';
         const covNames = this._validateInputs(ipdData, aggregateData);
         const n = ipdData.length;
         const p = covNames.length;
