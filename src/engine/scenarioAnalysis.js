@@ -9,7 +9,7 @@
  * - Delta computation and summary statistics
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+const _OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }
@@ -148,8 +148,8 @@ class ScenarioAnalysisEngine {
                 // caller interpret. For a standard approach:
                 // pessimistic = all at their "worse" bound = lower for utility, higher for cost
                 // We'll use a heuristic: if base > midpoint of CI, lower is pessimistic
-                const base = baseParams[p.name];
-                const mid = (p.ci[0] + p.ci[1]) / 2;
+                const _base = baseParams[p.name];
+                const _mid = (p.ci[0] + p.ci[1]) / 2;
 
                 if (p.direction === 'cost') {
                     // Higher cost = worse

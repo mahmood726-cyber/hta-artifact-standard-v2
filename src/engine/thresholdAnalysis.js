@@ -9,7 +9,7 @@
  * - Exact break-even finding via bisection
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+const _OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }

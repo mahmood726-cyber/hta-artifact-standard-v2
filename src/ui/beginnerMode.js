@@ -1542,7 +1542,7 @@ class BeginnerMode {
         }
 
         // Convert canvas to SVG (simplified)
-        const ctx = canvas.getContext('2d');
+        const _ctx = canvas.getContext('2d');
         const imgData = canvas.toDataURL('image/png');
 
         const svg = `<?xml version="1.0" encoding="UTF-8"?>

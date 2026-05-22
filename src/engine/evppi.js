@@ -109,7 +109,7 @@ class EVPPICalculator {
 
         // First calculate total EVPI
         if (psaResults.scatter) {
-            const evpiCalc = typeof EVPICalculator !== 'undefined' ?
+            const _evpiCalc = typeof EVPICalculator !== 'undefined' ?
                 new EVPICalculator() : this;
 
             // Simple EVPI calculation

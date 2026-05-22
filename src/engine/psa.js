@@ -12,7 +12,7 @@
  * - Summary statistics with confidence intervals
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+const OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }
@@ -26,7 +26,7 @@ var OmanGuidanceRef = (function resolveOmanGuidance() {
     return null;
 })();
 
-var guidanceDefaults = OmanGuidanceRef?.defaults || {
+const guidanceDefaults = OmanGuidanceRef?.defaults || {
     discount_rate_costs: 0.03,
     discount_rate_qalys: 0.03,
     currency: 'OMR',
@@ -41,7 +41,7 @@ const DEFAULT_PSA_SEED = 12345;
 const DEFAULT_CONVERGENCE_CHECK_INTERVAL = 500;
 const DEFAULT_CONVERGENCE_THRESHOLD = 0.01;
 const PROGRESS_REPORT_INTERVAL = 500;  // Report progress every N iterations
-const ICER_ZERO_THRESHOLD = 1e-10;     // Threshold for treating incQALYs as zero
+const _ICER_ZERO_THRESHOLD = 1e-10;     // Threshold for treating incQALYs as zero
 
 function resolveWtpThresholds(settings) {
     if (OmanGuidanceRef?.resolveWtpThresholds) {
@@ -323,7 +323,7 @@ class PSAEngine {
      */
     sampleCorrelated(parameters, correlationSpec) {
         const sampled = {};
-        const paramIds = Object.keys(parameters);
+        const _paramIds = Object.keys(parameters);
 
         // Get correlation matrix for parameters that have correlations defined
         const correlatedParams = correlationSpec.parameters || [];
@@ -1352,7 +1352,7 @@ class DSAEngine {
         const baselineIcer = this.getOutcome(baselineRun, 'icer', wtp);
         if (!Number.isFinite(baselineIcer)) return null;
 
-        const baselineCE = baselineIcer <= wtp;
+        const _baselineCE = baselineIcer <= wtp;
 
         // Check if threshold crossing exists in range
         const originalValue = project.parameters[paramId].value;

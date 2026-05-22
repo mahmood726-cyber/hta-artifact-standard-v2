@@ -15,7 +15,7 @@
  * - Lambert PC (2007). Stata J 7:351-375.
  */
 
-var KahanSumRef = (function resolveKahanSum() {
+const _KahanSumRef = (function resolveKahanSum() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }
@@ -30,7 +30,7 @@ var KahanSumRef = (function resolveKahanSum() {
     return null;
 })();
 
-var PCG32Ref = (function resolvePCG32() {
+const _PCG32Ref = (function resolvePCG32() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) {
         return globalThis.PCG32;
     }
@@ -503,7 +503,7 @@ class CureModelEngine {
             // For censored: log(exp(-theta * F(t))) = -theta * F(t)
             let logLik = 0;
             let gradTheta = 0;
-            const gradParams = new Array(dist.nParams).fill(0);
+            const _gradParams = new Array(dist.nParams).fill(0);
 
             for (let i = 0; i < n; i++) {
                 const d = data[i];

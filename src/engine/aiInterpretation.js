@@ -383,7 +383,7 @@ class AIInterpretationEngine {
     // ============================================================
 
     assessClinicalSignificance(effect, context) {
-        const { estimate, ciLower, ciUpper } = effect;
+        const { estimate, ciLower, _ciUpper } = effect;
         const measure = context.effectMeasure || 'SMD';
 
         let assessment = '';
@@ -455,7 +455,7 @@ class AIInterpretationEngine {
         };
 
         // 5. Imprecision
-        const width = results.pooledEffect.ciUpper - results.pooledEffect.ciLower;
+        const _width = results.pooledEffect.ciUpper - results.pooledEffect.ciLower;
         if (this.isImprecise(results)) {
             assessment.rating = this.downgrade(assessment.rating, 1);
             assessment.domains.imprecision = {
@@ -632,7 +632,7 @@ class AIInterpretationEngine {
     }
 
     interpretPrecision(effect) {
-        const width = effect.ciUpper - effect.ciLower;
+        const _width = effect.ciUpper - effect.ciLower;
         const crossesNull = (effect.ciLower < 0 && effect.ciUpper > 0) ||
                            (effect.ciLower < 1 && effect.ciUpper > 1);
 

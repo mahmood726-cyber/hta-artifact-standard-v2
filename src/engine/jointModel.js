@@ -12,7 +12,7 @@
  * Reference: Rizopoulos (2012) Joint Models for Longitudinal and Time-to-Event Data
  */
 
-var KahanRef = (function resolveKahan() {
+const _KahanRef = (function resolveKahan() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }
@@ -29,7 +29,7 @@ var KahanRef = (function resolveKahan() {
 // ============ NAMED CONSTANTS ============
 const DEFAULT_MAX_ITER = 50;
 const DEFAULT_TOLERANCE = 1e-6;
-const DEFAULT_GAUSS_HERMITE_POINTS = 15;
+const _DEFAULT_GAUSS_HERMITE_POINTS = 15;
 
 // ============ HELPER FUNCTIONS ============
 
@@ -230,7 +230,7 @@ class JointModelEngine {
         }
 
         const nObs = allTimes.length;
-        const p = isQuadratic ? 3 : 2;
+        const _p = isQuadratic ? 3 : 2;
 
         // Design matrix
         const X = [];

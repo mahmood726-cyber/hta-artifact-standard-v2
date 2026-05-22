@@ -12,7 +12,7 @@
  * - Kahan summation for numerical stability
  */
 
-var KahanRef = (function resolveKahan() {
+const _KahanRef = (function resolveKahan() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }
@@ -170,7 +170,7 @@ class HeadroomAnalysisEngine {
         steps = steps ?? DEFAULT_AFFORDABILITY_STEPS;
         const [wtpLo, wtpHi] = wtpRange;
         const stepSize = (wtpHi - wtpLo) / steps;
-        const currentPrice = baseParams[priceParam] ?? 0;
+        const _currentPrice = baseParams[priceParam] ?? 0;
 
         // Determine price search range: use a wide range
         const priceRange = [0, wtpHi * 2];

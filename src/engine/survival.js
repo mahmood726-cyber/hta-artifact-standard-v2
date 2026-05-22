@@ -42,8 +42,8 @@ class SurvivalAnalysisEngine {
     importKaplanMeier(points, options = {}) {
         const {
             timeUnit = 'months',
-            interpolate = true,
-            smoothing = 0
+            _interpolate = true,
+            _smoothing = 0
         } = options;
 
         // Sort by time
@@ -294,7 +294,7 @@ class SurvivalAnalysisEngine {
     applyHazardRatio(fittedDist, hr, options = {}) {
         const {
             waning = null,  // {startTime, endTime, pattern: 'linear'|'exponential'}
-            maxTime = 100
+            _maxTime = 100
         } = options;
 
         return {
@@ -612,7 +612,8 @@ class WeibullDistribution {
 
     calculateGradientHessian(events) {
         let dLambda = 0, dGamma = 0;
-        let d2Lambda = 0, d2Gamma = 0, d2LambdaGamma = 0;
+        let d2Lambda = 0, d2Gamma = 0;
+        const d2LambdaGamma = 0;
 
         for (const e of events) {
             const lt = this.lambda * e.time;

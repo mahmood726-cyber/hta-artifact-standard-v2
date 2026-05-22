@@ -70,7 +70,7 @@ class GuyotIPDEngine {
     reconstruct(kmPoints, nRisk, totalN, options = {}) {
         const {
             seed = 12345,
-            method = 'guyot',
+            _method = 'guyot',
             arm = 'treatment'
         } = options;
 
@@ -542,7 +542,7 @@ class GuyotIPDEngine {
                     }
 
                     // Newton step for k (profile)
-                    const d2 = -nEvents / (k * k) - nEvents *
+                    const _d2 = -nEvents / (k * k) - nEvents *
                         ((sumTk * (sumTkLogT * Math.log(times[0]) || 0)) - sumTkLogT * sumTkLogT) /
                         (sumTk * sumTk);
 

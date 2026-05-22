@@ -281,7 +281,7 @@ class MetaAnalysisMethods {
 
             // Calculate P matrix trace term: tr(P) = Σ(wi²)/Σwi
             const sumW2 = w.reduce((a, b) => a + b ** 2, 0);
-            const trP = sumW2 / sumW;
+            const _trP = sumW2 / sumW;
 
             for (let i = 0; i < n; i++) {
                 const vi = studies[i].se ** 2 + tauSq;
@@ -298,7 +298,7 @@ class MetaAnalysisMethods {
             // Fisher information for REML
             // I = 0.5 * tr(P * V * P * V) where V = diag(vi)
             for (let i = 0; i < n; i++) {
-                const vi = studies[i].se ** 2 + tauSq;
+                const _vi = studies[i].se ** 2 + tauSq;
                 info += 0.5 * (w[i] ** 2 - 2 * w[i] * sumW2 / (sumW ** 2) + sumW2 ** 2 / (sumW ** 4));
             }
             // Simplified Fisher info
@@ -663,7 +663,7 @@ class MetaAnalysisMethods {
             return { error: 'Need at least 3 studies', method: 'Trim-and-Fill' };
         }
 
-        const n = studies.length;
+        const _n = studies.length;
 
         // Initial pooled effect
         let pooled = this.calculatePooledEffect(studies);
@@ -935,7 +935,7 @@ class MetaAnalysisMethods {
         for (let iter = 0; iter < maxIter; iter++) {
             // E-step: Calculate expected contribution of each region
             // Under null (no selection), expected proportions = interval widths
-            const expectedSig = n * cutpoints[0];
+            const _expectedSig = n * cutpoints[0];
             const expectedMarginal = n * (cutpoints[1] - cutpoints[0]);
             const expectedNonsig = n * (1 - cutpoints[1]);
 
@@ -943,7 +943,7 @@ class MetaAnalysisMethods {
             const adjSig = sig * weights.sig;
             const adjMarginal = marginal * weights.marginal;
             const adjNonsig = nonsig * weights.nonsig;
-            const totalAdj = adjSig + adjMarginal + adjNonsig;
+            const _totalAdj = adjSig + adjMarginal + adjNonsig;
 
             // M-step: Update weights based on ratio of observed to expected
             // Using regularized maximum likelihood to avoid extreme weights
@@ -1384,8 +1384,8 @@ class MetaAnalysisMethods {
      * Calculate C for meta-regression
      */
     calculateC_reg(w, X) {
-        const n = w.length;
-        const nCols = X[0].length;
+        const _n = w.length;
+        const _nCols = X[0].length;
 
         // Simplified: sum(wi) - sum(wi^2)/sum(wi) adjusted for df
         const sumW = w.reduce((a, b) => a + b, 0);

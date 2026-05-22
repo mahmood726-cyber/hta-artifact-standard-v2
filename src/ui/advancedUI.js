@@ -264,7 +264,7 @@ class AdvancedFeaturesUI {
             const strategies = this.app.project.strategies || {};
             let intOverrides = {}, compOverrides = {};
 
-            for (const [id, strat] of Object.entries(strategies)) {
+            for (const [_id, strat] of Object.entries(strategies)) {
                 if (strat.is_comparator) {
                     compOverrides = strat.parameter_overrides || {};
                 } else {
@@ -723,7 +723,7 @@ class AdvancedFeaturesUI {
         }
 
         // Convert transitions to events
-        for (const [id, trans] of Object.entries(project.transitions || {})) {
+        for (const [_id, trans] of Object.entries(project.transitions || {})) {
             const from = trans.from;
             const to = trans.to;
 
@@ -1386,8 +1386,8 @@ class AdvancedFeaturesUI {
 
         const labels = studies.map(s => s.study || s.comparison || 'Study');
         const effects = studies.map(s => s.effect || s.yi || 0);
-        const lowers = studies.map(s => s.ci_lower || (s.effect - 1.96 * s.se) || 0);
-        const uppers = studies.map(s => s.ci_upper || (s.effect + 1.96 * s.se) || 0);
+        const _lowers = studies.map(s => s.ci_lower || (s.effect - 1.96 * s.se) || 0);
+        const _uppers = studies.map(s => s.ci_upper || (s.effect + 1.96 * s.se) || 0);
 
         new Chart(canvas, {
             type: 'bar',

@@ -18,13 +18,13 @@
 
 // ---------- Dependency resolution ----------
 
-var PCG32Ref = (function() {
+const _PCG32Ref = (function() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) return globalThis.PCG32;
     if (typeof require === 'function') { try { return require('../utils/pcg32').PCG32; } catch(e) {} }
     return null;
 })();
 
-var KahanSumRef = (function() {
+const KahanSumRef = (function() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) return globalThis.KahanSum;
     if (typeof require === 'function') { try { return require('../utils/kahan').KahanSum; } catch(e) {} }
     return null;
@@ -35,11 +35,11 @@ var KahanSumRef = (function() {
 /**
  * Gamma function via Lanczos approximation (for PDF computation).
  */
-function gammaFunction(z) {
+function _gammaFunction(z) {
     // Poles at 0, -1, -2, ... where sin(PI*z)=0 would cause division by zero
     if (z <= 0 && z === Math.floor(z)) return Infinity;
     if (z < 0.5) {
-        return Math.PI / (Math.sin(Math.PI * z) * gammaFunction(1 - z));
+        return Math.PI / (Math.sin(Math.PI * z) * _gammaFunction(1 - z));
     }
     z -= 1;
     const g = 7;
@@ -111,7 +111,7 @@ function logGamma(z) {
 /**
  * Standard normal PDF.
  */
-function normalPDF(x) {
+function _normalPDF(x) {
     return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
 }
 
@@ -328,17 +328,17 @@ class SemiMarkovEngine {
         const transitionMap = {}; // key: 'fromIdx->toIdx', value: transition spec
         const hasSojourn = new Array(nStates).fill(false); // does this state have sojourn-dependent exits?
 
-        for (let key in config.transitions) {
+        for (const key in config.transitions) {
             if (!config.transitions.hasOwnProperty(key)) continue;
             const parts = key.split('->');
             const fromName = parts[0].trim();
             const toName = parts[1].trim();
-            let fromIdx = states.indexOf(fromName);
+            const fromIdx = states.indexOf(fromName);
             const toIdx = states.indexOf(toName);
             if (fromIdx < 0 || toIdx < 0) {
                 throw new Error('Unknown state in transition: ' + key);
             }
-            let spec = config.transitions[key];
+            const spec = config.transitions[key];
             transitionMap[fromIdx + '->' + toIdx] = spec;
             if (this._isSojournDependent(spec)) {
                 hasSojourn[fromIdx] = true;
@@ -365,15 +365,15 @@ class SemiMarkovEngine {
 
         // Identify absorbing states (no transitions out)
         const isAbsorbing = new Array(nStates).fill(true);
-        for (let key in transitionMap) {
-            let fromIdx = parseInt(key.split('->')[0]);
+        for (const key in transitionMap) {
+            const fromIdx = parseInt(key.split('->')[0]);
             isAbsorbing[fromIdx] = false;
         }
 
         // State trace: stateTrace[cycle][stateIdx] = proportion in state
         const stateTrace = [];
         const perCycle = [];
-        const KahanClass = KahanSumRef || { sum: function(arr) { let s=0; for(let i=0;i<arr.length;i++) s+=arr[i]; return s; } };
+        const _KahanClass = KahanSumRef || { sum: function(arr) { let s=0; for(let i=0;i<arr.length;i++) s+=arr[i]; return s; } };
 
         // Accumulators for sojourn stats
         const sojournTimeSum = new Float64Array(nStates);
@@ -468,7 +468,7 @@ class SemiMarkovEngine {
                         const tIdx = parseInt(parts2[1]);
                         if (fIdx !== fromS) continue;
 
-                        let spec = transitionMap[key2];
+                        const spec = transitionMap[key2];
                         const hazard = this.sojournHazard(spec, timeInState);
                         transHazards.push({ toIdx: tIdx, hazard: hazard });
                         totalHazard += hazard;

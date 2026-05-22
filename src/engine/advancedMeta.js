@@ -189,7 +189,7 @@ class AdvancedMetaAnalysis {
 
         for (const d of data) {
             const studyId = d[opts.studyVar];
-            const nj = studies[studyId].length;
+            const _nj = studies[studyId].length;
             const vi = d[opts.viVar];
 
             // Three-level weight
@@ -223,7 +223,7 @@ class AdvancedMetaAnalysis {
 
         // Build design matrix and response vector
         const { X, y, V } = this.buildMultivariateSystem(data, opts);
-        const n = y.length;
+        const _n = y.length;
 
         // Initial between-study covariance matrix (diagonal)
         let Sigma = this.initializeSigma(data, opts);
@@ -354,7 +354,7 @@ class AdvancedMetaAnalysis {
         const dfs = this.calculateSatterthwaiteDf(X, W, vcov, clusters, opts);
 
         // Results
-        const z = this.normalQuantile(1 - this.options.alpha / 2);
+        const _z = this.normalQuantile(1 - this.options.alpha / 2);
         const moderatorNames = ['intercept', ...opts.moderators];
 
         return {
@@ -1096,7 +1096,7 @@ class AdvancedMetaAnalysis {
 
     estimateTauREML(yi, vi, muInit) {
         let tau2 = 0.1;
-        const n = yi.length;
+        const _n = yi.length;
 
         for (let iter = 0; iter < 100; iter++) {
             const wi = vi.map(v => 1 / (v + tau2));
@@ -1495,7 +1495,7 @@ class AdvancedMetaAnalysis {
     }
 
     gammaIncompleteUpper(a, x) {
-        const f = 1e-30;
+        const _f = 1e-30;
         let c = 1e-30;
         let d = 1 / (x + 1 - a);
         let h = d;

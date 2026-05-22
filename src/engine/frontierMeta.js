@@ -114,7 +114,7 @@ class IPDMetaAnalysis {
             outcomeVar = 'outcome',
             studyVar = 'study',
             covariates = [],
-            poolingMethod = 'REML'
+            _poolingMethod = 'REML'
         } = options;
 
         const studies = [...new Set(ipdData.map(d => d[studyVar]))];
@@ -173,7 +173,7 @@ class IPDMetaAnalysis {
      */
     ipdNMA(ipdData, options = {}) {
         const {
-            outcome = 'continuous',
+            _outcome = 'continuous',
             treatmentVar = 'treatment',
             outcomeVar = 'outcome',
             studyVar = 'study',
@@ -394,8 +394,8 @@ class IPDMetaAnalysis {
 
     _fitLogisticMixedModel(y, X, Z, studies) {
         // Penalized quasi-likelihood for GLMM
-        const n = y.length;
-        const k = studies.length;
+        const _n = y.length;
+        const _k = studies.length;
 
         // Initialize
         let beta = new Array(Object.keys(X[0]).length).fill(0);
@@ -1137,7 +1137,7 @@ class DTAMetaAnalysis {
     bivariate(data, options = {}) {
         const {
             covariates = [],
-            correlationStructure = 'unstructured'
+            _correlationStructure = 'unstructured'
         } = options;
 
         // Extract logit-transformed Se and Sp
@@ -1223,7 +1223,7 @@ class DTAMetaAnalysis {
      */
     hsroc(data, options = {}) {
         const {
-            covariates = [],
+            _covariates = [],
             scaleParameter = true
         } = options;
 
@@ -1293,7 +1293,7 @@ class DTAMetaAnalysis {
     networkDTA(data, options = {}) {
         const {
             referenceTest = null,
-            model = 'bivariate' // 'bivariate' or 'hsroc'
+            _model = 'bivariate' // 'bivariate' or 'hsroc'
         } = options;
 
         // Group by test
@@ -1516,7 +1516,7 @@ class AdvancedPublicationBias {
             gamma0Range = [-2, 2],   // Intercept range
             gamma1Range = [0, 2],    // Slope range
             nGrid = 20,
-            rho = null              // Correlation between effect and selection (null = estimate)
+            _rho = null              // Correlation between effect and selection (null = estimate)
         } = options;
 
         const effects = data.map(d => d.effect);
@@ -1664,7 +1664,7 @@ class AdvancedPublicationBias {
         const pValues = effects.map((y, i) => 2 * (1 - this._normalCDF(Math.abs(y / ses[i]))));
 
         // Categorize by significance
-        const categories = pValues.map(p => {
+        const _categories = pValues.map(p => {
             for (let i = 0; i < cutoffs.length; i++) {
                 if (p <= cutoffs[i]) return i;
             }
@@ -2253,7 +2253,7 @@ class DataFabricationDetection {
 
     _spriteReconstruct(mean, sd, n, minVal, maxVal, maxIter) {
         const targetSum = Math.round(mean * n);
-        const targetSS = sd * sd * (n - 1) + n * mean * mean;
+        const _targetSS = sd * sd * (n - 1) + n * mean * mean;
 
         // Generate random starting distribution
         const distribution = new Array(n).fill(Math.round(mean));
@@ -3147,7 +3147,7 @@ class HistoricalBorrowing {
     mapPrior(currentData, historicalStudies, options = {}) {
         const {
             robustWeight = 0, // 0-1, weight on non-informative component
-            tau2Method = 'REML'
+            _tau2Method = 'REML'
         } = options;
 
         // Meta-analysis of historical studies
@@ -3537,8 +3537,8 @@ class ThresholdAnalysis {
      */
     nmaThreshold(nmaResults, options = {}) {
         const {
-            decisionCriterion = 'best', // 'best' or 'better-than-reference'
-            reference = null
+            _decisionCriterion = 'best', // 'best' or 'better-than-reference'
+            _reference = null
         } = options;
 
         const treatments = Object.keys(nmaResults.effects);
@@ -3608,7 +3608,7 @@ class ThresholdAnalysis {
     voiThreshold(ceaResults, options = {}) {
         const {
             willingnessToPay = 30000,
-            baseCase = null
+            _baseCase = null
         } = options;
 
         const strategies = Object.keys(ceaResults.strategies);
@@ -3684,7 +3684,7 @@ class FederatedMetaAnalysis {
      */
     distributedMA(siteSummaries, options = {}) {
         const {
-            method = 'REML'
+            _method = 'REML'
         } = options;
 
         // siteSummaries: [{siteId, n, mean, variance, ...}, ...]
@@ -3923,7 +3923,7 @@ class EditorialStandards {
      * Reference: Viechtbauer & Cheung (2010) Res Synth Methods
      */
     influenceDiagnostics(effects, variances, tau2) {
-        const k = effects.length;
+        const _k = effects.length;
         const weights = variances.map(v => 1 / (v + tau2));
         const sumW = weights.reduce((a, b) => a + b, 0);
         const mu = effects.reduce((sum, y, i) => sum + weights[i] * y, 0) / sumW;
@@ -3998,8 +3998,8 @@ class EditorialStandards {
      */
     smallStudyTests(effects, variances) {
         const ses = variances.map(v => Math.sqrt(v));
-        const precisions = ses.map(se => 1 / se);
-        const k = effects.length;
+        const _precisions = ses.map(se => 1 / se);
+        const _k = effects.length;
 
         return {
             egger: this._eggersTest(effects, ses),
@@ -4073,7 +4073,7 @@ class EditorialStandards {
         const sumW = weights.reduce((a, b) => a + b, 0);
         const mu = effects.reduce((sum, y, i) => sum + weights[i] * y, 0) / sumW;
         const se = Math.sqrt(1 / sumW);
-        const z = mu / se;
+        const _z = mu / se;
 
         // Rosenthal's fail-safe N
         const zCrit = this._normalQuantile(0.975);
@@ -4291,7 +4291,7 @@ class EditorialStandards {
      * Baujat Plot Data
      */
     baujatPlotData(effects, variances, tau2) {
-        const k = effects.length;
+        const _k = effects.length;
         const weights = variances.map(v => 1 / (v + tau2));
         const sumW = weights.reduce((a, b) => a + b, 0);
         const mu = effects.reduce((s, y, i) => s + weights[i] * y, 0) / sumW;
@@ -4342,7 +4342,7 @@ class EditorialStandards {
     }
 
     _remlTau2(effects, variances) {
-        const k = effects.length;
+        const _k = effects.length;
         let tau2 = 0.1;
 
         for (let iter = 0; iter < 100; iter++) {
@@ -4847,7 +4847,7 @@ class PopulationAdjustment {
         const {
             covariates = [],
             outcomeVar = 'outcome',
-            treatmentVar = 'treatment'
+            _treatmentVar = 'treatment'
         } = options;
 
         // Step 1: Calculate propensity weights using entropy balancing
@@ -4913,7 +4913,7 @@ class PopulationAdjustment {
             tolerance = 1e-6
         } = options;
 
-        const n = ipdData.length;
+        const _n = ipdData.length;
         const p = Object.keys(targetMoments).length;
 
         // Initialize Lagrange multipliers
@@ -4974,7 +4974,7 @@ class PopulationAdjustment {
                 return Math.exp(sum);
             });
 
-            const sumExpXb = expXb.reduce((a, b) => a + b, 0);
+            const _sumExpXb = expXb.reduce((a, b) => a + b, 0);
 
             // Gradient
             const gradient = covariates.map((cov, j) => {
@@ -5088,7 +5088,7 @@ class PopulationAdjustment {
     _fitOutcomeModel(data, covariates, outcomeVar, treatmentVar) {
         // Simple linear regression
         const n = data.length;
-        const p = covariates.length + 1; // +1 for treatment
+        const _p = covariates.length + 1; // +1 for treatment
 
         // Build design matrix
         const X = data.map(d => {
@@ -5250,7 +5250,7 @@ class CureFractionModels {
     mixtureCure(timeData, eventData, options = {}) {
         const {
             distribution = 'weibull', // 'weibull', 'lognormal', 'loglogistic'
-            covariates = null
+            _covariates = null
         } = options;
 
         // Estimate cure fraction using plateau of KM
@@ -5398,7 +5398,7 @@ class CureFractionModels {
         // Fit parametric model to uncured population
         // Using EM-type algorithm
 
-        const n = times.length;
+        const _n = times.length;
         let params;
 
         if (distribution === 'weibull') {
@@ -5760,8 +5760,8 @@ class SurvivalModelAveraging {
      * Stacking Ensemble (LOO-CV optimized)
      */
     stackingEnsemble(survivalModels, validationData) {
-        const n = validationData.length;
-        const k = survivalModels.length;
+        const _n = validationData.length;
+        const _k = survivalModels.length;
 
         // Leave-one-out predictions for each model
         const looPredictions = survivalModels.map(model => {
@@ -5793,7 +5793,7 @@ class SurvivalModelAveraging {
     extrapolateWithUncertainty(survivalModels, timePoints, options = {}) {
         const {
             weightingMethod = 'bic',
-            nBootstrap = 1000
+            _nBootstrap = 1000
         } = options;
 
         let result;
@@ -6027,7 +6027,7 @@ class DistributionalCEA {
      */
     distributionalAnalysis(interventionEffects, populationData, options = {}) {
         const {
-            equityWeight = 'atkinson',
+            _equityWeight = 'atkinson',
             inequalityAversion = 1.0, // Atkinson epsilon
             wtp = 50000
         } = options;
@@ -6210,7 +6210,7 @@ class RWEIntegration {
      */
     externalControlAdjustment(trialData, rweData, options = {}) {
         const {
-            adjustmentMethod = 'iptw',
+            _adjustmentMethod = 'iptw',
             covariates = [],
             outcomeVar = 'survival',
             treatmentVar = 'treatment'
@@ -6265,7 +6265,7 @@ class RWEIntegration {
     targetTrialEmulation(rweData, protocol, options = {}) {
         const {
             analysisType = 'itt', // 'itt' or 'per-protocol'
-            gracePeriod = 0
+            _gracePeriod = 0
         } = options;
 
         // Step 1: Apply eligibility criteria
@@ -6318,7 +6318,7 @@ class RWEIntegration {
     // Helper methods
     _fitPropensityScore(data, covariates) {
         // Logistic regression for propensity scores
-        const n = data.length;
+        const _n = data.length;
         const X = data.map(d => {
             const row = [1]; // Intercept
             covariates.forEach(cov => row.push(d[cov] || 0));
@@ -6336,7 +6336,7 @@ class RWEIntegration {
             });
 
             // Score and Hessian
-            const W = p.map(pi => pi * (1 - pi));
+            const _W = p.map(pi => pi * (1 - pi));
             const score = covariates.map((_, j) => {
                 return X.reduce((sum, x, i) => sum + x[j] * (y[i] - p[i]), 0);
             });
@@ -6447,7 +6447,7 @@ class RWEIntegration {
             .sort((a, b) => b.score - a.score);
 
         let auc = 0;
-        let tp = 0, fp = 0;
+        let tp = 0, _fp = 0;
         const nPos = labels.filter(l => l === 1).length;
         const nNeg = labels.length - nPos;
 
@@ -6455,7 +6455,7 @@ class RWEIntegration {
             if (p.label === 1) tp++;
             else {
                 auc += tp;
-                fp++;
+                _fp++;
             }
         });
 
@@ -8954,9 +8954,9 @@ class PatientReportedOutcomes {
 
     _calculateSampleSize(healthStates, method) {
         // Rule of thumb for DCE
-        const nAttributes = 4;
-        const nLevels = 4;
-        const nChoiceSets = 12;
+        const _nAttributes = 4;
+        const _nLevels = 4;
+        const _nChoiceSets = 12;
 
         return {
             minimum: 150,
@@ -10681,10 +10681,10 @@ class MasterProtocols {
     }
 
     _calculateBasketSampleSize(tumor, options) {
-        const alpha = options.alpha || 0.05;
-        const power = options.power || 0.80;
-        const p0 = tumor.nullResponse || 0.10;
-        const p1 = tumor.expectedResponse || 0.30;
+        const _alpha = options.alpha || 0.05;
+        const _power = options.power || 0.80;
+        const _p0 = tumor.nullResponse || 0.10;
+        const _p1 = tumor.expectedResponse || 0.30;
 
         // Simon's two-stage or single-stage
         return { stage1: 15, stage2: 25, total: 40 };
@@ -14106,7 +14106,7 @@ class WHOCHOICEMethodology {
     conductGCEA(interventions, comparator, population, options = {}) {
         const {
             timeHorizon = 'lifetime',
-            discountRate = 0.03,
+            _discountRate = 0.03,
             perspective = 'health-system',
             capacityConstraints = true,
             uncertaintyAnalysis = true,
@@ -14207,7 +14207,7 @@ class WHOCHOICEMethodology {
         const {
             coverageLevels = [0.5, 0.8, 0.95],
             implementationCosts = true,
-            scaleUpCurves = true
+            _scaleUpCurves = true
         } = options;
 
         // Analyze at different coverage levels
@@ -14387,7 +14387,7 @@ class GRADEMethodology {
     assessCertainty(evidence, outcome, options = {}) {
         const {
             studyDesign = 'rct', // 'rct' or 'observational'
-            narrativeAssessment = true,
+            _narrativeAssessment = true,
             whoGrcFormat = true
         } = options;
 
@@ -14755,7 +14755,7 @@ class UniversalHealthCoverage {
     calculateUHCIndex(country, indicators, options = {}) {
         const {
             year = 2023,
-            subnationalAnalysis = false
+            _subnationalAnalysis = false
         } = options;
 
         // WHO UHC tracer indicators
@@ -14796,7 +14796,7 @@ class UniversalHealthCoverage {
     assessCatastrophicExpenditure(householdData, options = {}) {
         const {
             threshold = 0.10, // 10% of household expenditure
-            alternativeThreshold = 0.25, // 25% of non-food expenditure
+            _alternativeThreshold = 0.25, // 25% of non-food expenditure
             incidenceVsIntensity = true
         } = options;
 
@@ -14953,7 +14953,7 @@ class GlobalHealthEquity {
         const {
             stratifiers = ['economic-status', 'education', 'residence'],
             benchmarkCountries = [],
-            trendAnalysis = false
+            _trendAnalysis = false
         } = options;
 
         // Calculate inequality measures for each stratifier
@@ -15030,7 +15030,7 @@ class GlobalHealthEquity {
     decomposeInequality(healthIndicator, data, determinants, options = {}) {
         const {
             method = 'wagstaff', // 'wagstaff' or 'erreygers'
-            detailedBreakdown = true
+            _detailedBreakdown = true
         } = options;
 
         // Calculate concentration index
@@ -15371,7 +15371,7 @@ class SAGEVaccineRecommendations {
         const {
             targetPopulation = 'general',
             programmaticContext = 'routine',
-            countryContext = 'global'
+            _countryContext = 'global'
         } = options;
 
         // GRADE assessment of evidence
@@ -15416,7 +15416,7 @@ class SAGEVaccineRecommendations {
     assessVaccineSafety(vaccine, safetyData, options = {}) {
         const {
             signalType = 'routine-monitoring',
-            urgency = 'standard'
+            _urgency = 'standard'
         } = options;
 
         const safetyAssessment = {
@@ -15440,7 +15440,7 @@ class SAGEVaccineRecommendations {
      */
     assessVaccineImpact(vaccine, programData, options = {}) {
         const {
-            indicatorType = 'coverage-effectiveness-impact',
+            _indicatorType = 'coverage-effectiveness-impact',
             counterfactualMethod = 'interrupted-time-series'
         } = options;
 
@@ -15625,8 +15625,8 @@ class OneHealthApproach {
     conductOneHealthAssessment(healthThreat, data, options = {}) {
         const {
             threatType = 'zoonotic',
-            geographicScope = 'national',
-            multisectoralData = true
+            _geographicScope = 'national',
+            _multisectoralData = true
         } = options;
 
         // Assess threat across sectors
@@ -15663,7 +15663,7 @@ class OneHealthApproach {
     assessAMR(pathogen, data, options = {}) {
         const {
             resistanceProfile = [],
-            surveillanceData = null,
+            _surveillanceData = null,
             usageData = null
         } = options;
 
@@ -15956,8 +15956,8 @@ class PandemicPreparedness {
     assessPriorityPathogen(pathogen, evidence, options = {}) {
         const {
             mcmPipeline = [],
-            researchGaps = [],
-            fundingLandscape = null
+            _researchGaps = [],
+            _fundingLandscape = null
         } = options;
 
         // Assess threat level
@@ -16194,7 +16194,7 @@ class HealthSystemsStrengthening {
      */
     assessPHC(country, data, options = {}) {
         const {
-            operationalFramework = true,
+            _operationalFramework = true,
             astanaDeclaration = true
         } = options;
 
@@ -16493,8 +16493,8 @@ class SDG3Alignment {
      */
     assessSDG3Contribution(intervention, effects, options = {}) {
         const {
-            targetPopulation = null,
-            geographicScope = 'national'
+            _targetPopulation = null,
+            _geographicScope = 'national'
         } = options;
 
         // Map effects to SDG 3 targets
@@ -16727,13 +16727,13 @@ class PrecisionMedicineHTA {
         const {
             testSensitivity,
             testSpecificity,
-            testCost,
+            _testCost,
             prevalence, // biomarker prevalence
-            treatmentEffectPositive, // effect in biomarker-positive
-            treatmentEffectNegative, // effect in biomarker-negative
-            treatmentCost,
-            adverseEventRisk,
-            qalysPerResponse,
+            _treatmentEffectPositive, // effect in biomarker-positive
+            _treatmentEffectNegative, // effect in biomarker-negative
+            _treatmentCost,
+            _adverseEventRisk,
+            _qalysPerResponse,
             willingness_to_pay = 50000
         } = options;
 
@@ -17015,7 +17015,7 @@ class CausalInferenceMethods {
             outcomeVar = 'outcome',
             covariates = [],
             superLearner = true,
-            crossValidation = true
+            _crossValidation = true
         } = options;
 
         // Step 1: Initial outcome model (Q)
@@ -17377,8 +17377,10 @@ class CausalInferenceMethods {
         let beta0 = 0;
         const betas = covariates.map(() => 0);
         for (let iter = 0; iter < maxIter; iter++) {
-            let g0 = 0, gB = covariates.map(() => 0);
-            let h00 = 0, h0B = covariates.map(() => 0);
+            let g0 = 0;
+            const gB = covariates.map(() => 0);
+            let h00 = 0;
+            const h0B = covariates.map(() => 0);
             const hBB = covariates.map(() => covariates.map(() => 0));
             for (let i = 0; i < n; i++) {
                 const y = data[i][treatmentVar] === 1 ? 1 : 0;
@@ -17413,7 +17415,8 @@ class CausalInferenceMethods {
         });
         const pos = scored.filter(s => s.y === 1);
         const neg = scored.filter(s => s.y === 0);
-        let concordant = 0, total = pos.length * neg.length;
+        let concordant = 0;
+        const total = pos.length * neg.length;
         for (const p of pos) for (const n of neg) concordant += p.p > n.p ? 1 : (p.p === n.p ? 0.5 : 0);
         const auc = total > 0 ? concordant / total : 0.5;
         return {
@@ -17577,7 +17580,7 @@ class CausalInferenceMethods {
     }
 
     _assessPreTreatmentBalance(gaps, treatmentTime) {
-        const preGaps = gaps.filter(g => g.time < treatmentTime);
+        const _preGaps = gaps.filter(g => g.time < treatmentTime);
         return { rmspe: 0.02, adequate: true };
     }
 
@@ -17781,7 +17784,7 @@ class PreferenceElicitation {
         const {
             fullHealth = 1.0,
             death = 0,
-            iterations = 'bisection' // 'bisection', 'direct'
+            _iterations = 'bisection' // 'bisection', 'direct'
         } = options;
 
         // Calculate SG utilities
@@ -18221,7 +18224,7 @@ class AdvancedSurvivalMethods {
             eventVar = 'event',
             subjectVar = 'id',
             longitudinalModel = 'linear-mixed',
-            survivalModel = 'cox',
+            _survivalModel = 'cox',
             association = 'current-value' // 'current-value', 'current-slope', 'cumulative'
         } = options;
 
@@ -18272,11 +18275,11 @@ class AdvancedSurvivalMethods {
         const {
             states = [],
             transitions = [], // {from, to}
-            timeVar = 'time',
-            stateVar = 'state',
-            subjectVar = 'id',
+            _timeVar = 'time',
+            _stateVar = 'state',
+            _subjectVar = 'id',
             covariates = [],
-            clockType = 'clock-forward' // 'clock-forward', 'clock-reset'
+            _clockType = 'clock-forward' // 'clock-forward', 'clock-reset'
         } = options;
 
         // Define transition matrix
@@ -18597,7 +18600,7 @@ class BayesianDecisionAnalysis {
             subgroupPrevalence = {},
             willingness_to_pay = 50000,
             populationSize = 100000,
-            horizon = 10
+            _horizon = 10
         } = options;
 
         // Calculate EVPI for each subgroup
@@ -18797,7 +18800,7 @@ class BayesianDecisionAnalysis {
             designSpace = { minN: 50, maxN: 1000, step: 50 },
             allocationRatios = [0.5], // Treatment allocation ratios to consider
             criteria = 'enbs', // 'enbs', 'power', 'precision'
-            constraints = {}
+            _constraints = {}
         } = options;
 
         // Generate candidate designs
@@ -19470,7 +19473,7 @@ class AdvancedNMAMethods {
             totalVar = 'total',
             method = 'mantel-haenszel', // 'mantel-haenszel', 'peto', 'beta-binomial', 'exact'
             continuityCorrection = 0.5,
-            excludeDoubleZeros = true
+            _excludeDoubleZeros = true
         } = options;
 
         // Check for zero cells
@@ -19843,7 +19846,7 @@ class MissingDataMethods {
             treatment = 'treatment',
             timeVar = 'time',
             dropoutVar = 'dropout',
-            patterns = 'identify', // 'identify', 'specified'
+            _patterns = 'identify', // 'identify', 'specified'
             identifyingRestriction = 'ccmv' // 'ccmv', 'acmv', 'nfd', 'j2r', 'cir'
         } = options;
 
@@ -20170,7 +20173,7 @@ class DynamicTreatmentRegimes {
             treatments = {},
             tailoringVariables = [],
             outcome = 'outcome',
-            primaryAim = 'compare-embedded' // 'compare-embedded', 'estimate-optimal'
+            _primaryAim = 'compare-embedded' // 'compare-embedded', 'estimate-optimal'
         } = options;
 
         // Identify embedded regimes
@@ -20206,11 +20209,11 @@ class DynamicTreatmentRegimes {
     gEstimation(longitudinalData, options = {}) {
         const {
             treatmentVar = 'treatment',
-            outcomeVar = 'outcome',
-            timeVar = 'time',
-            subjectVar = 'id',
+            _outcomeVar = 'outcome',
+            _timeVar = 'time',
+            _subjectVar = 'id',
             covariates = [],
-            timeVaryingCovariates = [],
+            _timeVaryingCovariates = [],
             model = 'snmm' // 'snmm', 'snnm'
         } = options;
 
@@ -20248,8 +20251,8 @@ class DynamicTreatmentRegimes {
         const {
             treatmentVar = 'treatment',
             outcomeVar = 'outcome',
-            timeVar = 'time',
-            subjectVar = 'id',
+            _timeVar = 'time',
+            _subjectVar = 'id',
             timeVaryingConfounders = [],
             baselineConfounders = [],
             stabilized = true,
@@ -20540,7 +20543,7 @@ class GeneralizabilityTransportability {
         const {
             treatmentVar = 'treatment',
             outcomeVar = 'outcome',
-            covariates = [],
+            _covariates = [],
             effectModifiers = [],
             method = 'weighting' // 'weighting', 'stratification', 'calibration'
         } = options;
@@ -21430,7 +21433,7 @@ class MediationAnalysisHTA {
             mediatorVar = 'mediator',
             outcomeVar = 'outcome',
             covariates = [],
-            interventionType = 'shift' // 'shift', 'set', 'draw'
+            _interventionType = 'shift' // 'shift', 'set', 'draw'
         } = options;
 
         // Estimate interventional direct effect

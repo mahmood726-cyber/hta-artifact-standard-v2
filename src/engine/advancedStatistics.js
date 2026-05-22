@@ -60,7 +60,7 @@ class EVSICalculator {
 
     async _calculateEVPI(modelFn, priorDist, wtp) {
         let sumPerfectInfo = 0;
-        const sumCurrentInfo = 0;
+        const _sumCurrentInfo = 0;
 
         // Current expected NMB
         const currentResults = [];
@@ -520,7 +520,7 @@ class FlexibleSurvival {
      * Fit restricted cubic spline survival model
      */
     fit(times, events, covariates = null) {
-        const n = times.length;
+        const _n = times.length;
         const eventTimes = times.filter((_, i) => events[i] === 1).sort((a, b) => a - b);
 
         // Create spline knots
@@ -985,7 +985,7 @@ class MetaRegression {
      * @param {Array} covariates - Matrix of study-level covariates
      */
     fit(effects, variances, covariates) {
-        const n = effects.length;
+        const _n = effects.length;
         const p = covariates[0]?.length || 0;
 
         if (p === 0) {
@@ -1002,7 +1002,7 @@ class MetaRegression {
         // Iterate to convergence (REML)
         for (let iter = 0; iter < this.maxIter; iter++) {
             const W = this._createWeightMatrix(variances, tau2);
-            const { beta, varBeta } = this._estimateBeta(effects, X, W);
+            const { beta, _varBeta } = this._estimateBeta(effects, X, W);
 
             // Update tau2
             const newTau2 = this._updateTau2(effects, X, beta, variances, tau2);
@@ -1038,7 +1038,7 @@ class MetaRegression {
     }
 
     _fitIntercept(effects, variances) {
-        const n = effects.length;
+        const _n = effects.length;
         const tau2 = this._estimateSimpleTau2(effects, variances);
 
         const w = variances.map(v => 1 / (v + tau2));
@@ -1125,8 +1125,8 @@ class MetaRegression {
     }
 
     _calculateQM(effects, X, beta, variances, tau2) {
-        const n = effects.length;
-        const p = X[0].length;
+        const _n = effects.length;
+        const _p = X[0].length;
 
         const W = this._createWeightMatrix(variances, tau2);
         const fitted = this._fitted(X, beta);

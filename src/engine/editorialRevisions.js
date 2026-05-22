@@ -153,8 +153,8 @@ class HKSJMetaAnalysis {
         const QUpper = this._chiSquareQuantile(alpha / 2, df);
 
         // I² = (Q - df) / Q when Q > df, else 0
-        const I2Lower = Q > QLower ? Math.max(0, (Q - QLower) / Q * 100) : 0;
-        const I2Upper = Q > QUpper ? Math.min(100, (Q - QUpper) / Q * 100) : 0;
+        const _I2Lower = Q > QLower ? Math.max(0, (Q - QLower) / Q * 100) : 0;
+        const _I2Upper = Q > QUpper ? Math.min(100, (Q - QUpper) / Q * 100) : 0;
 
         // More accurate: use non-central chi-square
         // But this approximation is commonly used
@@ -207,7 +207,7 @@ class HKSJMetaAnalysis {
             const sumWRE3 = wRE.reduce((s, wi) => s + wi * wi * wi, 0);
             const muRE = effects.reduce((s, e, i) => s + wRE[i] * e, 0) / sumWRE;
 
-            const QRE = effects.reduce((s, e, i) => s + wRE[i] * Math.pow(e - muRE, 2), 0);
+            const _QRE = effects.reduce((s, e, i) => s + wRE[i] * Math.pow(e - muRE, 2), 0);
 
             // Score function
             const score = -0.5 * sumWRE2 / sumWRE +
@@ -504,7 +504,7 @@ class EVPPICalculator {
     }
 
     _sampleParam(dist) {
-        const { distribution, mean, se, min, max, alpha, beta, shape, scale, rate } = dist;
+        const { distribution, mean, se, min, max, alpha, beta, shape, scale, _rate } = dist;
 
         switch (distribution || dist.dist) {
             case 'normal':
@@ -630,7 +630,7 @@ class PriorSensitivityAnalysis {
         let currentLogPost = likelihoodFn(current, data) + this._logPrior(current, priorSpec);
 
         const proposalSD = priorSpec.proposalSD || priorSpec.params.sd || 1;
-        let accepted = 0;
+        let _accepted = 0;
 
         for (let i = 0; i < this.nSamples + 1000; i++) { // 1000 burnin
             // Propose new value
@@ -642,7 +642,7 @@ class PriorSensitivityAnalysis {
             if (Math.log(this.rng()) < logAlpha) {
                 current = proposal;
                 currentLogPost = proposalLogPost;
-                accepted++;
+                _accepted++;
             }
 
             if (i >= 1000) { // After burnin
@@ -1161,7 +1161,7 @@ class NetworkMetaAnalysis {
 
     _buildNetwork(studies) {
         const treatments = new Set();
-        const comparisons = [];
+        const _comparisons = [];
         const edges = {};
 
         for (const s of studies) {
@@ -1827,7 +1827,7 @@ class PublicationBiasTests {
         }
 
         // Standardized effects
-        const z = effects.map((e, i) => e / ses[i]);
+        const _z = effects.map((e, i) => e / ses[i]);
 
         // Rank correlation between effect and variance
         const ranks = this._rank(effects);
@@ -2287,11 +2287,11 @@ class NumericalValidation {
 
     _validateSurvival() {
         // Test Kaplan-Meier at known values
-        const times = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        const events = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1];
+        const _times = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const _events = [1, 1, 0, 1, 1, 0, 1, 0, 1, 1];
 
         // Expected: At t=1, S = (10-1)/10 = 0.9
-        const expectedS1 = 9 / 10;
+        const _expectedS1 = 9 / 10;
 
         const selector = new SurvivalModelSelection();
 

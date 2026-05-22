@@ -257,7 +257,7 @@ class GRADEAutomationEngine {
         const ciUpper = ci?.upper ?? ci?.[1] ?? results.ciUpper ?? null;
         const estimate = results.estimate ?? results.effect ?? results.pooledEffect ?? null;
         const nParticipants = results.nParticipants ?? results.totalN ?? results.n ?? null;
-        const se = results.se ?? results.standardError ?? null;
+        const _se = results.se ?? results.standardError ?? null;
 
         const reasons = [];
         let serious = false;
@@ -458,7 +458,7 @@ class GRADEAutomationEngine {
 
     _assessCINEMAHeterogeneity(results) {
         const i2 = results.I2 ?? results.i2 ?? results.heterogeneity?.I2 ?? null;
-        const tau2 = results.tau2 ?? results.heterogeneity?.tau2 ?? null;
+        const _tau2 = results.tau2 ?? results.heterogeneity?.tau2 ?? null;
 
         let level = 'No concerns';
         let reason = 'Heterogeneity not assessed';

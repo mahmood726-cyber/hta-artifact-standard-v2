@@ -9,7 +9,7 @@
  * - Model-averaged survival predictions
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+const _OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }
@@ -26,7 +26,7 @@ var OmanGuidanceRef = (function resolveOmanGuidance() {
 // ============ NAMED CONSTANTS ============
 const NR_MAX_ITER = 200;
 const NR_TOLERANCE = 1e-8;
-const NR_STEP_SHRINK = 0.5;
+const _NR_STEP_SHRINK = 0.5;
 const NORMAL_Z_975 = 1.959964;
 
 class ModelAveragingEngine {
@@ -280,7 +280,7 @@ class ModelAveragingEngine {
      */
     _fitWeibull(data) {
         // Initial estimates
-        const totalEvents = data.reduce((s, d) => s + d.event, 0);
+        const _totalEvents = data.reduce((s, d) => s + d.event, 0);
         const totalTime = data.reduce((s, d) => s + d.time, 0);
         const meanTime = totalTime / data.length;
         let shape = 1.0;
@@ -458,7 +458,7 @@ class ModelAveragingEngine {
             for (const d of data) {
                 if (d.time <= 0) continue;
                 const z = Math.pow(d.time / alpha, beta);
-                const logZ = beta * (Math.log(d.time) - logAlpha);
+                const _logZ = beta * (Math.log(d.time) - logAlpha);
 
                 if (d.event === 1) {
                     // f(t) = (beta/alpha)(t/alpha)^(beta-1) / (1+(t/alpha)^beta)^2
@@ -714,8 +714,8 @@ class ModelAveragingEngine {
 
             for (const d of data) {
                 if (d.time <= 0) continue;
-                let etat = Math.min(Math.max(eta * d.time, -500), 500);
-                let expEtaT = Math.exp(etat);
+                const etat = Math.min(Math.max(eta * d.time, -500), 500);
+                const expEtaT = Math.exp(etat);
 
                 if (Math.abs(eta) < 1e-10) {
                     // Taylor expansion gradients
@@ -800,8 +800,8 @@ class ModelAveragingEngine {
         let logLik = 0;
         for (const d of data) {
             if (d.time <= 0) continue;
-            let etat = Math.min(Math.max(eta * d.time, -500), 500);
-            let expEtaT = Math.exp(etat);
+            const etat = Math.min(Math.max(eta * d.time, -500), 500);
+            const expEtaT = Math.exp(etat);
             let cumHaz;
             if (Math.abs(eta) < 1e-10) {
                 cumHaz = b * d.time + 0.5 * b * eta * d.time * d.time;
@@ -1025,7 +1025,7 @@ class ModelAveragingEngine {
     /** Upper incomplete gamma ratio via continued fraction (Lentz's method) */
     _upperIncompleteGammaCF(a, x) {
         const logGammaA = this._logGamma(a);
-        const f = 1e-30;
+        const _f = 1e-30;
         let c = 1e-30;
         let d = 1 / (x + 1 - a);
         let h = d;

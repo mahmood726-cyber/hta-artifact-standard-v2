@@ -24,7 +24,7 @@
 
 'use strict';
 
-var PCG32Ref = (function resolvePCG32() {
+const PCG32Ref = (function resolvePCG32() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) {
         return globalThis.PCG32;
     }
@@ -38,7 +38,7 @@ var PCG32Ref = (function resolvePCG32() {
     return null;
 })();
 
-var KahanRef = (function resolveKahan() {
+const KahanRef = (function resolveKahan() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }
@@ -74,7 +74,7 @@ const DIC_PENALTY_MULTIPLIER = 2;
 /**
  * Kahan-stable summation.
  */
-function stableSum(values) {
+function _stableSum(values) {
     if (KahanRef && typeof KahanRef.sum === 'function') {
         return KahanRef.sum(values);
     }
@@ -397,7 +397,7 @@ class FPNMAEngine {
         const hazardRatios = [];
 
         for (const cr of best.comparisonResults) {
-            const powersStr = best.powers.length === 1
+            const _powersStr = best.powers.length === 1
                 ? `t^${best.powers[0]}`
                 : `t^${best.powers[0]} + t^${best.powers[1]}`;
             treatmentEffects.push({

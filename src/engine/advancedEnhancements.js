@@ -343,7 +343,7 @@ class CopasSelectionModel {
     }
 
     calculateAdjustedSE(studies, params) {
-        const n = studies.length;
+        const _n = studies.length;
         let sumW = 0;
         for (const s of studies) {
             const v = s.se ** 2 + params.tau ** 2;
@@ -535,7 +535,7 @@ class CopasSelectionModel {
         } = options;
 
         const n = studies.length;
-        const y = studies.map(s => s.effect);
+        const _y = studies.map(s => s.effect);
         const se = studies.map(s => s.se);
 
         const results = [];
@@ -899,7 +899,7 @@ class RoystonParmarSurvival {
     }
 
     newtonRaphson(X, events, logTimes, knots) {
-        const n = X.length;
+        const _n = X.length;
         const p = X[0].length;
         const beta = new Array(p).fill(0);
         beta[0] = -2;  // Initial intercept
@@ -1138,7 +1138,7 @@ class MCMCDiagnostics {
 
         // Convert to standard format: { paramName: [[chain1], [chain2], ...] }
         const paramNames = Object.keys(chainsObj);
-        const nParams = paramNames.length;
+        const _nParams = paramNames.length;
 
         // Process each parameter's chains
         const processedChains = {};
@@ -2092,7 +2092,7 @@ class NetworkMetaRegression {
      *   (assumes interactions are exchangeable with common prior variance)
      */
     buildDesignMatrices(contrasts, treatments, covariates, interactionType) {
-        const n = contrasts.length;
+        const _n = contrasts.length;
         const nT = treatments.length - 1;  // Exclude reference
         const nC = covariates.length;
 
@@ -2576,7 +2576,7 @@ class MixtureCureModel {
      * where pi is cure fraction and S_u(t) is survival of uncured
      */
     fit(survivalData) {
-        const { times, events, covariates = null } = survivalData;
+        const { times, events, _covariates = null } = survivalData;
         const n = times.length;
 
         // Initialize parameters
@@ -2675,7 +2675,7 @@ class MixtureCureModel {
 
         for (let iter = 0; iter < 20; iter++) {
             let gradScale = 0, gradShape = 0;
-            const hessScaleScale = 0, hessShapeShape = 0, hessScaleShape = 0;
+            const _hessScaleScale = 0, _hessShapeShape = 0, _hessScaleShape = 0;
 
             for (let i = 0; i < times.length; i++) {
                 const w = 1 - pCured[i];  // Weight (probability of being uncured)
@@ -2686,7 +2686,7 @@ class MixtureCureModel {
 
                 if (this.options.distribution === 'weibull') {
                     const z = (t / scale) ** shape;
-                    const logZ = shape * (logT - Math.log(scale));
+                    const _logZ = shape * (logT - Math.log(scale));
 
                     if (events[i] === 1) {
                         // Contribution from density
@@ -2914,7 +2914,7 @@ class GRADEAssessment {
      */
     assess(metaAnalysisResults, robAssessments, options = {}) {
         const {
-            outcomeType = 'benefit',  // 'benefit' or 'harm'
+            _outcomeType = 'benefit',  // 'benefit' or 'harm'
             isRCT = true
         } = options;
 

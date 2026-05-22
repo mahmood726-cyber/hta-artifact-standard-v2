@@ -17,7 +17,7 @@
 
 // ---------- Dependency resolution ----------
 
-var PCG32Ref = (function() {
+const PCG32Ref = (function() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) return globalThis.PCG32;
     if (typeof require === 'function') { try { return require('../utils/pcg32').PCG32; } catch(e) {} }
     return null;
@@ -617,8 +617,8 @@ class CorrelatedPSAEngine {
      */
     gaussianCopula(marginals, corrMatrix, n) {
         const k = marginals.length;
-        const means = new Array(k).fill(0);
-        const sds = new Array(k).fill(1);
+        const _means = new Array(k).fill(0);
+        const _sds = new Array(k).fill(1);
         const L = this.cholesky(corrMatrix);
         const samples = [];
         const rng = this._getRng();
@@ -742,7 +742,7 @@ class CorrelatedPSAEngine {
         }
         const ceac = [];
         for (let w = 0; w < wtpValues.length; w++) {
-            let wtp = wtpValues[w];
+            const wtp = wtpValues[w];
             let count = 0;
             for (let i = 0; i < n; i++) {
                 // Net monetary benefit: NMB = QALYs * WTP - Costs

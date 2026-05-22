@@ -126,10 +126,10 @@ class SemanticValidator {
      * Check all ID references are valid
      */
     validateReferenceIntegrity() {
-        const { parameters, states, transitions, evidence, strategies } = this.project;
+        const { parameters, states, transitions, evidence, _strategies } = this.project;
 
         // Collect all valid IDs
-        const validParamIds = new Set(Object.keys(parameters || {}));
+        const _validParamIds = new Set(Object.keys(parameters || {}));
         const validStateIds = new Set(Object.keys(states || {}));
         const validEvidenceIds = new Set(Object.keys(evidence || {}));
 
@@ -177,7 +177,7 @@ class SemanticValidator {
      * Check probability values are within [0, 1]
      */
     validateProbabilityBounds() {
-        const { transitions, states, parameters } = this.project;
+        const { transitions, states, _parameters } = this.project;
 
         // Check transitions
         if (transitions) {
@@ -272,7 +272,7 @@ class SemanticValidator {
      * Check for negative costs and other values that should be positive
      */
     validateNonNegativeValues() {
-        const { states, parameters, settings } = this.project;
+        const { states, _parameters, settings } = this.project;
 
         // Check state costs
         if (states) {
@@ -398,7 +398,7 @@ class SemanticValidator {
         let hasInitial = false;
         let hasAbsorbing = false;
 
-        for (const [stateId, state] of Object.entries(states)) {
+        for (const [_stateId, state] of Object.entries(states)) {
             // Check for initial state
             if (state.initial_probability && state.initial_probability > 0) {
                 hasInitial = true;
@@ -435,7 +435,7 @@ class SemanticValidator {
      * Validate transition structure
      */
     validateTransitionStructure() {
-        const { states, transitions } = this.project;
+        const { _states, transitions } = this.project;
         if (!transitions) return;
 
         // Check for duplicate transitions
@@ -920,7 +920,7 @@ class SemanticValidator {
 
         let paramsWithDist = 0;
         let paramsWithoutDist = 0;
-        let fixedParams = 0;
+        let _fixedParams = 0;
 
         for (const [paramId, param] of Object.entries(parameters)) {
             if (param.distribution) {
@@ -961,7 +961,7 @@ class SemanticValidator {
                 if (param.value !== 0 && param.value !== 1) {
                     paramsWithoutDist++;
                 } else {
-                    fixedParams++;
+                    _fixedParams++;
                 }
             }
         }

@@ -538,7 +538,7 @@ class DiscreteEventSimulationEngine {
     async run(modelDefinition, parameterGenerator = null, options = {}) {
         const {
             discountRate = 0.035,
-            perspective = 'healthcare',
+            _perspective = 'healthcare',
             onProgress = null
         } = options;
 
@@ -644,13 +644,13 @@ class DiscreteEventSimulationEngine {
         results.summary.meanDiscountedQALY = results.summary.discountedQALYs / n;
 
         // Finalize statistics
-        for (const [name, stats] of Object.entries(results.stateStatistics)) {
+        for (const [_name, stats] of Object.entries(results.stateStatistics)) {
             if (stats.entries > 0) {
                 stats.meanTime = stats.totalTime / stats.entries;
             }
         }
 
-        for (const [name, stats] of Object.entries(results.eventStatistics)) {
+        for (const [_name, stats] of Object.entries(results.eventStatistics)) {
             if (stats.count > 0) {
                 stats.meanTime = stats.totalTime / stats.count;
             }
@@ -750,7 +750,7 @@ class DiscreteEventSimulationEngine {
     async runWithPSA(modelDefinition, parameterSampler, psaOptions = {}) {
         const {
             iterations = 1000,
-            wtp = [20000, 30000, 50000],
+            _wtp = [20000, 30000, 50000],
             discountRate = 0.035,
             onProgress = null
         } = psaOptions;

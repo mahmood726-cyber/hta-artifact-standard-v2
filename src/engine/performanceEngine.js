@@ -1807,7 +1807,7 @@ class GPUAccelerator {
     }
 
     _initWebGL() {
-        const gl = this.gl;
+        const _gl = this.gl;
 
         // Vertex shader for texture-based computation
         const vsSource = `
@@ -2682,4 +2682,4 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 // Global instance for convenience
-const htaPerformance = new PerformanceEngine();
+const _htaPerformance = new PerformanceEngine();
