@@ -3,7 +3,7 @@
   "slug": "hta-artifact-standard",
   "author": "Mahmood Ahmad",
   "date": "2026-03-26",
-  "path": "C:\\HTML apps\\HTA",
+  "path": "..",
   "type": "methods",
   "primary_estimand": "ICER, NMB, and pooled treatment effects",
   "summary": "An open-source browser platform with 41 HTA engines and 3,337 automated tests, matching R outputs to a maximum absolute error of 4.72e-5.",
