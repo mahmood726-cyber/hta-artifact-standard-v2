@@ -1894,7 +1894,7 @@
                         </div>
                     </div>
                     <div class="content-body">
-                        <input type="file" id="km-file-input" accept=".csv,.json" style="display: none;">
+                        <input type="file" id="km-file-input" accept=".csv,.json" style="display: none;" aria-label="Upload Kaplan-Meier survival CSV/JSON file">
 
                         <div class="card" style="margin-bottom: 24px;">
                             <h4>Distributions to Fit</h4>
@@ -2008,7 +2008,7 @@
                             <div id="calibration-targets-container">
                                 <div class="calibration-target-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 8px; margin-top: 12px;">
                                     <input type="text" class="calib-target-name" aria-label="Target name" placeholder="Target name" style="padding: 8px; border: 1px solid var(--border); border-radius: 4px;">
-                                    <select class="calib-target-type" style="padding: 8px; border: 1px solid var(--border); border-radius: 4px;">
+                                    <select class="calib-target-type" style="padding: 8px; border: 1px solid var(--border); border-radius: 4px;" aria-label="Calibration target type">
                                         <option value="state_proportion">State Proportion</option>
                                         <option value="survival">Survival</option>
                                         <option value="incidence">Incidence</option>
@@ -2152,7 +2152,7 @@
                         </div>
                     </div>
                     <div class="content-body">
-                        <input type="file" id="nma-file-input" accept=".csv,.json" style="display: none;">
+                        <input type="file" id="nma-file-input" accept=".csv,.json" style="display: none;" aria-label="Upload network meta-analysis CSV/JSON file">
 
                         <div class="card" style="margin-bottom: 24px;">
                             <h4>NMA Settings</h4>
@@ -2349,7 +2349,7 @@
                         </div>
                     </div>
                     <div class="content-body">
-                        <input type="file" id="ma-file-input" accept=".csv,.json" style="display: none;">
+                        <input type="file" id="ma-file-input" accept=".csv,.json" style="display: none;" aria-label="Upload meta-analysis CSV/JSON file">
 
                         <div class="card" style="margin-bottom: 24px;">
                             <h4>Analysis Settings</h4>
@@ -2994,10 +2994,10 @@
                             <h4>Outcomes</h4>
                             <div id="mv-outcomes-container" style="margin-top: 12px;">
                                 <div class="mv-outcome-row" style="display: flex; gap: 8px; margin-bottom: 8px;">
-                                    <input type="text" class="mv-outcome-name" value="Outcome 1" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px;">
+                                    <input type="text" class="mv-outcome-name" value="Outcome 1" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px;" aria-label="Multi-vintage outcome name">
                                 </div>
                                 <div class="mv-outcome-row" style="display: flex; gap: 8px; margin-bottom: 8px;">
-                                    <input type="text" class="mv-outcome-name" value="Outcome 2" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px;">
+                                    <input type="text" class="mv-outcome-name" value="Outcome 2" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px;" aria-label="Multi-vintage outcome name">
                                 </div>
                             </div>
                             <button class="btn btn-secondary" id="btn-add-mv-outcome" style="margin-top: 8px;">+ Add Outcome</button>
@@ -3296,62 +3296,62 @@
                                     <tr>
                                         <td>D1: Randomization process</td>
                                         <td>
-                                            <select class="rob2-judgment" data-domain="D1" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="rob2-judgment" data-domain="D1" style="padding: 4px 8px; border-radius: 4px;" aria-label="RoB 2.0 domain D1 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low risk</option>
                                                 <option value="Some concerns">Some concerns</option>
                                                 <option value="High">High risk</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="rob2-info" data-domain="D1" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="rob2-info" data-domain="D1" style="width: 100%; padding: 4px;" aria-label="RoB 2.0 domain D1 supporting information"></td>
                                     </tr>
                                     <tr>
                                         <td>D2: Deviations from interventions</td>
                                         <td>
-                                            <select class="rob2-judgment" data-domain="D2" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="rob2-judgment" data-domain="D2" style="padding: 4px 8px; border-radius: 4px;" aria-label="RoB 2.0 domain D2 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low risk</option>
                                                 <option value="Some concerns">Some concerns</option>
                                                 <option value="High">High risk</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="rob2-info" data-domain="D2" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="rob2-info" data-domain="D2" style="width: 100%; padding: 4px;" aria-label="RoB 2.0 domain D2 supporting information"></td>
                                     </tr>
                                     <tr>
                                         <td>D3: Missing outcome data</td>
                                         <td>
-                                            <select class="rob2-judgment" data-domain="D3" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="rob2-judgment" data-domain="D3" style="padding: 4px 8px; border-radius: 4px;" aria-label="RoB 2.0 domain D3 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low risk</option>
                                                 <option value="Some concerns">Some concerns</option>
                                                 <option value="High">High risk</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="rob2-info" data-domain="D3" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="rob2-info" data-domain="D3" style="width: 100%; padding: 4px;" aria-label="RoB 2.0 domain D3 supporting information"></td>
                                     </tr>
                                     <tr>
                                         <td>D4: Measurement of outcome</td>
                                         <td>
-                                            <select class="rob2-judgment" data-domain="D4" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="rob2-judgment" data-domain="D4" style="padding: 4px 8px; border-radius: 4px;" aria-label="RoB 2.0 domain D4 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low risk</option>
                                                 <option value="Some concerns">Some concerns</option>
                                                 <option value="High">High risk</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="rob2-info" data-domain="D4" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="rob2-info" data-domain="D4" style="width: 100%; padding: 4px;" aria-label="RoB 2.0 domain D4 supporting information"></td>
                                     </tr>
                                     <tr>
                                         <td>D5: Selection of reported result</td>
                                         <td>
-                                            <select class="rob2-judgment" data-domain="D5" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="rob2-judgment" data-domain="D5" style="padding: 4px 8px; border-radius: 4px;" aria-label="RoB 2.0 domain D5 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low risk</option>
                                                 <option value="Some concerns">Some concerns</option>
                                                 <option value="High">High risk</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="rob2-info" data-domain="D5" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="rob2-info" data-domain="D5" style="width: 100%; padding: 4px;" aria-label="RoB 2.0 domain D5 supporting information"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -3384,7 +3384,7 @@
                                     <tr>
                                         <td>D1: Confounding</td>
                                         <td>
-                                            <select class="robins-judgment" data-domain="D1" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="robins-judgment" data-domain="D1" style="padding: 4px 8px; border-radius: 4px;" aria-label="ROBINS-I domain D1 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low</option>
                                                 <option value="Moderate">Moderate</option>
@@ -3393,12 +3393,12 @@
                                                 <option value="NI">No information</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="robins-info" data-domain="D1" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="robins-info" data-domain="D1" style="width: 100%; padding: 4px;" aria-label="ROBINS-I domain D1 supporting information"></td>
                                     </tr>
                                     <tr>
                                         <td>D2: Selection of participants</td>
                                         <td>
-                                            <select class="robins-judgment" data-domain="D2" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="robins-judgment" data-domain="D2" style="padding: 4px 8px; border-radius: 4px;" aria-label="ROBINS-I domain D2 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low</option>
                                                 <option value="Moderate">Moderate</option>
@@ -3407,12 +3407,12 @@
                                                 <option value="NI">No information</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="robins-info" data-domain="D2" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="robins-info" data-domain="D2" style="width: 100%; padding: 4px;" aria-label="ROBINS-I domain D2 supporting information"></td>
                                     </tr>
                                     <tr>
                                         <td>D3: Classification of interventions</td>
                                         <td>
-                                            <select class="robins-judgment" data-domain="D3" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="robins-judgment" data-domain="D3" style="padding: 4px 8px; border-radius: 4px;" aria-label="ROBINS-I domain D3 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low</option>
                                                 <option value="Moderate">Moderate</option>
@@ -3421,12 +3421,12 @@
                                                 <option value="NI">No information</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="robins-info" data-domain="D3" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="robins-info" data-domain="D3" style="width: 100%; padding: 4px;" aria-label="ROBINS-I domain D3 supporting information"></td>
                                     </tr>
                                     <tr>
                                         <td>D4: Deviations from intended interventions</td>
                                         <td>
-                                            <select class="robins-judgment" data-domain="D4" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="robins-judgment" data-domain="D4" style="padding: 4px 8px; border-radius: 4px;" aria-label="ROBINS-I domain D4 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low</option>
                                                 <option value="Moderate">Moderate</option>
@@ -3435,12 +3435,12 @@
                                                 <option value="NI">No information</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="robins-info" data-domain="D4" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="robins-info" data-domain="D4" style="width: 100%; padding: 4px;" aria-label="ROBINS-I domain D4 supporting information"></td>
                                     </tr>
                                     <tr>
                                         <td>D5: Missing data</td>
                                         <td>
-                                            <select class="robins-judgment" data-domain="D5" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="robins-judgment" data-domain="D5" style="padding: 4px 8px; border-radius: 4px;" aria-label="ROBINS-I domain D5 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low</option>
                                                 <option value="Moderate">Moderate</option>
@@ -3449,12 +3449,12 @@
                                                 <option value="NI">No information</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="robins-info" data-domain="D5" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="robins-info" data-domain="D5" style="width: 100%; padding: 4px;" aria-label="ROBINS-I domain D5 supporting information"></td>
                                     </tr>
                                     <tr>
                                         <td>D6: Measurement of outcomes</td>
                                         <td>
-                                            <select class="robins-judgment" data-domain="D6" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="robins-judgment" data-domain="D6" style="padding: 4px 8px; border-radius: 4px;" aria-label="ROBINS-I domain D6 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low</option>
                                                 <option value="Moderate">Moderate</option>
@@ -3463,12 +3463,12 @@
                                                 <option value="NI">No information</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="robins-info" data-domain="D6" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="robins-info" data-domain="D6" style="width: 100%; padding: 4px;" aria-label="ROBINS-I domain D6 supporting information"></td>
                                     </tr>
                                     <tr>
                                         <td>D7: Selection of reported result</td>
                                         <td>
-                                            <select class="robins-judgment" data-domain="D7" style="padding: 4px 8px; border-radius: 4px;">
+                                            <select class="robins-judgment" data-domain="D7" style="padding: 4px 8px; border-radius: 4px;" aria-label="ROBINS-I domain D7 judgment">
                                                 <option value="">Select...</option>
                                                 <option value="Low">Low</option>
                                                 <option value="Moderate">Moderate</option>
@@ -3477,7 +3477,7 @@
                                                 <option value="NI">No information</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="robins-info" data-domain="D7" style="width: 100%; padding: 4px;"></td>
+                                        <td><input type="text" class="robins-info" data-domain="D7" style="width: 100%; padding: 4px;" aria-label="ROBINS-I domain D7 supporting information"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -4217,7 +4217,7 @@
     <div id="test-results-panel"></div>
 
     <!-- Hidden File Input -->
-    <input type="file" id="file-input" accept=".zip,.hta.zip,.json">
+    <input type="file" id="file-input" accept=".zip,.hta.zip,.json" aria-label="Upload HTA artifact bundle file">
 
     <script src="src/utils/kahan.js"></script>
     <script src="src/utils/pcg32.js"></script>
@@ -4279,7 +4279,7 @@
             row.style = 'display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 8px; margin-top: 8px;';
             row.innerHTML = `
                 <input type="text" class="calib-target-name" aria-label="Target name" placeholder="Target name" style="padding: 8px; border: 1px solid var(--border); border-radius: 4px;">
-                <select class="calib-target-type" style="padding: 8px; border: 1px solid var(--border); border-radius: 4px;">
+                <select class="calib-target-type" style="padding: 8px; border: 1px solid var(--border); border-radius: 4px;" aria-label="Calibration target type">
                     <option value="state_proportion">State Proportion</option>
                     <option value="survival">Survival</option>
                     <option value="incidence">Incidence</option>
