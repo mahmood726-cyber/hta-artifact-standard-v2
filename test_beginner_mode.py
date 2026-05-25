@@ -1,18 +1,17 @@
 """
 Test script to verify BeginnerMode features work correctly
 """
-import time
 import sys
 import tempfile
-from _hta_url import hta_index_url, hta_index_path
+import time
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 from selenium import webdriver
 from selenium.webdriver.edge.options import Options as EdgeOptions
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
 
 def test_beginner_mode():
     options = EdgeOptions()
@@ -170,9 +169,8 @@ def test_beginner_mode():
         if passed == total:
             print("\nAll beginner mode features working correctly!")
             return True
-        else:
-            print("\nSome features need attention.")
-            return False
+        print("\nSome features need attention.")
+        return False
 
     finally:
         driver.quit()

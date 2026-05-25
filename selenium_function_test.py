@@ -3,24 +3,19 @@ Comprehensive Function Testing for HTA Artifact Standard
 Tests every interactive function and feature
 """
 
-import time
 import sys
 import tempfile
-from pathlib import Path
-from _hta_url import hta_index_url, hta_index_path
+import time
+
+from _hta_url import hta_index_path
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.edge.options import Options as EdgeOptions
-from selenium.common.exceptions import (
-    TimeoutException, NoSuchElementException,
-    ElementClickInterceptedException, JavascriptException
-)
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 class FunctionTester:
     def __init__(self):
@@ -93,7 +88,7 @@ class FunctionTester:
             time.sleep(0.2)
             self.driver.execute_script("arguments[0].click();", el)
             return True
-        except Exception as e:
+        except Exception:
             return False
 
     def get_element(self, selector, by=By.ID):
@@ -107,7 +102,7 @@ class FunctionTester:
         """Execute JavaScript and return result"""
         try:
             return self.driver.execute_script(script)
-        except Exception as e:
+        except Exception:
             return None
 
     # ========== TEST FUNCTIONS ==========

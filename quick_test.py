@@ -1,14 +1,15 @@
 """Quick test to identify remaining warnings"""
-from _hta_url import hta_index_url, hta_index_path
-import time
 import sys
 import tempfile
+import time
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
 options = Options()
 temp = tempfile.mkdtemp(prefix="hta_quick_")

@@ -1,5 +1,9 @@
 """Test WebR validation in HTA Artifact Standard using Selenium + Edge"""
-import sys, io, time, os
+import io
+import os
+import sys
+import time
+
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
 from selenium import webdriver
@@ -103,7 +107,7 @@ try:
                 badge = driver.execute_script("var b = document.getElementById('webrBadge'); return b ? b.textContent.trim() : '';")
                 results = driver.execute_script("var r = document.getElementById('webrResults'); return r ? r.textContent.substring(0, 80) : '';")
                 print(f"  [{(i+1)*5}s] badge='{badge}' results='{results}'")
-                if badge and 'GOLD' in badge.upper() or 'FALLBACK' in badge.upper() or 'VALIDATED' in badge.upper():
+                if (badge and 'GOLD' in badge.upper()) or 'FALLBACK' in badge.upper() or 'VALIDATED' in badge.upper():
                     print(f"  WebR completed! Badge: {badge}")
                     break
 

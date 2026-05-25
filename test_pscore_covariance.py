@@ -1,8 +1,9 @@
 """Test P-score covariance structure fix"""
-from _hta_url import hta_index_url, hta_index_path
-import time
 import sys
 import tempfile
+import time
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -99,7 +100,7 @@ try:
         print(f"Has non-zero covariances: {result['hasNonZeroCovariance']}")
 
         if result['varCovSample']:
-            print(f"\nVariance-Covariance matrix (first 2x2):")
+            print("\nVariance-Covariance matrix (first 2x2):")
             for row in result['varCovSample']:
                 print(f"  [{row[0]:.6f}, {row[1]:.6f}]")
 

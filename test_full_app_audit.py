@@ -1,20 +1,17 @@
 """
 COMPLETE APP AUDIT - Tests every button, function, and UI element
 """
-import time
 import sys
 import tempfile
-import json
-from _hta_url import hta_index_url, hta_index_path
+import time
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 from selenium import webdriver
 from selenium.webdriver.edge.options import Options as EdgeOptions
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
 
 class FullAppAudit:
     def __init__(self):
@@ -117,7 +114,7 @@ class FullAppAudit:
             return { byId: found.length, bySelector: allSections.length };
         ''')
         total_sections = sections.get('byId', 0) + sections.get('bySelector', 0)
-        self.log("Structure", f"App sections found", total_sections >= 0,
+        self.log("Structure", "App sections found", total_sections >= 0,
                 f"{sections.get('byId', 0)} by ID, {sections.get('bySelector', 0)} by selector")
 
     def test_sidebar_navigation(self):
@@ -131,7 +128,7 @@ class FullAppAudit:
                 clickable: el.onclick !== null || el.tagName === 'A' || el.tagName === 'BUTTON'
             }));
         ''')
-        self.log("Navigation", f"Nav items found", len(nav_items) > 0, f"{len(nav_items)} items")
+        self.log("Navigation", "Nav items found", len(nav_items) > 0, f"{len(nav_items)} items")
 
         # Test clicking sidebar items
         sections_to_test = ['HTA', 'Network', 'Pairwise', 'Publication', 'Advanced', 'Frontier']
@@ -173,7 +170,7 @@ class FullAppAudit:
             self.log("Beginner", "Welcome header", structure['hasHeader'])
             self.log("Beginner", "Welcome body", structure['hasBody'])
             self.log("Beginner", "Welcome footer", structure['hasFooter'])
-            self.log("Beginner", f"Tutorial steps", structure['hasSteps'] >= 4, f"{structure['hasSteps']} steps")
+            self.log("Beginner", "Tutorial steps", structure['hasSteps'] >= 4, f"{structure['hasSteps']} steps")
             self.log("Beginner", "Next button", structure['hasNextBtn'])
             self.log("Beginner", "Skip button", structure['hasSkipBtn'])
 
@@ -221,8 +218,8 @@ class FullAppAudit:
                     hasCloseBtn: document.getElementById("close-help") !== null
                 };
             ''')
-            self.log("Help", f"Help sections", content['hasSections'] >= 3, f"{content['hasSections']} sections")
-            self.log("Help", f"Help items", content['hasItems'] >= 10, f"{content['hasItems']} items")
+            self.log("Help", "Help sections", content['hasSections'] >= 3, f"{content['hasSections']} sections")
+            self.log("Help", "Help items", content['hasItems'] >= 10, f"{content['hasItems']} items")
             self.log("Help", "Close button", content['hasCloseBtn'])
 
         # Toggle help
@@ -256,7 +253,7 @@ class FullAppAudit:
             return [];
         ''')
 
-        self.log("Datasets", f"Sample datasets available", len(datasets) >= 4, f"{len(datasets)} datasets")
+        self.log("Datasets", "Sample datasets available", len(datasets) >= 4, f"{len(datasets)} datasets")
 
         for ds in datasets:
             self.log("Datasets", f"{ds['name']}", ds['studyCount'] > 0,
@@ -928,7 +925,7 @@ class FullAppAudit:
             print("  ALL TESTS PASSED!")
             print(f"{'='*60}")
         else:
-            print(f"\n  Failed tests:")
+            print("\n  Failed tests:")
             for test, passed in self.results.items():
                 if not passed:
                     print(f"    - {test}")

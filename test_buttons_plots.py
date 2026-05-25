@@ -3,14 +3,13 @@ Focused Selenium Test - Buttons and Plots for HTA v0.5
 Tests all buttons and verifies plots render correctly (checking twice)
 """
 
-import time
 import os
+import time
+
 from selenium import webdriver
-from selenium.webdriver.edge.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.edge.options import Options
+
 
 class HTAButtonPlotTest:
     def __init__(self):

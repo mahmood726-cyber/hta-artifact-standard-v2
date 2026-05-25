@@ -3,17 +3,18 @@ GUI Review Script for HTA Artifact Standard
 Analyzes visual design, layout, and UX elements
 """
 
-import time
 import sys
 import tempfile
-from pathlib import Path
-from _hta_url import hta_index_url, hta_index_path
+import time
+
+from _hta_url import hta_index_path
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options as EdgeOptions
+
 
 def setup_driver():
     """Setup Edge browser"""
@@ -306,7 +307,7 @@ def analyze_navigation(driver):
     """)
 
     if nav_style:
-        print(f"\nNav item style:")
+        print("\nNav item style:")
         print(f"  Padding: {nav_style['padding']}")
         print(f"  Color: {nav_style['color']}")
         print(f"  Font size: {nav_style['fontSize']}")
@@ -323,7 +324,7 @@ def analyze_navigation(driver):
     """)
 
     if active_style:
-        print(f"\nActive nav item:")
+        print("\nActive nav item:")
         print(f"  Background: {active_style['background']}")
         print(f"  Color: {active_style['color']}")
 
@@ -339,7 +340,7 @@ def analyze_navigation(driver):
     """)
 
     if sidebar_scroll:
-        print(f"\nSidebar scrolling:")
+        print("\nSidebar scrolling:")
         print(f"  Content height: {sidebar_scroll['scrollHeight']}px")
         print(f"  Visible height: {sidebar_scroll['clientHeight']}px")
         print(f"  Overflow: {sidebar_scroll['overflow']}")

@@ -3,16 +3,13 @@ Comprehensive Selenium Test for HTA Meta-Analysis Engine
 Tests all major features and statistical methods
 """
 
-import time
-import json
 import sys
+import tempfile
+import time
+
+from _hta_url import hta_index_url
 from selenium import webdriver
 from selenium.webdriver.edge.options import Options as EdgeOptions
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import tempfile
-from _hta_url import hta_index_url, hta_index_path
 
 # Reconfigure stdout for Unicode support
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')

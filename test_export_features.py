@@ -1,15 +1,17 @@
 """
 Test export features for 5/5 rating
 """
-import time
 import sys
 import tempfile
-from _hta_url import hta_index_url, hta_index_path
+import time
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 from selenium import webdriver
 from selenium.webdriver.edge.options import Options as EdgeOptions
+
 
 def test_export_features():
     options = EdgeOptions()
@@ -140,9 +142,8 @@ def test_export_features():
             print("\nAll export features working correctly!")
             print("Export/Reporting is now 5/5!")
             return True
-        else:
-            print("\nSome features need attention.")
-            return False
+        print("\nSome features need attention.")
+        return False
 
     finally:
         driver.quit()

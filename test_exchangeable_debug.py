@@ -1,8 +1,9 @@
 """Debug exchangeable interaction issue"""
-from _hta_url import hta_index_url, hta_index_path
-import time
 import sys
 import tempfile
+import time
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -72,22 +73,22 @@ try:
         print(f"Stack: {result.get('stack', 'N/A')}")
     else:
         print("Result object keys:", result['keys'])
-        print(f"\ninteractionType field:")
+        print("\ninteractionType field:")
         print(f"  Present in result: {result['hasInteractionType']}")
         print(f"  Raw value: '{result['rawInteractionType']}'")
         print(f"  Type: {result['typeOfInteractionType']}")
         print(f"  === 'exchangeable': {result['isExchangeable']}")
 
-        print(f"\nInteractions:")
+        print("\nInteractions:")
         print(f"  Has interactions: {result['hasInteractions']}")
         print(f"  Count: {result['nInteractions']}")
         print(f"  First: {result['interactionsFirst']}")
 
-        print(f"\nExchangeable prior:")
+        print("\nExchangeable prior:")
         print(f"  Present: {result['hasExchangeablePrior']}")
         print(f"  Keys: {result['exchangeablePriorKeys']}")
 
-        print(f"\nShrinkage factor:")
+        print("\nShrinkage factor:")
         print(f"  Present: {result['hasShrinkage']}")
 
 finally:

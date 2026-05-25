@@ -1,8 +1,9 @@
 """Test that all advanced enhancement classes are loaded correctly"""
-from _hta_url import hta_index_url, hta_index_path
-import time
 import sys
 import tempfile
+import time
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 

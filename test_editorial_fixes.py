@@ -1,8 +1,9 @@
 """Test editorial review fixes - MPSRF and Exchangeable Interactions"""
-from _hta_url import hta_index_url, hta_index_path
-import time
 import sys
 import tempfile
+import time
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -66,7 +67,7 @@ try:
         print(f"   Has eigenvalues: {mpsrf_result['hasEigenvalues']}")
         print(f"   Has individual R-hats: {mpsrf_result['hasIndividualRhats']}")
         print(f"   Interpretation: {mpsrf_result['interpretation']}")
-        print(f"   PASS" if mpsrf_result['hasMPSRF'] else "   FAIL")
+        print("   PASS" if mpsrf_result['hasMPSRF'] else "   FAIL")
 
     # Test 2: Exchangeable interactions in NMA regression
     print("\n2. Exchangeable Interaction in NMA Regression")
@@ -113,7 +114,7 @@ try:
         print(f"   Shrinkage: {exchg_result['shrinkageFactor']:.3f}" if exchg_result['shrinkageFactor'] else "   N/A")
         print(f"   Shrinkage interpretation: {exchg_result['shrinkageInterpretation']}")
         print(f"   Number of treatment-specific interactions: {exchg_result['nInteractions']}")
-        print(f"   PASS" if exchg_result['hasInteractionType'] and exchg_result['hasExchangeablePrior'] else "   FAIL")
+        print("   PASS" if exchg_result['hasInteractionType'] and exchg_result['hasExchangeablePrior'] else "   FAIL")
 
     # Test 3: Compare common vs exchangeable
     print("\n3. Common vs Independent vs Exchangeable Comparison")
@@ -158,7 +159,7 @@ try:
                   compare_result['indepType'] == 'independent' and
                   compare_result['exchType'] == 'exchangeable' and
                   compare_result['exchHasPrior'])
-        print(f"   PASS" if all_ok else "   FAIL")
+        print("   PASS" if all_ok else "   FAIL")
 
     # Summary
     print("\n" + "=" * 50)

@@ -1,5 +1,9 @@
 """Test WebR with BCG data injected via JS"""
-import sys, io, time, os
+import io
+import os
+import sys
+import time
+
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 from selenium import webdriver
 from selenium.webdriver.edge.options import Options

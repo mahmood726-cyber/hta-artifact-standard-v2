@@ -1,9 +1,9 @@
 """Validate HTA JavaScript against R benchmark values"""
-from _hta_url import hta_index_url, hta_index_path
-import time
 import sys
 import tempfile
-import math
+import time
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -163,7 +163,7 @@ try:
     print("\n3. Egger's Test (Publication Bias)")
     print(f"   HTA:  intercept={result3.get('intercept',0):.4f}, p={result3.get('pvalue',1):.4f}")
     print(f"   R:    intercept={r['intercept']:.4f}, p={r['pvalue']:.4f}")
-    print(f"   Note: Different formulations (HTA: precision-based, R: SE-based)")
+    print("   Note: Different formulations (HTA: precision-based, R: SE-based)")
     status = "PASS" if agree_on_significance else "FAIL"
     print(f"   Both detect significance: {status}")
     results.append(agree_on_significance)
@@ -265,7 +265,7 @@ try:
 
     print("\n6. Subgroup Analysis")
     print(f"   HTA:  A={result6.get('effectA',0):.4f}, B={result6.get('effectB',0):.4f}, Q_b={result6.get('Q_between',0):.4f}")
-    print(f"   R:    A=0.5267, B=0.8122, Q_b=5.2282")
+    print("   R:    A=0.5267, B=0.8122, Q_b=5.2282")
     status = "PASS" if A_ok and B_ok and Q_ok else "FAIL"
     print(f"   Status: {status}")
     results.append(A_ok and B_ok)
@@ -296,7 +296,7 @@ try:
 
     print("\n7. Cumulative Meta-Analysis")
     print(f"   HTA:  final effect={result7.get('final_effect',0):.4f}")
-    print(f"   R:    final effect=0.5487")
+    print("   R:    final effect=0.5487")
     status = "PASS" if final_ok else "FAIL"
     print(f"   Status: {status}")
     results.append(final_ok)

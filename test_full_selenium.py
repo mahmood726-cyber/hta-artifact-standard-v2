@@ -5,17 +5,15 @@ Tests all buttons, functions, and plots in Microsoft Edge
 Run: python test_full_selenium.py
 """
 
-import time
 import os
+import time
+
 from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.edge.options import Options
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementClickInterceptedException
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 class HTATestSuite:
     def __init__(self):
@@ -77,7 +75,7 @@ class HTATestSuite:
             time.sleep(0.3)
             element.click()
             return True
-        except Exception as e:
+        except Exception:
             # Try JavaScript click as fallback
             try:
                 element = self.driver.find_element(by, selector)
@@ -117,7 +115,7 @@ class HTATestSuite:
                 return false;
             """, canvas)
             return has_content
-        except Exception as e:
+        except Exception:
             return False
 
     def check_chart_exists(self, container_selector, timeout=5):
@@ -150,7 +148,7 @@ class HTATestSuite:
                 return {exists: nonEmpty > 10, pixels: nonEmpty};
             """, canvas)
             return result.get('exists', False)
-        except Exception as e:
+        except Exception:
             return False
 
     def check_svg_exists(self, container_selector, timeout=5):
@@ -655,7 +653,7 @@ class HTATestSuite:
         if errors:
             for err in errors[:5]:  # Show first 5
                 self.log_warning(f"JS Error: {err['message'][:80]}")
-            self.log_result(f"No severe JS errors", len(errors) == 0, f"{len(errors)} errors found")
+            self.log_result("No severe JS errors", len(errors) == 0, f"{len(errors)} errors found")
         else:
             self.log_result("No severe JS errors", True)
 

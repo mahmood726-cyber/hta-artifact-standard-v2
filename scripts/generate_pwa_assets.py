@@ -2,7 +2,6 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
-
 HTA_ROOT = Path(__file__).resolve().parents[1]
 APPS_ROOT = HTA_ROOT.parent
 ICON_DIR = HTA_ROOT / "icons"

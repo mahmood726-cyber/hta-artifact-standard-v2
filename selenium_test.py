@@ -3,27 +3,22 @@ Comprehensive Selenium Test for HTA Artifact Standard v0.5
 Tests all features, sections, and chart rendering
 """
 
-import time
-import os
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 # Fix encoding for Windows console
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import (
-    TimeoutException,
-    NoSuchElementException,
     JavascriptException,
-    ElementClickInterceptedException
+    NoSuchElementException,
 )
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+
 
 # Test results tracking
 class TestResults:
@@ -397,15 +392,15 @@ def test_buttons_and_forms(driver):
     try:
         # Count all buttons
         buttons = driver.find_elements(By.TAG_NAME, "button")
-        results.add_pass(f"Buttons found", f"{len(buttons)} buttons")
+        results.add_pass("Buttons found", f"{len(buttons)} buttons")
 
         # Count all inputs
         inputs = driver.find_elements(By.TAG_NAME, "input")
-        results.add_pass(f"Input fields found", f"{len(inputs)} inputs")
+        results.add_pass("Input fields found", f"{len(inputs)} inputs")
 
         # Count all selects
         selects = driver.find_elements(By.TAG_NAME, "select")
-        results.add_pass(f"Select dropdowns found", f"{len(selects)} selects")
+        results.add_pass("Select dropdowns found", f"{len(selects)} selects")
 
         # Test that primary buttons are clickable
         primary_btns = driver.find_elements(By.CLASS_NAME, "btn-primary")
@@ -416,7 +411,7 @@ def test_buttons_and_forms(driver):
                     clickable_count += 1
             except:
                 pass
-        results.add_pass(f"Primary buttons", f"{clickable_count}/{min(5, len(primary_btns))} clickable")
+        results.add_pass("Primary buttons", f"{clickable_count}/{min(5, len(primary_btns))} clickable")
 
     except Exception as e:
         results.add_fail("Buttons and forms", str(e))

@@ -1,14 +1,14 @@
 """Test advanced enhancement classes with Edge"""
-from _hta_url import hta_index_url, hta_index_path
-import time
 import sys
 import tempfile
+import time
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 from selenium import webdriver
 from selenium.webdriver.edge.options import Options as EdgeOptions
-from selenium.webdriver.edge.service import Service
 
 options = EdgeOptions()
 temp = tempfile.mkdtemp(prefix="hta_edge_")
