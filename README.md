@@ -1,5 +1,7 @@
 # HTA Artifact Standard
 
+[![ci](https://github.com/mahmood726-cyber/hta-artifact-standard-v2/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/mahmood726-cyber/hta-artifact-standard-v2/actions/workflows/ci.yml) [![codeql](https://github.com/mahmood726-cyber/hta-artifact-standard-v2/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/mahmood726-cyber/hta-artifact-standard-v2/actions/workflows/codeql.yml) [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![python: 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+
 > Open-source Health Technology Assessment platform with 41 simulation and analysis engines, deterministic reproducibility, and comprehensive test coverage.
 
 ## Features
