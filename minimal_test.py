@@ -7,9 +7,10 @@ import sys
 import tempfile
 import time
 
-from _hta_url import hta_index_url
 from selenium import webdriver
 from selenium.webdriver.edge.options import Options as EdgeOptions
+
+from _hta_url import hta_index_url
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
