@@ -46,12 +46,12 @@ function deepClone(obj) {
  */
 function setByPath(obj, path, value) {
     const parts = path.split('.');
-    if (parts.some(k => k === '__proto__' || k === 'constructor' || k === 'prototype')) {
-        return; // reject prototype-polluting paths
-    }
     let current = obj;
     for (let i = 0; i < parts.length - 1; i++) {
         const key = parts[i];
+        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+            return; // reject prototype-polluting paths
+        }
         // Handle array indices: 'uptake.0' → uptake[0]
         if (Array.isArray(current)) {
             const idx = parseInt(key, 10);
@@ -67,6 +67,9 @@ function setByPath(obj, path, value) {
         }
     }
     const lastKey = parts[parts.length - 1];
+    if (lastKey === '__proto__' || lastKey === 'constructor' || lastKey === 'prototype') {
+        return;
+    }
     if (Array.isArray(current)) {
         current[parseInt(lastKey, 10)] = value;
     } else {

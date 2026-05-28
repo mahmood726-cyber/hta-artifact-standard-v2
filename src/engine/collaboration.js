@@ -319,18 +319,18 @@ class HTACollaborationEngine {
         // Operational transformation or CRDT logic would go here
         // For now, simple direct application
         const path = change.path.split('.');
-        const FORBIDDEN_KEYS = ['__proto__', 'constructor', 'prototype'];
-        if (path.some(k => FORBIDDEN_KEYS.includes(k))) {
-            return; // reject prototype-polluting change paths
-        }
         let target = this.session.data;
 
         for (let i = 0; i < path.length - 1; i++) {
-            target = target[path[i]];
+            const k = path[i];
+            if (k === '__proto__' || k === 'constructor' || k === 'prototype') {
+                return; // reject prototype-polluting change paths
+            }
+            target = target[k];
         }
 
         const lastKey = path[path.length - 1];
-        if (FORBIDDEN_KEYS.includes(lastKey)) {
+        if (lastKey === '__proto__' || lastKey === 'constructor' || lastKey === 'prototype') {
             return;
         }
 
