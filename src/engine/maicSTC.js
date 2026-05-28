@@ -19,7 +19,7 @@
  * - Deterministic via PCG32
  */
 
-var PCG32Ref = (function resolvePCG32() {
+let PCG32Ref = (function resolvePCG32() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) {
         return globalThis.PCG32;
     }

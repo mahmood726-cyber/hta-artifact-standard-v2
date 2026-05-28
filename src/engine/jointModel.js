@@ -12,7 +12,7 @@
  * Reference: Rizopoulos (2012) Joint Models for Longitudinal and Time-to-Event Data
  */
 
-var KahanRef = (function resolveKahan() {
+let KahanRef = (function resolveKahan() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }

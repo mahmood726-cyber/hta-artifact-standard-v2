@@ -12,7 +12,7 @@
  * - Kahan summation for numerical stability
  */
 
-var KahanRef = (function resolveKahan() {
+let KahanRef = (function resolveKahan() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }

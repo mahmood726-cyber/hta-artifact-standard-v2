@@ -9,7 +9,7 @@
  * - Model-averaged survival predictions
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+let OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }
@@ -330,11 +330,11 @@ class ModelAveragingEngine {
             // Newton-Raphson: step = -H_inv * g
             const det = H11 * H22 - H12 * H12;
             if (Math.abs(det) > 1e-20) {
-                var dLogShape = -(H22 * gShape - H12 * gScale) / det;
-                var dLogScale = -(-H12 * gShape + H11 * gScale) / det;
+                let dLogShape = -(H22 * gShape - H12 * gScale) / det;
+                let dLogScale = -(-H12 * gShape + H11 * gScale) / det;
                 // Dampen if step too large
-                var maxStep = Math.max(Math.abs(dLogShape), Math.abs(dLogScale));
-                if (maxStep > 2) { var damping = 2 / maxStep; dLogShape *= damping; dLogScale *= damping; }
+                let maxStep = Math.max(Math.abs(dLogShape), Math.abs(dLogScale));
+                if (maxStep > 2) { let damping = 2 / maxStep; dLogShape *= damping; dLogScale *= damping; }
                 logShape += dLogShape;
                 logScale += dLogScale;
             } else {
@@ -482,8 +482,8 @@ class ModelAveragingEngine {
             // Use finite differences on the log-parameter gradients
             const eps = 1e-5;
             // Perturb logAlpha
-            var alphaP = Math.exp(logAlpha + eps), betaP = beta;
-            var g_alpha_p = 0, g_beta_p = 0;
+            let alphaP = Math.exp(logAlpha + eps), betaP = beta;
+            let g_alpha_p = 0, g_beta_p = 0;
             for (const d2 of data) {
                 if (d2.time <= 0) continue;
                 const z2 = Math.pow(d2.time / alphaP, betaP);
@@ -495,10 +495,10 @@ class ModelAveragingEngine {
                     g_beta_p += -z2 * Math.log(d2.time / alphaP) / (1 + z2);
                 }
             }
-            var gAlphaP = g_alpha_p * alphaP;
-            var gBetaP = g_beta_p * betaP;
-            var H11 = (gAlphaP - gAlpha) / eps;
-            var H12_a = (gBetaP - gBeta) / eps;
+            let gAlphaP = g_alpha_p * alphaP;
+            let gBetaP = g_beta_p * betaP;
+            let H11 = (gAlphaP - gAlpha) / eps;
+            let H12_a = (gBetaP - gBeta) / eps;
 
             // Perturb logBeta
             alphaP = alpha; betaP = Math.exp(logBeta + eps);
@@ -516,17 +516,17 @@ class ModelAveragingEngine {
             }
             gAlphaP = g_alpha_p * alphaP;
             gBetaP = g_beta_p * betaP;
-            var H12_b = (gAlphaP - gAlpha) / eps;
-            var H22 = (gBetaP - gBeta) / eps;
-            var H12 = 0.5 * (H12_a + H12_b);
+            let H12_b = (gAlphaP - gAlpha) / eps;
+            let H22 = (gBetaP - gBeta) / eps;
+            let H12 = 0.5 * (H12_a + H12_b);
 
             // Newton-Raphson step
-            var det = H11 * H22 - H12 * H12;
+            let det = H11 * H22 - H12 * H12;
             if (Math.abs(det) > 1e-20) {
-                var dLogAlpha = -(H22 * gAlpha - H12 * gBeta) / det;
-                var dLogBeta = -(-H12 * gAlpha + H11 * gBeta) / det;
-                var maxStep = Math.max(Math.abs(dLogAlpha), Math.abs(dLogBeta));
-                if (maxStep > 2) { var damping = 2 / maxStep; dLogAlpha *= damping; dLogBeta *= damping; }
+                let dLogAlpha = -(H22 * gAlpha - H12 * gBeta) / det;
+                let dLogBeta = -(-H12 * gAlpha + H11 * gBeta) / det;
+                let maxStep = Math.max(Math.abs(dLogAlpha), Math.abs(dLogBeta));
+                if (maxStep > 2) { let damping = 2 / maxStep; dLogAlpha *= damping; dLogBeta *= damping; }
                 logAlpha += dLogAlpha;
                 logBeta += dLogBeta;
             } else {
@@ -612,8 +612,8 @@ class ModelAveragingEngine {
             const eps = 1e-5;
 
             // Perturb logShape
-            var shapeP = Math.exp(logShape + eps), rateP = rate;
-            var gs_p = 0, gr_p = 0;
+            let shapeP = Math.exp(logShape + eps), rateP = rate;
+            let gs_p = 0, gr_p = 0;
             for (const d2 of data) {
                 if (d2.time <= 0) continue;
                 if (d2.event === 1) {
@@ -627,10 +627,10 @@ class ModelAveragingEngine {
                     }
                 }
             }
-            var gShapeP = gs_p * shapeP;
-            var gRateP = gr_p * rateP;
-            var H11 = (gShapeP - gShape) / eps;
-            var H12_a = (gRateP - gRate) / eps;
+            let gShapeP = gs_p * shapeP;
+            let gRateP = gr_p * rateP;
+            let H11 = (gShapeP - gShape) / eps;
+            let H12_a = (gRateP - gRate) / eps;
 
             // Perturb logRate
             shapeP = shape; rateP = Math.exp(logRate + eps);
@@ -650,17 +650,17 @@ class ModelAveragingEngine {
             }
             gShapeP = gs_p * shapeP;
             gRateP = gr_p * rateP;
-            var H12_b = (gShapeP - gShape) / eps;
-            var H22 = (gRateP - gRate) / eps;
-            var H12 = 0.5 * (H12_a + H12_b);
+            let H12_b = (gShapeP - gShape) / eps;
+            let H22 = (gRateP - gRate) / eps;
+            let H12 = 0.5 * (H12_a + H12_b);
 
             // Newton-Raphson step
-            var det = H11 * H22 - H12 * H12;
+            let det = H11 * H22 - H12 * H12;
             if (Math.abs(det) > 1e-20) {
-                var dLogShape = -(H22 * gShape - H12 * gRate) / det;
-                var dLogRate = -(-H12 * gShape + H11 * gRate) / det;
-                var maxStep = Math.max(Math.abs(dLogShape), Math.abs(dLogRate));
-                if (maxStep > 2) { var damping = 2 / maxStep; dLogShape *= damping; dLogRate *= damping; }
+                let dLogShape = -(H22 * gShape - H12 * gRate) / det;
+                let dLogRate = -(-H12 * gShape + H11 * gRate) / det;
+                let maxStep = Math.max(Math.abs(dLogShape), Math.abs(dLogRate));
+                if (maxStep > 2) { let damping = 2 / maxStep; dLogShape *= damping; dLogRate *= damping; }
                 logShape += dLogShape;
                 logRate += dLogRate;
             } else {
@@ -714,12 +714,12 @@ class ModelAveragingEngine {
 
             for (const d of data) {
                 if (d.time <= 0) continue;
-                var etat = Math.min(Math.max(eta * d.time, -500), 500);
-                var expEtaT = Math.exp(etat);
+                let etat = Math.min(Math.max(eta * d.time, -500), 500);
+                let expEtaT = Math.exp(etat);
 
                 if (Math.abs(eta) < 1e-10) {
                     // Taylor expansion gradients
-                    var t = d.time;
+                    let t = d.time;
                     if (d.event === 1) {
                         g_b += 1 / b - t;
                         g_eta += t - b * t * t * 0.5;
@@ -746,14 +746,14 @@ class ModelAveragingEngine {
             const eps_eta = Math.max(1e-7, Math.abs(eta) * 1e-5);
 
             // Helper to compute gradients at perturbed (b_p, eta_p)
-            var computeGrad = (b_p, eta_p) => {
-                var gb = 0, ge = 0;
+            let computeGrad = (b_p, eta_p) => {
+                let gb = 0, ge = 0;
                 for (const d2 of data) {
                     if (d2.time <= 0) continue;
-                    var et2 = Math.min(Math.max(eta_p * d2.time, -500), 500);
-                    var expET2 = Math.exp(et2);
+                    let et2 = Math.min(Math.max(eta_p * d2.time, -500), 500);
+                    let expET2 = Math.exp(et2);
                     if (Math.abs(eta_p) < 1e-10) {
-                        var t2 = d2.time;
+                        let t2 = d2.time;
                         if (d2.event === 1) { gb += 1 / b_p - t2; ge += t2 - b_p * t2 * t2 * 0.5; }
                         else { gb += -t2; ge += -b_p * t2 * t2 * 0.5; }
                     } else {
@@ -770,20 +770,20 @@ class ModelAveragingEngine {
             };
 
             var [gb_pb, ge_pb] = computeGrad(b + eps_b, eta);
-            var H11 = (gb_pb - g_b) / eps_b;
-            var H12_a = (ge_pb - g_eta) / eps_b;
+            let H11 = (gb_pb - g_b) / eps_b;
+            let H12_a = (ge_pb - g_eta) / eps_b;
 
             var [gb_pe, ge_pe] = computeGrad(b, eta + eps_eta);
-            var H12_b2 = (gb_pe - g_b) / eps_eta;
-            var H22 = (ge_pe - g_eta) / eps_eta;
-            var H12 = 0.5 * (H12_a + H12_b2);
+            let H12_b2 = (gb_pe - g_b) / eps_eta;
+            let H22 = (ge_pe - g_eta) / eps_eta;
+            let H12 = 0.5 * (H12_a + H12_b2);
 
-            var det = H11 * H22 - H12 * H12;
+            let det = H11 * H22 - H12 * H12;
             if (Math.abs(det) > 1e-20) {
-                var dB = -(H22 * g_b - H12 * g_eta) / det;
-                var dEta = -(-H12 * g_b + H11 * g_eta) / det;
-                var maxStep = Math.max(Math.abs(dB), Math.abs(dEta));
-                if (maxStep > 2) { var damping = 2 / maxStep; dB *= damping; dEta *= damping; }
+                let dB = -(H22 * g_b - H12 * g_eta) / det;
+                let dEta = -(-H12 * g_b + H11 * g_eta) / det;
+                let maxStep = Math.max(Math.abs(dB), Math.abs(dEta));
+                if (maxStep > 2) { let damping = 2 / maxStep; dB *= damping; dEta *= damping; }
                 b += dB;
                 eta += dEta;
             } else {
@@ -800,9 +800,9 @@ class ModelAveragingEngine {
         let logLik = 0;
         for (const d of data) {
             if (d.time <= 0) continue;
-            var etat = Math.min(Math.max(eta * d.time, -500), 500);
-            var expEtaT = Math.exp(etat);
-            var cumHaz;
+            let etat = Math.min(Math.max(eta * d.time, -500), 500);
+            let expEtaT = Math.exp(etat);
+            let cumHaz;
             if (Math.abs(eta) < 1e-10) {
                 cumHaz = b * d.time + 0.5 * b * eta * d.time * d.time;
             } else {
@@ -892,8 +892,8 @@ class ModelAveragingEngine {
             }
             case 'gompertz': {
                 // P2-11: Cap eta*t to prevent exp() overflow
-                var etaT = Math.min(Math.max(params.eta * t, -500), 500);
-                var cumHaz;
+                let etaT = Math.min(Math.max(params.eta * t, -500), 500);
+                let cumHaz;
                 if (Math.abs(params.eta) < 1e-10) {
                     cumHaz = params.b * t + 0.5 * params.b * params.eta * t * t;
                 } else {

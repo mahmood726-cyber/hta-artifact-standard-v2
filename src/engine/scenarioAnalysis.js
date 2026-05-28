@@ -9,7 +9,7 @@
  * - Delta computation and summary statistics
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+let OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }

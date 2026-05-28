@@ -18,13 +18,13 @@
 
 // ---------- Dependency resolution ----------
 
-var PCG32Ref = (function() {
+let PCG32Ref = (function() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) return globalThis.PCG32;
     if (typeof require === 'function') { try { return require('../utils/pcg32').PCG32; } catch(e) {} }
     return null;
 })();
 
-var KahanSumRef = (function() {
+let KahanSumRef = (function() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) return globalThis.KahanSum;
     if (typeof require === 'function') { try { return require('../utils/kahan').KahanSum; } catch(e) {} }
     return null;
@@ -42,8 +42,8 @@ function gammaFunction(z) {
         return Math.PI / (Math.sin(Math.PI * z) * gammaFunction(1 - z));
     }
     z -= 1;
-    var g = 7;
-    var c = [
+    let g = 7;
+    let c = [
         0.99999999999980993,
         676.5203681218851,
         -1259.1392167224028,
@@ -54,11 +54,11 @@ function gammaFunction(z) {
         9.9843695780195716e-6,
         1.5056327351493116e-7
     ];
-    var x = c[0];
+    let x = c[0];
     for (let i = 1; i < g + 2; i++) {
         x += c[i] / (z + i);
     }
-    var t = z + g + 0.5;
+    let t = z + g + 0.5;
     return Math.sqrt(2 * Math.PI) * Math.pow(t, z + 0.5) * Math.exp(-t) * x;
 }
 
@@ -69,8 +69,8 @@ function gammaFunction(z) {
 function lowerIncompleteGamma(a, x) {
     if (x < 0) return 0;
     if (x === 0) return 0;
-    var sum = 0;
-    var term = 1.0 / a;
+    let sum = 0;
+    let term = 1.0 / a;
     sum = term;
     for (let n = 1; n < 200; n++) {
         term *= x / (a + n);
@@ -88,8 +88,8 @@ function logGamma(z) {
         return Math.log(Math.PI / Math.sin(Math.PI * z)) - logGamma(1 - z);
     }
     z -= 1;
-    var g = 7;
-    var c = [
+    let g = 7;
+    let c = [
         0.99999999999980993,
         676.5203681218851,
         -1259.1392167224028,
@@ -100,11 +100,11 @@ function logGamma(z) {
         9.9843695780195716e-6,
         1.5056327351493116e-7
     ];
-    var x = c[0];
+    let x = c[0];
     for (let i = 1; i < g + 2; i++) {
         x += c[i] / (z + i);
     }
-    var t = z + g + 0.5;
+    let t = z + g + 0.5;
     return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x);
 }
 
@@ -121,13 +121,13 @@ function normalPDF(x) {
 function normalCDF(x) {
     if (x < -8) return 0;
     if (x > 8) return 1;
-    var a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
-    var a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
-    var sign = 1;
+    let a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+    let a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+    let sign = 1;
     if (x < 0) { sign = -1; x = -x; }
-    var xErf = x / Math.sqrt(2);
-    var t = 1.0 / (1.0 + p * xErf);
-    var erfApprox = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-xErf * xErf);
+    let xErf = x / Math.sqrt(2);
+    let t = 1.0 / (1.0 + p * xErf);
+    let erfApprox = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-xErf * xErf);
     return 0.5 * (1.0 + sign * erfApprox);
 }
 
@@ -164,7 +164,7 @@ class SemiMarkovEngine {
     hazardToProb(hazard, cycleLength) {
         if (cycleLength == null) cycleLength = 1;
         if (hazard <= 0) return 0;
-        var p = 1 - Math.exp(-hazard * cycleLength);
+        let p = 1 - Math.exp(-hazard * cycleLength);
         return Math.min(Math.max(p, 0), 1);
     }
 
@@ -178,7 +178,7 @@ class SemiMarkovEngine {
         if (!transition || !transition.type) {
             throw new Error('Invalid transition specification');
         }
-        var t = Math.max(timeInState, 1e-10); // avoid division by zero
+        let t = Math.max(timeInState, 1e-10); // avoid division by zero
 
         switch (transition.type) {
             case 'constant':
@@ -186,8 +186,8 @@ class SemiMarkovEngine {
 
             case 'weibull': {
                 // h(t) = (shape/scale) * (t/scale)^(shape-1)
-                var k = transition.shape;
-                var lam = transition.scale;
+                let k = transition.shape;
+                let lam = transition.scale;
                 return (k / lam) * Math.pow(t / lam, k - 1);
             }
 
@@ -195,12 +195,12 @@ class SemiMarkovEngine {
                 // Gamma hazard = f(t) / S(t)
                 // f(t) = t^(a-1) * exp(-t/b) / (b^a * Gamma(a))
                 // S(t) = 1 - P(a, t/b)  where P is regularized lower incomplete gamma
-                var a = transition.shape;
-                var b = transition.scale;
-                var logPdf = (a - 1) * Math.log(t) - t / b - a * Math.log(b) - logGamma(a);
-                var pdf = Math.exp(logPdf);
-                var cdf = lowerIncompleteGamma(a, t / b);
-                var survival = 1 - cdf;
+                let a = transition.shape;
+                let b = transition.scale;
+                let logPdf = (a - 1) * Math.log(t) - t / b - a * Math.log(b) - logGamma(a);
+                let pdf = Math.exp(logPdf);
+                let cdf = lowerIncompleteGamma(a, t / b);
+                let survival = 1 - cdf;
                 if (survival < 1e-15) return MAX_HAZARD_CAP; // effectively certain transition
                 return pdf / survival;
             }
@@ -209,12 +209,12 @@ class SemiMarkovEngine {
                 // Lognormal hazard = f(t) / S(t)
                 // f(t) = (1/(t * sigma * sqrt(2pi))) * exp(-(log(t)-mu)^2 / (2*sigma^2))
                 // S(t) = 1 - Phi((log(t) - mu) / sigma)
-                var mu = transition.meanlog != null ? transition.meanlog : Math.log(transition.scale);
-                var sigma = transition.sdlog != null ? transition.sdlog : transition.shape;
-                var z = (Math.log(t) - mu) / sigma;
-                var pdf_val = Math.exp(-0.5 * z * z) / (t * sigma * Math.sqrt(2 * Math.PI));
-                var cdf_val = normalCDF(z);
-                var surv = 1 - cdf_val;
+                let mu = transition.meanlog != null ? transition.meanlog : Math.log(transition.scale);
+                let sigma = transition.sdlog != null ? transition.sdlog : transition.shape;
+                let z = (Math.log(t) - mu) / sigma;
+                let pdf_val = Math.exp(-0.5 * z * z) / (t * sigma * Math.sqrt(2 * Math.PI));
+                let cdf_val = normalCDF(z);
+                let surv = 1 - cdf_val;
                 if (surv < 1e-15) return MAX_HAZARD_CAP;
                 return pdf_val / surv;
             }
@@ -237,14 +237,14 @@ class SemiMarkovEngine {
      * @throws {Error} on invalid configuration
      */
     _validateConfig(config) {
-        var validTypes = ['constant', 'weibull', 'gamma', 'lognormal'];
+        let validTypes = ['constant', 'weibull', 'gamma', 'lognormal'];
 
         if (!config.states || !Array.isArray(config.states) || config.states.length === 0) {
             throw new Error('Config validation: states must be a non-empty array');
         }
 
         if (config.initial) {
-            var sum = 0;
+            let sum = 0;
             for (let i = 0; i < config.initial.length; i++) {
                 sum += config.initial[i];
             }
@@ -265,7 +265,7 @@ class SemiMarkovEngine {
                     throw new Error('Config validation: transition key must contain "->": ' + key);
                 }
 
-                var spec = config.transitions[key];
+                let spec = config.transitions[key];
                 if (!spec || !spec.type) {
                     throw new Error('Config validation: transition must have a type: ' + key);
                 }
@@ -312,33 +312,33 @@ class SemiMarkovEngine {
     run(config) {
         this._validateConfig(config);
 
-        var states = config.states;
-        var nStates = states.length;
-        var timeHorizon = config.timeHorizon || this.maxCycles;
-        var discountRate = config.discountRate != null ? config.discountRate : 0.035;
-        var discountRateCosts = config.discountRateCosts != null ? config.discountRateCosts : discountRate;
-        var discountRateOutcomes = config.discountRateOutcomes != null ? config.discountRateOutcomes : discountRate;
-        var cycleLength = config.cycleLength != null ? config.cycleLength : 1;
-        var halfCycleCorrection = config.halfCycleCorrection || false;
-        var maxTunnel = Math.min(timeHorizon, this.maxCycles);
-        var costs = config.costs || {};
-        var utilities = config.utilities || {};
+        let states = config.states;
+        let nStates = states.length;
+        let timeHorizon = config.timeHorizon || this.maxCycles;
+        let discountRate = config.discountRate != null ? config.discountRate : 0.035;
+        let discountRateCosts = config.discountRateCosts != null ? config.discountRateCosts : discountRate;
+        let discountRateOutcomes = config.discountRateOutcomes != null ? config.discountRateOutcomes : discountRate;
+        let cycleLength = config.cycleLength != null ? config.cycleLength : 1;
+        let halfCycleCorrection = config.halfCycleCorrection || false;
+        let maxTunnel = Math.min(timeHorizon, this.maxCycles);
+        let costs = config.costs || {};
+        let utilities = config.utilities || {};
 
         // Parse transitions: identify which state pairs are sojourn-dependent
-        var transitionMap = {}; // key: 'fromIdx->toIdx', value: transition spec
-        var hasSojourn = new Array(nStates).fill(false); // does this state have sojourn-dependent exits?
+        let transitionMap = {}; // key: 'fromIdx->toIdx', value: transition spec
+        let hasSojourn = new Array(nStates).fill(false); // does this state have sojourn-dependent exits?
 
         for (let key in config.transitions) {
             if (!config.transitions.hasOwnProperty(key)) continue;
-            var parts = key.split('->');
-            var fromName = parts[0].trim();
-            var toName = parts[1].trim();
-            var fromIdx = states.indexOf(fromName);
-            var toIdx = states.indexOf(toName);
+            let parts = key.split('->');
+            let fromName = parts[0].trim();
+            let toName = parts[1].trim();
+            let fromIdx = states.indexOf(fromName);
+            let toIdx = states.indexOf(toName);
             if (fromIdx < 0 || toIdx < 0) {
                 throw new Error('Unknown state in transition: ' + key);
             }
-            var spec = config.transitions[key];
+            let spec = config.transitions[key];
             transitionMap[fromIdx + '->' + toIdx] = spec;
             if (this._isSojournDependent(spec)) {
                 hasSojourn[fromIdx] = true;
@@ -349,40 +349,40 @@ class SemiMarkovEngine {
         // For states with sojourn-dependent exits, we create tunnel[state][timeInState] sub-cohorts
         // tunnelPop[stateIdx][timeInState] = proportion of cohort in that tunnel
         // P2-2: Pre-allocate two sets of buffers and swap, instead of allocating every cycle
-        var tunnelPop = [];
-        var tunnelPopSwap = []; // second buffer for double-buffering
+        let tunnelPop = [];
+        let tunnelPopSwap = []; // second buffer for double-buffering
         for (let s = 0; s < nStates; s++) {
-            var len = hasSojourn[s] ? (maxTunnel + 1) : 1;
+            let len = hasSojourn[s] ? (maxTunnel + 1) : 1;
             tunnelPop[s] = new Float64Array(len);
             tunnelPopSwap[s] = new Float64Array(len);
         }
 
         // Set initial distribution
-        var initial = config.initial;
+        let initial = config.initial;
         for (let s = 0; s < nStates; s++) {
             tunnelPop[s][0] = initial[s] || 0;
         }
 
         // Identify absorbing states (no transitions out)
-        var isAbsorbing = new Array(nStates).fill(true);
+        let isAbsorbing = new Array(nStates).fill(true);
         for (let key in transitionMap) {
-            var fromIdx = parseInt(key.split('->')[0]);
+            let fromIdx = parseInt(key.split('->')[0]);
             isAbsorbing[fromIdx] = false;
         }
 
         // State trace: stateTrace[cycle][stateIdx] = proportion in state
-        var stateTrace = [];
-        var perCycle = [];
-        var KahanClass = KahanSumRef || { sum: function(arr) { var s=0; for(let i=0;i<arr.length;i++) s+=arr[i]; return s; } };
+        let stateTrace = [];
+        let perCycle = [];
+        let KahanClass = KahanSumRef || { sum: function(arr) { let s=0; for(let i=0;i<arr.length;i++) s+=arr[i]; return s; } };
 
         // Accumulators for sojourn stats
-        var sojournTimeSum = new Float64Array(nStates);
-        var sojournWeightSum = new Float64Array(nStates);
+        let sojournTimeSum = new Float64Array(nStates);
+        let sojournWeightSum = new Float64Array(nStates);
 
         // Record initial state
-        var initialAgg = new Float64Array(nStates);
+        let initialAgg = new Float64Array(nStates);
         for (let s = 0; s < nStates; s++) {
-            var total = 0;
+            let total = 0;
             for (let t = 0; t < tunnelPop[s].length; t++) {
                 total += tunnelPop[s][t];
             }
@@ -391,17 +391,17 @@ class SemiMarkovEngine {
         stateTrace.push(Array.from(initialAgg));
 
         // Store previous cycle's aggregated population for half-cycle correction
-        var prevAggPop = Array.from(initialAgg);
+        let prevAggPop = Array.from(initialAgg);
 
         // Simulate cycles
         for (let cycle = 0; cycle < timeHorizon; cycle++) {
-            var discountFactorCosts = 1.0 / Math.pow(1 + discountRateCosts, cycle);
-            var discountFactorOutcomes = 1.0 / Math.pow(1 + discountRateOutcomes, cycle);
+            let discountFactorCosts = 1.0 / Math.pow(1 + discountRateCosts, cycle);
+            let discountFactorOutcomes = 1.0 / Math.pow(1 + discountRateOutcomes, cycle);
 
             // Compute aggregated state proportions for cost/utility calculation
-            var aggPop = new Float64Array(nStates);
+            let aggPop = new Float64Array(nStates);
             for (let s = 0; s < nStates; s++) {
-                var total = 0;
+                let total = 0;
                 for (let t = 0; t < tunnelPop[s].length; t++) {
                     total += tunnelPop[s][t];
                 }
@@ -409,14 +409,14 @@ class SemiMarkovEngine {
             }
 
             // Compute per-cycle costs and QALYs
-            var cycleCost = 0;
-            var cycleQaly = 0;
+            let cycleCost = 0;
+            let cycleQaly = 0;
             for (let s = 0; s < nStates; s++) {
-                var stateName = states[s];
-                var c = costs[stateName] != null ? costs[stateName] : 0;
-                var u = utilities[stateName] != null ? utilities[stateName] : 0;
+                let stateName = states[s];
+                let c = costs[stateName] != null ? costs[stateName] : 0;
+                let u = utilities[stateName] != null ? utilities[stateName] : 0;
                 // Half-cycle correction: trapezoidal average of current and previous cycle populations
-                var effectivePop = halfCycleCorrection ? 0.5 * (aggPop[s] + prevAggPop[s]) : aggPop[s];
+                let effectivePop = halfCycleCorrection ? 0.5 * (aggPop[s] + prevAggPop[s]) : aggPop[s];
                 cycleCost += effectivePop * c;
                 cycleQaly += effectivePop * u;
             }
@@ -428,7 +428,7 @@ class SemiMarkovEngine {
             });
 
             // Transition: build new tunnel populations (P2-2: reuse pre-allocated swap buffers)
-            var newTunnelPop = tunnelPopSwap;
+            let newTunnelPop = tunnelPopSwap;
             for (let s = 0; s < nStates; s++) {
                 newTunnelPop[s].fill(0);
             }
@@ -439,7 +439,7 @@ class SemiMarkovEngine {
                     // Absorbing: all sub-cohorts stay
                     for (let t = 0; t < tunnelPop[fromS].length; t++) {
                         if (tunnelPop[fromS][t] > 0) {
-                            var newT = hasSojourn[fromS] ? Math.min(t + 1, maxTunnel) : 0;
+                            let newT = hasSojourn[fromS] ? Math.min(t + 1, maxTunnel) : 0;
                             newTunnelPop[fromS][newT] += tunnelPop[fromS][t];
                         }
                     }
@@ -448,10 +448,10 @@ class SemiMarkovEngine {
 
                 // For each tunnel slot in this state
                 for (let t = 0; t < tunnelPop[fromS].length; t++) {
-                    var pop = tunnelPop[fromS][t];
+                    let pop = tunnelPop[fromS][t];
                     if (pop < 1e-15) continue;
 
-                    var timeInState = hasSojourn[fromS] ? (t + 1) : 1; // time in state (1-based)
+                    let timeInState = hasSojourn[fromS] ? (t + 1) : 1; // time in state (1-based)
 
                     // Collect sojourn stats
                     sojournTimeSum[fromS] += pop * timeInState;
@@ -459,39 +459,39 @@ class SemiMarkovEngine {
 
                     // Compute transition probabilities using correct competing risks decomposition:
                     // Sum all hazards first, compute total transition probability, then allocate proportionally.
-                    var transHazards = []; // [{toIdx, hazard}]
-                    var totalHazard = 0;
+                    let transHazards = []; // [{toIdx, hazard}]
+                    let totalHazard = 0;
 
                     for (let key2 in transitionMap) {
-                        var parts2 = key2.split('->');
-                        var fIdx = parseInt(parts2[0]);
-                        var tIdx = parseInt(parts2[1]);
+                        let parts2 = key2.split('->');
+                        let fIdx = parseInt(parts2[0]);
+                        let tIdx = parseInt(parts2[1]);
                         if (fIdx !== fromS) continue;
 
-                        var spec = transitionMap[key2];
-                        var hazard = this.sojournHazard(spec, timeInState);
+                        let spec = transitionMap[key2];
+                        let hazard = this.sojournHazard(spec, timeInState);
                         transHazards.push({ toIdx: tIdx, hazard: hazard });
                         totalHazard += hazard;
                     }
 
                     // Correct competing risks: total probability from combined hazard, then proportional allocation
-                    var totalTransProb = (totalHazard > 0) ? (1 - Math.exp(-totalHazard * cycleLength)) : 0;
+                    let totalTransProb = (totalHazard > 0) ? (1 - Math.exp(-totalHazard * cycleLength)) : 0;
                     totalTransProb = Math.min(Math.max(totalTransProb, 0), 1);
 
-                    var transProbs = [];
+                    let transProbs = [];
                     for (let i = 0; i < transHazards.length; i++) {
-                        var allocProb = (totalHazard > 0) ? (transHazards[i].hazard / totalHazard) * totalTransProb : 0;
+                        let allocProb = (totalHazard > 0) ? (transHazards[i].hazard / totalHazard) * totalTransProb : 0;
                         transProbs.push({ toIdx: transHazards[i].toIdx, prob: allocProb });
                     }
 
                     // Distribute population
-                    var stayProp = pop * (1 - totalTransProb);
-                    var newTStay = hasSojourn[fromS] ? Math.min(t + 1, maxTunnel) : 0;
+                    let stayProp = pop * (1 - totalTransProb);
+                    let newTStay = hasSojourn[fromS] ? Math.min(t + 1, maxTunnel) : 0;
                     newTunnelPop[fromS][newTStay] += stayProp;
 
                     for (let i = 0; i < transProbs.length; i++) {
-                        var tp = transProbs[i];
-                        var movePop = pop * tp.prob;
+                        let tp = transProbs[i];
+                        let movePop = pop * tp.prob;
                         // Arriving in new state at time-in-state = 0
                         newTunnelPop[tp.toIdx][0] += movePop;
                     }
@@ -499,14 +499,14 @@ class SemiMarkovEngine {
             }
 
             // P2-2: Swap buffers — old tunnelPop becomes the swap for next cycle
-            var tmpPop = tunnelPop;
+            let tmpPop = tunnelPop;
             tunnelPop = newTunnelPop;
             tunnelPopSwap = tmpPop;
 
             // Record state trace after transition
-            var cycleAgg = new Float64Array(nStates);
+            let cycleAgg = new Float64Array(nStates);
             for (let s = 0; s < nStates; s++) {
-                var total = 0;
+                let total = 0;
                 for (let tt = 0; tt < tunnelPop[s].length; tt++) {
                     total += tunnelPop[s][tt];
                 }
@@ -519,17 +519,17 @@ class SemiMarkovEngine {
         }
 
         // Compute totals
-        var totalCosts = 0;
-        var totalQALYs = 0;
+        let totalCosts = 0;
+        let totalQALYs = 0;
         for (let i = 0; i < perCycle.length; i++) {
             totalCosts += perCycle[i].costs;
             totalQALYs += perCycle[i].qalys;
         }
 
         // Compute sojourn stats
-        var sojournStats = {};
+        let sojournStats = {};
         for (let s = 0; s < nStates; s++) {
-            var meanTime = sojournWeightSum[s] > 0 ? sojournTimeSum[s] / sojournWeightSum[s] : 0;
+            let meanTime = sojournWeightSum[s] > 0 ? sojournTimeSum[s] / sojournWeightSum[s] : 0;
             sojournStats[states[s]] = {
                 meanTimeInState: meanTime
             };

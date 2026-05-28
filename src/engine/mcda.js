@@ -12,7 +12,7 @@
  * - partialValue: partial value functions (linear, concave, convex, step)
  */
 
-var PCG32Ref = (function() {
+let PCG32Ref = (function() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) return globalThis.PCG32;
     if (typeof require === 'function') {
         try { return require('../utils/pcg32').PCG32; } catch(e) {}

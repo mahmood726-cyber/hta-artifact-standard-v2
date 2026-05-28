@@ -15,7 +15,7 @@
  * - Fine JP, Gray RJ (1999). JASA 94:496-509.
  */
 
-var KahanSumRef = (function resolveKahanSum() {
+let KahanSumRef = (function resolveKahanSum() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }
@@ -30,7 +30,7 @@ var KahanSumRef = (function resolveKahanSum() {
     return null;
 })();
 
-var PCG32Ref = (function resolvePCG32() {
+let PCG32Ref = (function resolvePCG32() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) {
         return globalThis.PCG32;
     }

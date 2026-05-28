@@ -12,7 +12,7 @@
  * - State trace recording
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+let OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }
@@ -26,7 +26,7 @@ var OmanGuidanceRef = (function resolveOmanGuidance() {
     return null;
 })();
 
-var guidanceDefaults = OmanGuidanceRef?.defaults || {
+let guidanceDefaults = OmanGuidanceRef?.defaults || {
     discount_rate_costs: 0.03,
     discount_rate_qalys: 0.03,
     currency: 'OMR'
@@ -63,10 +63,10 @@ function resolveDependency(globalName, requirePath, exportName) {
     return null;
 }
 
-var KahanSumRef = resolveDependency('KahanSum', '../utils/kahan', 'KahanSum');
-var ExpressionParserRef = resolveDependency('ExpressionParser', '../parser/expression', 'ExpressionParser');
-var LifeTableRef = resolveDependency('LifeTable', '../utils/lifetable', 'LifeTable');
-var PerformanceRef = (typeof globalThis !== 'undefined' &&
+let KahanSumRef = resolveDependency('KahanSum', '../utils/kahan', 'KahanSum');
+let ExpressionParserRef = resolveDependency('ExpressionParser', '../parser/expression', 'ExpressionParser');
+let LifeTableRef = resolveDependency('LifeTable', '../utils/lifetable', 'LifeTable');
+let PerformanceRef = (typeof globalThis !== 'undefined' &&
     globalThis.performance &&
     typeof globalThis.performance.now === 'function')
     ? globalThis.performance

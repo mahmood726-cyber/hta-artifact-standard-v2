@@ -12,7 +12,7 @@
  * - Prevalence-based or incidence-based eligible population
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+let OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }
@@ -26,7 +26,7 @@ var OmanGuidanceRef = (function resolveOmanGuidance() {
     return null;
 })();
 
-var guidanceDefaults = OmanGuidanceRef?.defaults || {
+let guidanceDefaults = OmanGuidanceRef?.defaults || {
     discount_rate_costs: 0.03,
     currency: 'OMR'
 };

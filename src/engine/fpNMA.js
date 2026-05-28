@@ -24,7 +24,7 @@
 
 'use strict';
 
-var PCG32Ref = (function resolvePCG32() {
+let PCG32Ref = (function resolvePCG32() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) {
         return globalThis.PCG32;
     }
@@ -38,7 +38,7 @@ var PCG32Ref = (function resolvePCG32() {
     return null;
 })();
 
-var KahanRef = (function resolveKahan() {
+let KahanRef = (function resolveKahan() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }

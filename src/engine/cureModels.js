@@ -15,7 +15,7 @@
  * - Lambert PC (2007). Stata J 7:351-375.
  */
 
-var KahanSumRef = (function resolveKahanSum() {
+let KahanSumRef = (function resolveKahanSum() {
     if (typeof globalThis !== 'undefined' && globalThis.KahanSum) {
         return globalThis.KahanSum;
     }
@@ -30,7 +30,7 @@ var KahanSumRef = (function resolveKahanSum() {
     return null;
 })();
 
-var PCG32Ref = (function resolvePCG32() {
+let PCG32Ref = (function resolvePCG32() {
     if (typeof globalThis !== 'undefined' && globalThis.PCG32) {
         return globalThis.PCG32;
     }
@@ -668,8 +668,8 @@ class CureModelEngine {
         if (horizon <= 0) throw new Error('Horizon must be positive');
 
         // P1-4: Guard against unbounded array from very small step
-        var maxPoints = 100000;
-        var numPoints = Math.ceil(horizon / step) + 1;
+        let maxPoints = 100000;
+        let numPoints = Math.ceil(horizon / step) + 1;
         if (numPoints > maxPoints) {
             step = horizon / (maxPoints - 1);
             numPoints = maxPoints;
