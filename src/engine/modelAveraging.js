@@ -165,7 +165,7 @@ class ModelAveragingEngine {
         if (!data || !Array.isArray(data) || data.length === 0) {
             throw new Error('Data must be a non-empty array');
         }
-        for (var d of data) {
+        for (let d of data) {
             if (typeof d.time !== 'number' || d.time < 0) {
                 throw new Error('All times must be non-negative numbers');
             }

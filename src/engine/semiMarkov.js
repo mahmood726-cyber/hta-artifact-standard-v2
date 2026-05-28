@@ -55,7 +55,7 @@ function gammaFunction(z) {
         1.5056327351493116e-7
     ];
     var x = c[0];
-    for (var i = 1; i < g + 2; i++) {
+    for (let i = 1; i < g + 2; i++) {
         x += c[i] / (z + i);
     }
     var t = z + g + 0.5;
@@ -72,7 +72,7 @@ function lowerIncompleteGamma(a, x) {
     var sum = 0;
     var term = 1.0 / a;
     sum = term;
-    for (var n = 1; n < 200; n++) {
+    for (let n = 1; n < 200; n++) {
         term *= x / (a + n);
         sum += term;
         if (Math.abs(term) < 1e-14 * Math.abs(sum)) break;
@@ -101,7 +101,7 @@ function logGamma(z) {
         1.5056327351493116e-7
     ];
     var x = c[0];
-    for (var i = 1; i < g + 2; i++) {
+    for (let i = 1; i < g + 2; i++) {
         x += c[i] / (z + i);
     }
     var t = z + g + 0.5;
@@ -245,7 +245,7 @@ class SemiMarkovEngine {
 
         if (config.initial) {
             var sum = 0;
-            for (var i = 0; i < config.initial.length; i++) {
+            for (let i = 0; i < config.initial.length; i++) {
                 sum += config.initial[i];
             }
             if (Math.abs(sum - 1.0) > 0.01) {
@@ -258,7 +258,7 @@ class SemiMarkovEngine {
         }
 
         if (config.transitions) {
-            for (var key in config.transitions) {
+            for (let key in config.transitions) {
                 if (!config.transitions.hasOwnProperty(key)) continue;
 
                 if (key.indexOf('->') === -1) {
@@ -328,7 +328,7 @@ class SemiMarkovEngine {
         var transitionMap = {}; // key: 'fromIdx->toIdx', value: transition spec
         var hasSojourn = new Array(nStates).fill(false); // does this state have sojourn-dependent exits?
 
-        for (var key in config.transitions) {
+        for (let key in config.transitions) {
             if (!config.transitions.hasOwnProperty(key)) continue;
             var parts = key.split('->');
             var fromName = parts[0].trim();
@@ -351,7 +351,7 @@ class SemiMarkovEngine {
         // P2-2: Pre-allocate two sets of buffers and swap, instead of allocating every cycle
         var tunnelPop = [];
         var tunnelPopSwap = []; // second buffer for double-buffering
-        for (var s = 0; s < nStates; s++) {
+        for (let s = 0; s < nStates; s++) {
             var len = hasSojourn[s] ? (maxTunnel + 1) : 1;
             tunnelPop[s] = new Float64Array(len);
             tunnelPopSwap[s] = new Float64Array(len);
@@ -359,13 +359,13 @@ class SemiMarkovEngine {
 
         // Set initial distribution
         var initial = config.initial;
-        for (var s = 0; s < nStates; s++) {
+        for (let s = 0; s < nStates; s++) {
             tunnelPop[s][0] = initial[s] || 0;
         }
 
         // Identify absorbing states (no transitions out)
         var isAbsorbing = new Array(nStates).fill(true);
-        for (var key in transitionMap) {
+        for (let key in transitionMap) {
             var fromIdx = parseInt(key.split('->')[0]);
             isAbsorbing[fromIdx] = false;
         }
@@ -373,7 +373,7 @@ class SemiMarkovEngine {
         // State trace: stateTrace[cycle][stateIdx] = proportion in state
         var stateTrace = [];
         var perCycle = [];
-        var KahanClass = KahanSumRef || { sum: function(arr) { var s=0; for(var i=0;i<arr.length;i++) s+=arr[i]; return s; } };
+        var KahanClass = KahanSumRef || { sum: function(arr) { var s=0; for(let i=0;i<arr.length;i++) s+=arr[i]; return s; } };
 
         // Accumulators for sojourn stats
         var sojournTimeSum = new Float64Array(nStates);
@@ -381,9 +381,9 @@ class SemiMarkovEngine {
 
         // Record initial state
         var initialAgg = new Float64Array(nStates);
-        for (var s = 0; s < nStates; s++) {
+        for (let s = 0; s < nStates; s++) {
             var total = 0;
-            for (var t = 0; t < tunnelPop[s].length; t++) {
+            for (let t = 0; t < tunnelPop[s].length; t++) {
                 total += tunnelPop[s][t];
             }
             initialAgg[s] = total;
@@ -394,15 +394,15 @@ class SemiMarkovEngine {
         var prevAggPop = Array.from(initialAgg);
 
         // Simulate cycles
-        for (var cycle = 0; cycle < timeHorizon; cycle++) {
+        for (let cycle = 0; cycle < timeHorizon; cycle++) {
             var discountFactorCosts = 1.0 / Math.pow(1 + discountRateCosts, cycle);
             var discountFactorOutcomes = 1.0 / Math.pow(1 + discountRateOutcomes, cycle);
 
             // Compute aggregated state proportions for cost/utility calculation
             var aggPop = new Float64Array(nStates);
-            for (var s = 0; s < nStates; s++) {
+            for (let s = 0; s < nStates; s++) {
                 var total = 0;
-                for (var t = 0; t < tunnelPop[s].length; t++) {
+                for (let t = 0; t < tunnelPop[s].length; t++) {
                     total += tunnelPop[s][t];
                 }
                 aggPop[s] = total;
@@ -411,7 +411,7 @@ class SemiMarkovEngine {
             // Compute per-cycle costs and QALYs
             var cycleCost = 0;
             var cycleQaly = 0;
-            for (var s = 0; s < nStates; s++) {
+            for (let s = 0; s < nStates; s++) {
                 var stateName = states[s];
                 var c = costs[stateName] != null ? costs[stateName] : 0;
                 var u = utilities[stateName] != null ? utilities[stateName] : 0;
@@ -429,15 +429,15 @@ class SemiMarkovEngine {
 
             // Transition: build new tunnel populations (P2-2: reuse pre-allocated swap buffers)
             var newTunnelPop = tunnelPopSwap;
-            for (var s = 0; s < nStates; s++) {
+            for (let s = 0; s < nStates; s++) {
                 newTunnelPop[s].fill(0);
             }
 
             // Process each state
-            for (var fromS = 0; fromS < nStates; fromS++) {
+            for (let fromS = 0; fromS < nStates; fromS++) {
                 if (isAbsorbing[fromS]) {
                     // Absorbing: all sub-cohorts stay
-                    for (var t = 0; t < tunnelPop[fromS].length; t++) {
+                    for (let t = 0; t < tunnelPop[fromS].length; t++) {
                         if (tunnelPop[fromS][t] > 0) {
                             var newT = hasSojourn[fromS] ? Math.min(t + 1, maxTunnel) : 0;
                             newTunnelPop[fromS][newT] += tunnelPop[fromS][t];
@@ -447,7 +447,7 @@ class SemiMarkovEngine {
                 }
 
                 // For each tunnel slot in this state
-                for (var t = 0; t < tunnelPop[fromS].length; t++) {
+                for (let t = 0; t < tunnelPop[fromS].length; t++) {
                     var pop = tunnelPop[fromS][t];
                     if (pop < 1e-15) continue;
 
@@ -462,7 +462,7 @@ class SemiMarkovEngine {
                     var transHazards = []; // [{toIdx, hazard}]
                     var totalHazard = 0;
 
-                    for (var key2 in transitionMap) {
+                    for (let key2 in transitionMap) {
                         var parts2 = key2.split('->');
                         var fIdx = parseInt(parts2[0]);
                         var tIdx = parseInt(parts2[1]);
@@ -479,7 +479,7 @@ class SemiMarkovEngine {
                     totalTransProb = Math.min(Math.max(totalTransProb, 0), 1);
 
                     var transProbs = [];
-                    for (var i = 0; i < transHazards.length; i++) {
+                    for (let i = 0; i < transHazards.length; i++) {
                         var allocProb = (totalHazard > 0) ? (transHazards[i].hazard / totalHazard) * totalTransProb : 0;
                         transProbs.push({ toIdx: transHazards[i].toIdx, prob: allocProb });
                     }
@@ -489,7 +489,7 @@ class SemiMarkovEngine {
                     var newTStay = hasSojourn[fromS] ? Math.min(t + 1, maxTunnel) : 0;
                     newTunnelPop[fromS][newTStay] += stayProp;
 
-                    for (var i = 0; i < transProbs.length; i++) {
+                    for (let i = 0; i < transProbs.length; i++) {
                         var tp = transProbs[i];
                         var movePop = pop * tp.prob;
                         // Arriving in new state at time-in-state = 0
@@ -505,9 +505,9 @@ class SemiMarkovEngine {
 
             // Record state trace after transition
             var cycleAgg = new Float64Array(nStates);
-            for (var s = 0; s < nStates; s++) {
+            for (let s = 0; s < nStates; s++) {
                 var total = 0;
-                for (var tt = 0; tt < tunnelPop[s].length; tt++) {
+                for (let tt = 0; tt < tunnelPop[s].length; tt++) {
                     total += tunnelPop[s][tt];
                 }
                 cycleAgg[s] = total;
@@ -521,14 +521,14 @@ class SemiMarkovEngine {
         // Compute totals
         var totalCosts = 0;
         var totalQALYs = 0;
-        for (var i = 0; i < perCycle.length; i++) {
+        for (let i = 0; i < perCycle.length; i++) {
             totalCosts += perCycle[i].costs;
             totalQALYs += perCycle[i].qalys;
         }
 
         // Compute sojourn stats
         var sojournStats = {};
-        for (var s = 0; s < nStates; s++) {
+        for (let s = 0; s < nStates; s++) {
             var meanTime = sojournWeightSum[s] > 0 ? sojournTimeSum[s] / sojournWeightSum[s] : 0;
             sojournStats[states[s]] = {
                 meanTimeInState: meanTime

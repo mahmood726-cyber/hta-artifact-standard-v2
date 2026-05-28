@@ -1791,7 +1791,7 @@ class GPUAccelerator {
                 if (row >= m || col >= p) { return; }
 
                 var sum: f32 = 0.0;
-                for (var k: u32 = 0u; k < n; k++) {
+                for (let k: u32 = 0u; k < n; k++) {
                     sum += A[row * n + k] * B[k * p + col];
                 }
                 C[row * p + col] = sum;
