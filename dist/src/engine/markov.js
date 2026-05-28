@@ -12,7 +12,7 @@
  * - State trace recording
  */
 
-var OmanGuidanceRef = (function resolveOmanGuidance() {
+let OmanGuidanceRef = (function resolveOmanGuidance() {
     if (typeof globalThis !== 'undefined' && globalThis.OmanHTAGuidance) {
         return globalThis.OmanHTAGuidance;
     }
@@ -26,7 +26,7 @@ var OmanGuidanceRef = (function resolveOmanGuidance() {
     return null;
 })();
 
-var guidanceDefaults = OmanGuidanceRef?.defaults || {
+let guidanceDefaults = OmanGuidanceRef?.defaults || {
     discount_rate_costs: 0.03,
     discount_rate_qalys: 0.03,
     currency: 'OMR'
@@ -63,10 +63,10 @@ function resolveDependency(globalName, requirePath, exportName) {
     return null;
 }
 
-var KahanSumRef = resolveDependency('KahanSum', '../utils/kahan', 'KahanSum');
-var ExpressionParserRef = resolveDependency('ExpressionParser', '../parser/expression', 'ExpressionParser');
-var LifeTableRef = resolveDependency('LifeTable', '../utils/lifetable', 'LifeTable');
-var PerformanceRef = (typeof globalThis !== 'undefined' &&
+let KahanSumRef = resolveDependency('KahanSum', '../utils/kahan', 'KahanSum');
+let ExpressionParserRef = resolveDependency('ExpressionParser', '../parser/expression', 'ExpressionParser');
+let LifeTableRef = resolveDependency('LifeTable', '../utils/lifetable', 'LifeTable');
+let PerformanceRef = (typeof globalThis !== 'undefined' &&
     globalThis.performance &&
     typeof globalThis.performance.now === 'function')
     ? globalThis.performance
@@ -616,11 +616,13 @@ class MarkovEngine {
      */
     buildTransitionMatrix(transitions, stateIds, context) {
         const parser = this.getExpressionParser();
-        const matrix = {};
+        // Null-prototype objects so state IDs (which may originate from model
+        // input) cannot pollute Object.prototype via __proto__/constructor.
+        const matrix = Object.create(null);
 
         // Initialize empty matrix
         for (const fromId of stateIds) {
-            matrix[fromId] = {};
+            matrix[fromId] = Object.create(null);
             for (const toId of stateIds) {
                 matrix[fromId][toId] = 0;
             }

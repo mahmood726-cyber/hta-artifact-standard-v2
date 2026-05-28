@@ -81,11 +81,17 @@ const HTMLSanitizer = {
             dangerousAttrs.forEach(attrName => {
                 const attrValue = el.getAttribute(attrName);
                 if (attrValue) {
-                    const lowerValue = attrValue.toLowerCase().trim();
-                    const isSafeRasterDataImage = /^data:image\/(?:png|gif|jpe?g|webp|avif)(?:;|,)/.test(lowerValue);
-                    // Remove javascript: and data: URLs (except safe data: images)
-                    if (lowerValue.startsWith('javascript:') ||
-                        (lowerValue.startsWith('data:') && !isSafeRasterDataImage)) {
+                    // Strip control/whitespace chars that can obfuscate the
+                    // scheme (e.g. "java\tscript:") before classifying it.
+                    const cleaned = attrValue.toLowerCase().replace(/[\u0000-\u0020]+/g, '');
+                    const isSafeRasterDataImage = /^data:image\/(?:png|gif|jpe?g|webp|avif)(?:;|,)/.test(cleaned);
+                    const schemeMatch = cleaned.match(/^([a-z][a-z0-9+.-]*):/);
+                    const scheme = schemeMatch ? schemeMatch[1] : null;
+                    const SAFE_SCHEMES = ['http', 'https', 'mailto', 'tel', 'ftp'];
+                    // Allowlist: strip any attribute whose URL uses a scheme not
+                    // on the safe list (javascript:, vbscript:, data: non-image,
+                    // etc.). Scheme-less URLs (relative paths, anchors) are kept.
+                    if (scheme && !SAFE_SCHEMES.includes(scheme) && !isSafeRasterDataImage) {
                         el.removeAttribute(attrName);
                     }
                 }

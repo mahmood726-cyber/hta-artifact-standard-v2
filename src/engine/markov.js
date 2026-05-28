@@ -616,11 +616,13 @@ class MarkovEngine {
      */
     buildTransitionMatrix(transitions, stateIds, context) {
         const parser = this.getExpressionParser();
-        const matrix = {};
+        // Null-prototype objects so state IDs (which may originate from model
+        // input) cannot pollute Object.prototype via __proto__/constructor.
+        const matrix = Object.create(null);
 
         // Initialize empty matrix
         for (const fromId of stateIds) {
-            matrix[fromId] = {};
+            matrix[fromId] = Object.create(null);
             for (const toId of stateIds) {
                 matrix[fromId][toId] = 0;
             }
