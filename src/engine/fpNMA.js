@@ -304,10 +304,26 @@ class FPNMAEngine {
                 };
             }
             const comp = comparisons[key];
+            // optional reconstruction SD r(t) (array `reconSDs`/`reconSEs`, or a scalar): the IV weight
+            // becomes 1/(se^2 + r^2), down-weighting least-identified late reconstructed points. Absent or
+            // non-finite r -> byte-identical to sampling-only 1/se^2 (zero regression on all-IPD inputs).
+            const reconArr = Array.isArray(d.reconSDs) ? d.reconSDs
+                : (Array.isArray(d.reconSEs) ? d.reconSEs : null);
+            const reconScalar = (typeof d.reconSDs === 'number') ? d.reconSDs
+                : ((typeof d.reconSEs === 'number') ? d.reconSEs : null);
             for (let i = 0; i < d.timePoints.length; i++) {
                 comp.timePoints.push(d.timePoints[i]);
                 comp.logHRs.push(Math.log(d.hazardRatios[i]));
-                comp.weights.push(d.ses[i] > EPSILON ? 1 / (d.ses[i] * d.ses[i]) : 1);
+                const se = d.ses[i];
+                let r = null;
+                if (reconArr && Number.isFinite(reconArr[i])) r = reconArr[i];
+                else if (reconScalar !== null && Number.isFinite(reconScalar)) r = reconScalar;
+                if (r !== null && r > 0) {
+                    const seEffSq = se * se + r * r;
+                    comp.weights.push(seEffSq > EPSILON ? 1 / seEffSq : 1);
+                } else {
+                    comp.weights.push(se > EPSILON ? 1 / (se * se) : 1);
+                }
             }
         }
         return Object.values(comparisons);
