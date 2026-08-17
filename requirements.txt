@@ -3,5 +3,5 @@
 # these for both lint and test jobs.
 
 Pillow>=10.0
-selenium>=4.0
+selenium>=4.47.0
 pytest>=8.0
